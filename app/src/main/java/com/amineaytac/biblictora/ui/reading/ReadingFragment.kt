@@ -108,20 +108,20 @@ class ReadingFragment : Fragment(R.layout.fragment_reading) {
 
     private fun observeGetItemReading(id: String) {
         viewModel.getBookItemReading(id).distinctUntilChanged().observe(viewLifecycleOwner) {
-                readingBook = it.toReadingBook()
-            }
+            readingBook = it.toReadingBook()
+        }
     }
 
     private fun observeIsBookItemReading(id: String) {
         viewModel.isBookItemReading(id).distinctUntilChanged().observe(viewLifecycleOwner) {
-                if (it) {
-                    observeGetItemReading(readingBook.id.toString())
-                } else {
-                    Toast.makeText(
-                        requireContext(), R.string.reading_book_error, Toast.LENGTH_LONG
-                    ).show()
-                    findNavController().popBackStack()
-                }
+            if (it) {
+                observeGetItemReading(readingBook.id.toString())
+            } else {
+                Toast.makeText(
+                    requireContext(), R.string.reading_book_error, Toast.LENGTH_LONG
+                ).show()
+                findNavController().popBackStack()
             }
+        }
     }
 }
