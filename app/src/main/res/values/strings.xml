@@ -75,5 +75,6 @@
     <string name="book_detail">Book Detail</string>
     <string name="ic_book">Icon Book</string>
     <string name="reading_book_error">This book is not on your reading list!</string>
+    <string name="add_quote">Add Quote</string>
 
 </resources>

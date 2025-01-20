@@ -32,7 +32,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginEnd="@dimen/_12sdp"
-                android:text="@string/book_detail" />
+                android:text="@string/book_detail"
+                android:textColor="@color/méi_hēi_coal" />
 
             <ImageView
                 android:layout_width="@dimen/_24sdp"
@@ -85,4 +86,21 @@
             tools:text="text" />
 
     </ScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_add_quote"
+        style="@style/Text.H2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:layout_marginBottom="@dimen/_30sdp"
+        android:background="@drawable/bg_corners_button2"
+        android:padding="@dimen/_8sdp"
+        android:text="@string/add_quote"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
