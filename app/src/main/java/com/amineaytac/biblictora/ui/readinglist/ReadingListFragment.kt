@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.databinding.FragmentReadingListBinding
+import com.amineaytac.biblictora.ui.home.HomeFragmentDirections
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
 import com.amineaytc.biblictora.util.viewBinding
@@ -29,7 +31,9 @@ class ReadingListFragment : Fragment(R.layout.fragment_reading_list) {
 
     private fun bindBookAdapter() = with(binding) {
 
-        bookAdapter = ReadingListAdapter {}
+        bookAdapter = ReadingListAdapter {
+            findNavController().navigate(HomeFragmentDirections.navigateToReadingFragment(it))
+        }
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)

@@ -64,9 +64,9 @@ class BookDetailViewModel @Inject constructor(
         return bookRepository.isBookItemReading(itemId)
     }
 
-    fun updatePercentage(bookId: Int, readingPercentage: Int) {
+    fun updatePercentage(bookId: Int, readingPercentage: Int, readingProcess: Int) {
         viewModelScope.launch {
-            updatePercentageUseCase(bookId, readingPercentage)
+            updatePercentageUseCase(bookId, readingPercentage, readingProcess)
         }
     }
 

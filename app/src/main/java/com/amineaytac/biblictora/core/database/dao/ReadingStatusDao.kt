@@ -8,6 +8,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
 import kotlinx.coroutines.flow.Flow
+
 @Dao
 interface ReadingStatusDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -28,16 +29,13 @@ interface ReadingStatusDao {
     @Query("SELECT readingPercentage FROM reading_status_table WHERE id = :itemId LIMIT 1")
     fun getReadingPercentage(itemId: Int): LiveData<Int>
 
-    @Query("UPDATE reading_status_table SET readingStates = :readingStates, readingPercentage = :readingPercentage WHERE id = :ItemId")
+    @Query("UPDATE reading_status_table SET readingStates = :readingStates, readingPercentage = :readingPercentage WHERE id = :itemId")
     suspend fun updateBookStatusAndPercentage(
-        ItemId: Int,
-        readingStates: String,
-        readingPercentage: Int
+        itemId: Int, readingStates: String, readingPercentage: Int
     )
 
-    @Query("UPDATE reading_status_table SET readingPercentage = :readingPercentage WHERE id = :bookId")
+    @Query("UPDATE reading_status_table SET readingPercentage = :readingPercentage, readingProgress = :readingProgress WHERE id = :bookId")
     suspend fun updatePercentage(
-        bookId: Int,
-        readingPercentage: Int
+        bookId: Int, readingPercentage: Int, readingProgress: Int
     )
 }

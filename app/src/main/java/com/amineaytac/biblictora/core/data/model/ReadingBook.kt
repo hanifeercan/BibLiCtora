@@ -1,5 +1,9 @@
 package com.amineaytac.biblictora.core.data.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class ReadingBook(
     val id: Int,
     val authors: String,
@@ -9,5 +13,6 @@ data class ReadingBook(
     val formats: ReadFormats,
     val image: String,
     val readingStates: String,
-    val readingPercentage: Int
-)
+    val readingPercentage: Int,
+    val readingProgress: Int
+) : Parcelable

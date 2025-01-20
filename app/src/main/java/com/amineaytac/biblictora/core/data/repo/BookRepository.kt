@@ -35,10 +35,8 @@ interface BookRepository {
     fun getReadingPercentage(itemId: Int): LiveData<Int>
 
     suspend fun updateBookStatusAndPercentage(
-        itemId: Int,
-        readingStates: String,
-        readingPercentage: Int
+        itemId: Int, readingStates: String, readingPercentage: Int
     )
 
-    suspend fun updatePercentage(bookId: Int, readingPercentage: Int)
+    suspend fun updatePercentage(bookId: Int, readingPercentage: Int, readingProgress: Int)
 }

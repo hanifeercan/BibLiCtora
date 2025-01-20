@@ -9,8 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class LocalDataSourceImpl @Inject constructor(
-    private val favoriteDao: FavoriteDao,
-    private val readingStatusDao: ReadingStatusDao
+    private val favoriteDao: FavoriteDao, private val readingStatusDao: ReadingStatusDao
 ) : LocalDataSource {
 
     override suspend fun addFavoriteItem(favoriteEntity: FavoriteEntity) {
@@ -59,7 +58,11 @@ class LocalDataSourceImpl @Inject constructor(
         readingStatusDao.updateBookStatusAndPercentage(itemId, readingStates, readingPercentage)
     }
 
-    override suspend fun updatePercentage(bookId: Int, readingPercentage: Int) {
-        readingStatusDao.updatePercentage(bookId, readingPercentage)
+    override suspend fun updatePercentage(
+        bookId: Int,
+        readingPercentage: Int,
+        readingProgress: Int
+    ) {
+        readingStatusDao.updatePercentage(bookId, readingPercentage, readingProgress)
     }
 }

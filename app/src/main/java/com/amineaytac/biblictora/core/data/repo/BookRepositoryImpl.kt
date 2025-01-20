@@ -15,10 +15,8 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class BookRepositoryImpl @Inject constructor(
-    private val restDataSource: RestDataSource,
-    private val localDataSource: LocalDataSource
-) :
-    BookRepository {
+    private val restDataSource: RestDataSource, private val localDataSource: LocalDataSource
+) : BookRepository {
     override suspend fun getAllBooks(funcKey: String): Flow<PagingData<Book>> {
         val pagingSource = PagingSource(restDataSource, funcKey)
         return Pager(
@@ -74,15 +72,15 @@ class BookRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateBookStatusAndPercentage(
-        itemId: Int,
-        readingStates: String,
-        readingPercentage: Int
+        itemId: Int, readingStates: String, readingPercentage: Int
     ) {
         localDataSource.updateBookStatusAndPercentage(itemId, readingStates, readingPercentage)
     }
 
-    override suspend fun updatePercentage(bookId: Int, readingPercentage: Int) {
-        localDataSource.updatePercentage(bookId, readingPercentage)
+    override suspend fun updatePercentage(
+        bookId: Int, readingPercentage: Int, readingProgress: Int
+    ) {
+        localDataSource.updatePercentage(bookId, readingPercentage, readingProgress)
     }
 
     override suspend fun getReadingBookItems(): Flow<List<ReadingBook>> {

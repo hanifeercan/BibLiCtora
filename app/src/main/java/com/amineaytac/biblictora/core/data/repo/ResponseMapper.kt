@@ -140,7 +140,8 @@ fun ReadingStatusEntity.toReadingBook(): ReadingBook {
         formats = this.formats,
         image = this.image,
         readingStates = this.readingStates,
-        readingPercentage = this.readingPercentage
+        readingPercentage = this.readingPercentage,
+        readingProgress = this.readingProgress
     )
 }
 
@@ -154,6 +155,7 @@ fun ReadingBook.toStatusEntity(): ReadingStatusEntity {
         formats = this.formats,
         image = this.image,
         readingStates = this.readingStates,
-        readingPercentage = this.readingPercentage
+        readingPercentage = this.readingPercentage,
+        readingProgress = this.readingProgress
     )
 }

@@ -26,10 +26,8 @@ interface LocalDataSource {
     suspend fun deleteReadingBookItem(readingStatusEntity: ReadingStatusEntity)
 
     suspend fun updateBookStatusAndPercentage(
-        itemId: Int,
-        readingStates: String,
-        readingPercentage: Int
+        itemId: Int, readingStates: String, readingPercentage: Int
     )
 
-    suspend fun updatePercentage(bookId: Int, readingPercentage: Int)
+    suspend fun updatePercentage(bookId: Int, readingPercentage: Int, readingProgress: Int)
 }
