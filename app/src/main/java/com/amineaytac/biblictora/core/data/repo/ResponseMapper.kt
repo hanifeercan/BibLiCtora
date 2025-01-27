@@ -1,9 +1,11 @@
 package com.amineaytac.biblictora.core.data.repo
 
 import com.amineaytac.biblictora.core.data.model.Book
+import com.amineaytac.biblictora.core.data.model.QuoteBook
 import com.amineaytac.biblictora.core.data.model.ReadFormats
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.entity.FavoriteEntity
+import com.amineaytac.biblictora.core.database.entity.QuotesEntity
 import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
 import com.amineaytac.biblictora.core.network.dto.Author
 import com.amineaytac.biblictora.core.network.dto.BookResponse
@@ -127,6 +129,16 @@ fun Book.toFavoriteItemEntity(): FavoriteEntity {
         title = title,
         formats = formats,
         image = image
+    )
+}
+
+fun QuotesEntity.toQuoteBook(): QuoteBook {
+    return QuoteBook(
+        id = this.id,
+        authors = this.authors,
+        title = this.title,
+        image = this.image,
+        quotesList = this.quotesList
     )
 }
 

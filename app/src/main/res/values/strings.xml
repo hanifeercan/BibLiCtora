@@ -77,4 +77,7 @@
     <string name="reading_book_error">This book is not on your reading list!</string>
     <string name="add_quote">Add Quote</string>
 
+    <string name="quote_added">Quote Added</string>
+    <string name="no_text">No text selected!</string>
+
 </resources>

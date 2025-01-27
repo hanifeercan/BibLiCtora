@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.ReadingBook
+import com.amineaytac.biblictora.core.database.entity.QuotesEntity
 import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
 import com.amineaytac.biblictora.core.database.source.LocalDataSource
 import com.amineaytac.biblictora.core.network.source.paging.PagingSource
@@ -81,6 +82,22 @@ class BookRepositoryImpl @Inject constructor(
         bookId: Int, readingPercentage: Int, readingProgress: Int
     ) {
         localDataSource.updatePercentage(bookId, readingPercentage, readingProgress)
+    }
+
+    override fun getQuoteBook(bookId: Int): LiveData<QuotesEntity> {
+        return localDataSource.getQuoteBook(bookId)
+    }
+
+    override suspend fun addQuoteToBook(readingBook: ReadingBook, newQuote: String) {
+        localDataSource.addQuoteToBook(readingBook, newQuote)
+    }
+
+    override suspend fun deleteQuoteFromBook(bookId: Int, quoteToRemove: String) {
+        localDataSource.deleteQuoteFromBook(bookId, quoteToRemove)
+    }
+
+    override suspend fun updateQuotesList(bookId: Int, updatedList: List<String>) {
+        localDataSource.updateQuotesList(bookId, updatedList)
     }
 
     override suspend fun getReadingBookItems(): Flow<List<ReadingBook>> {

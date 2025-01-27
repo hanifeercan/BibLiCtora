@@ -1,15 +1,19 @@
 package com.amineaytac.biblictora.core.database.source
 
 import androidx.lifecycle.LiveData
+import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.dao.FavoriteDao
+import com.amineaytac.biblictora.core.database.dao.QuotesDao
 import com.amineaytac.biblictora.core.database.dao.ReadingStatusDao
 import com.amineaytac.biblictora.core.database.entity.FavoriteEntity
+import com.amineaytac.biblictora.core.database.entity.QuotesEntity
 import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class LocalDataSourceImpl @Inject constructor(
-    private val favoriteDao: FavoriteDao, private val readingStatusDao: ReadingStatusDao
+    private val favoriteDao: FavoriteDao, private val readingStatusDao: ReadingStatusDao,
+    private val quotesDao: QuotesDao
 ) : LocalDataSource {
 
     override suspend fun addFavoriteItem(favoriteEntity: FavoriteEntity) {
@@ -64,5 +68,21 @@ class LocalDataSourceImpl @Inject constructor(
         readingProgress: Int
     ) {
         readingStatusDao.updatePercentage(bookId, readingPercentage, readingProgress)
+    }
+
+    override fun getQuoteBook(bookId: Int): LiveData<QuotesEntity> {
+        return quotesDao.getQuoteBook(bookId)
+    }
+
+    override suspend fun addQuoteToBook(readingBook: ReadingBook, newQuote: String) {
+        quotesDao.addQuoteToBook(readingBook, newQuote)
+    }
+
+    override suspend fun deleteQuoteFromBook(bookId: Int, quoteToRemove: String) {
+        quotesDao.deleteQuoteFromBook(bookId, quoteToRemove)
+    }
+
+    override suspend fun updateQuotesList(bookId: Int, updatedList: List<String>) {
+        quotesDao.updateQuotesList(bookId, updatedList)
     }
 }
