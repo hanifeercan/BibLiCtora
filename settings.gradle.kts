@@ -18,4 +18,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "BibLiCtora"
 include(":app")
- 
