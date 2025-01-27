@@ -31,4 +31,7 @@ object DatabaseModule {
 
     @Provides
     fun provideReadingDao(database: BiblictoraDatabase) = database.readingStatusDao()
+
+    @Provides
+    fun provideQuotesDao(database: BiblictoraDatabase) = database.quotesDao()
 }
