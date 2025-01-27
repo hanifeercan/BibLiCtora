@@ -25,6 +25,7 @@ import com.amineaytac.biblictora.databinding.FragmentReadingBinding
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
 import com.amineaytc.biblictora.util.viewBinding
+import com.yagmurerdogan.toasticlib.Toastic
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -135,7 +136,7 @@ class ReadingFragment : Fragment(R.layout.fragment_reading) {
             }
         }
         btnAddQuote.setOnClickListener {
-            addQuote()
+            addQuote(readingBook)
         }
     }
 
@@ -175,14 +176,29 @@ class ReadingFragment : Fragment(R.layout.fragment_reading) {
         override fun onDestroyActionMode(mode: ActionMode?) {}
     }
 
-    private fun addQuote() = with(binding) {
+    private fun addQuote(readingBook: ReadingBook) = with(binding) {
         webView.evaluateJavascript(
             "(function() { return window.getSelection().toString(); })();"
         ) { selectedText ->
-            if (selectedText.isNotEmpty()) {
-                Toast.makeText(requireContext(), "Quote added: $selectedText", Toast.LENGTH_SHORT)
-                    .show()
-                btnAddQuote.gone()
+            val text = selectedText.trim('"')
+            btnAddQuote.gone()
+            if (!text.isNullOrEmpty() && text != "null") {
+                viewModel.addQuoteToBook(readingBook, selectedText)
+                Toastic.toastic(
+                    context = requireContext(),
+                    message = getString(R.string.quote_added),
+                    duration = Toastic.LENGTH_SHORT,
+                    type = Toastic.SUCCESS,
+                    isIconAnimated = true
+                ).show()
+            } else {
+                Toastic.toastic(
+                    context = requireContext(),
+                    message = getString(R.string.no_text),
+                    duration = Toastic.LENGTH_SHORT,
+                    type = Toastic.ERROR,
+                    isIconAnimated = true
+                ).show()
             }
         }
     }
