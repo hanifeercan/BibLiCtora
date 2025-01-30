@@ -80,4 +80,7 @@
     <string name="quote_added">Quote Added</string>
     <string name="no_text">No text selected!</string>
 
+    <string name="empty_favorite_books_info">Your favorite book list is currently empty! You can see the books you\'ve added to your favorites here. Come on, let\'s fill up the list with the books you love! 📚✨</string>
+    <string name="empty_favorite_books_icon">Empty Favorite Books Icon</string>
+    <string name="remove_favorite_book">Are you sure you want to remove the book \""%s"\" from favorites?</string>
 </resources>

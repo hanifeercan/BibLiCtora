@@ -26,6 +26,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="Text.H5" parent="Text">
+        <item name="android:textSize">@dimen/_12ssp</item>
+    </style>
+
     <style name="CustomFloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">@color/moselle_green</item>
         <item name="tint">@color/white</item>
@@ -70,6 +74,12 @@
         <item name="fontFamily">@font/lusitana_regular</item>
         <item name="android:fontFamily">@font/lusitana_regular</item>
         <item name="android:textSize">@dimen/_16ssp</item>
+    </style>
+
+    <style name="CustomAlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/toad</item>
+        <item name="colorAccent">@color/méi_hēi_coal</item>
+        <item name="android:textColorPrimary">@color/black</item>
     </style>
 
 </resources>

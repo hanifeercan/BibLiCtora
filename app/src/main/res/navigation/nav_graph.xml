@@ -26,7 +26,11 @@
         android:id="@+id/favoriteFragment"
         android:name="com.amineaytac.biblictora.ui.favorite.FavoriteFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite">
+        <action
+            android:id="@+id/navigateToBookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/bookDetailFragment"
         android:name="com.amineaytac.biblictora.ui.detail.BookDetailFragment"
