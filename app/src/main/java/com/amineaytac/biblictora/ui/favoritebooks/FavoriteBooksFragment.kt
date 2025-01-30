@@ -5,10 +5,12 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.databinding.FragmentFavoriteBooksBinding
+import com.amineaytac.biblictora.ui.favorite.FavoriteFragmentDirections
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
 import com.amineaytc.biblictora.util.viewBinding
@@ -31,7 +33,7 @@ class FavoriteBooksFragment : Fragment(R.layout.fragment_favorite_books) {
     private fun bindBookAdapter() = with(binding) {
 
         favoriteBooksAdapter = FavoriteBooksAdapter(resources, {
-
+            findNavController().navigate(FavoriteFragmentDirections.navigateToBookDetailFragment(it))
         }, { book ->
             buildAlertDialog(book)
         })
