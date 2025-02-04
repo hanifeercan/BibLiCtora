@@ -12,7 +12,8 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class LocalDataSourceImpl @Inject constructor(
-    private val favoriteDao: FavoriteDao, private val readingStatusDao: ReadingStatusDao,
+    private val favoriteDao: FavoriteDao,
+    private val readingStatusDao: ReadingStatusDao,
     private val quotesDao: QuotesDao
 ) : LocalDataSource {
 
@@ -72,6 +73,10 @@ class LocalDataSourceImpl @Inject constructor(
 
     override fun getQuoteBook(bookId: Int): LiveData<QuotesEntity> {
         return quotesDao.getQuoteBook(bookId)
+    }
+
+    override fun getQuoteBooks(): Flow<List<QuotesEntity>> {
+        return quotesDao.getQuoteBooks()
     }
 
     override suspend fun addQuoteToBook(readingBook: ReadingBook, newQuote: String) {
