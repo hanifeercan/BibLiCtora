@@ -43,6 +43,8 @@ interface BookRepository {
 
     fun getQuoteBook(bookId: Int): LiveData<QuotesEntity>
 
+    fun getQuoteBooks(): Flow<List<QuoteBook>>
+
     suspend fun addQuoteToBook(readingBook: ReadingBook, newQuote: String)
 
     suspend fun deleteQuoteFromBook(bookId: Int, quoteToRemove: String)

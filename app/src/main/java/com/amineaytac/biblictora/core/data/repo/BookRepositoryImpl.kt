@@ -5,6 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.amineaytac.biblictora.core.data.model.Book
+import com.amineaytac.biblictora.core.data.model.QuoteBook
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.entity.QuotesEntity
 import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
@@ -86,6 +87,11 @@ class BookRepositoryImpl @Inject constructor(
 
     override fun getQuoteBook(bookId: Int): LiveData<QuotesEntity> {
         return localDataSource.getQuoteBook(bookId)
+    }
+
+    override fun getQuoteBooks(): Flow<List<QuoteBook>> {
+        return localDataSource.getQuoteBooks()
+            .map { it.map { quoteEntity -> quoteEntity.toQuoteBook() } }
     }
 
     override suspend fun addQuoteToBook(readingBook: ReadingBook, newQuote: String) {
