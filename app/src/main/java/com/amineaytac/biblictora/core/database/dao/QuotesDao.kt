@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.entity.QuotesEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface QuotesDao {
@@ -20,6 +21,9 @@ interface QuotesDao {
 
     @Query("SELECT * FROM quotes_table WHERE id = :bookId")
     fun getQuoteBook(bookId: Int): LiveData<QuotesEntity>
+
+    @Query("SELECT * FROM quotes_table")
+    fun getQuoteBooks(): Flow<List<QuotesEntity>>
 
     @Transaction
     suspend fun addQuoteToBook(readingBook: ReadingBook, newQuote: String) {
