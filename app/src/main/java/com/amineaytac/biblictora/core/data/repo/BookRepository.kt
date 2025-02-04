@@ -3,6 +3,7 @@ package com.amineaytac.biblictora.core.data.repo
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import com.amineaytac.biblictora.core.data.model.Book
+import com.amineaytac.biblictora.core.data.model.QuoteBook
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.entity.QuotesEntity
 import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
