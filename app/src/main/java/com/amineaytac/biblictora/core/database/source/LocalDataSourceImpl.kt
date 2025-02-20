@@ -1,6 +1,7 @@
 package com.amineaytac.biblictora.core.database.source
 
 import androidx.lifecycle.LiveData
+import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.dao.FavoriteDao
 import com.amineaytac.biblictora.core.database.dao.QuotesDao
@@ -87,7 +88,7 @@ class LocalDataSourceImpl @Inject constructor(
         quotesDao.deleteQuoteFromBook(bookId, quoteToRemove)
     }
 
-    override suspend fun updateQuotesList(bookId: Int, updatedList: List<String>) {
+    override suspend fun updateQuotesList(bookId: Int, updatedList: List<QuoteItem>) {
         quotesDao.updateQuotesList(bookId, updatedList)
     }
 }
