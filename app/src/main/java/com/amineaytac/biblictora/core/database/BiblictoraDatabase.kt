@@ -11,8 +11,7 @@ import com.amineaytac.biblictora.core.database.entity.QuotesEntity
 import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
 
 @Database(
-    entities = [FavoriteEntity::class, ReadingStatusEntity::class, QuotesEntity::class],
-    version = 7
+    entities = [FavoriteEntity::class, ReadingStatusEntity::class, QuotesEntity::class], version = 8
 )
 @TypeConverters(TypeConverter::class)
 abstract class BiblictoraDatabase : RoomDatabase() {
