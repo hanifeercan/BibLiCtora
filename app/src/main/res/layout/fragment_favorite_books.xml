@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.favorite.FavoriteBooksFragment">
+    tools:context=".ui.favoritebooks.FavoriteBooksFragment">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -20,13 +20,13 @@
         android:id="@+id/ivEmptyFavoriteBooks"
         android:layout_width="@dimen/_220sdp"
         android:layout_height="@dimen/_270sdp"
+        android:contentDescription="@string/empty_favorite_books_icon"
         android:src="@drawable/ic_empty_favorite_books"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@id/tvInfo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/empty_favorite_books_icon" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvInfo"
