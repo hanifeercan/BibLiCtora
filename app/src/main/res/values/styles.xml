@@ -30,6 +30,11 @@
         <item name="android:textSize">@dimen/_12ssp</item>
     </style>
 
+    <style name="Text.H6" parent="Text">
+        <item name="android:textSize">@dimen/_9ssp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="CustomFloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">@color/moselle_green</item>
         <item name="tint">@color/white</item>
