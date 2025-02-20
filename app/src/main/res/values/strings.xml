@@ -83,4 +83,6 @@
     <string name="empty_favorite_books_info">Your favorite book list is currently empty! You can see the books you\'ve added to your favorites here. Come on, let\'s fill up the list with the books you love! 📚✨</string>
     <string name="empty_favorite_books_icon">Empty Favorite Books Icon</string>
     <string name="remove_favorite_book">Are you sure you want to remove the book \""%s"\" from favorites?</string>
+
+    <string name="empty_quote_books_info">Your quote list is currently empty!You can see the books you added quotes to here. Let\'s fill the list with book quotes! 📚✨</string>
 </resources>
