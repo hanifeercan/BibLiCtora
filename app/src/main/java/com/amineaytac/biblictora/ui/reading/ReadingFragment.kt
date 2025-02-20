@@ -182,8 +182,8 @@ class ReadingFragment : Fragment(R.layout.fragment_reading) {
         ) { selectedText ->
             val text = selectedText.trim('"')
             btnAddQuote.gone()
-            if (!text.isNullOrEmpty() && text != "null") {
-                viewModel.addQuoteToBook(readingBook, selectedText)
+            if (text.isNotEmpty() && text != "null") {
+                viewModel.addQuoteToBook(readingBook, text)
                 Toastic.toastic(
                     context = requireContext(),
                     message = getString(R.string.quote_added),
