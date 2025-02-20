@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.QuoteBook
+import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.entity.QuotesEntity
 import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
@@ -102,7 +103,7 @@ class BookRepositoryImpl @Inject constructor(
         localDataSource.deleteQuoteFromBook(bookId, quoteToRemove)
     }
 
-    override suspend fun updateQuotesList(bookId: Int, updatedList: List<String>) {
+    override suspend fun updateQuotesList(bookId: Int, updatedList: List<QuoteItem>) {
         localDataSource.updateQuotesList(bookId, updatedList)
     }
 
