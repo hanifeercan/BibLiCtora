@@ -16,5 +16,5 @@ data class QuotesEntity(
     @ColumnInfo(name = "image")
     val image: String,
     @ColumnInfo(name = "quotes_list")
-    val quotesList: List<String>
+    val quotesList: String
 )
