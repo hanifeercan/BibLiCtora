@@ -63,35 +63,50 @@
                 android:backgroundTint="@color/oyster_island"
                 app:cardCornerRadius="@dimen/_4sdp">
 
-                <ScrollView
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_quote_list"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fillViewport="true">
+                    android:layout_height="match_parent">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <ProgressBar
+                        android:id="@+id/pb_quote_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_32sdp"
+                        android:indeterminateTint="@color/moselle_green"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/rv_quote_list"
+                        app:layout_constraintTop_toTopOf="@+id/rv_quote_list" />
+
+                    <TextView
+                        android:id="@+id/tv_quote_author"
+                        style="@style/Text.H3"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_90sdp"
+                        android:gravity="center"
+                        android:paddingHorizontal="@dimen/_16sdp"
+                        tools:text="@string/anonymous"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/tv_author"
-                            style="@style/Text.H3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:paddingHorizontal="@dimen/_16sdp"
-                            android:text="@string/anonymous"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <!--Todo: Add Quote Detail List Here-->
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </ScrollView>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_quote_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:nestedScrollingEnabled="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_quote_author" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
         </FrameLayout>
 
         <RelativeLayout
+            android:id="@+id/relative_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_48sdp"
@@ -116,7 +131,7 @@
                     android:layout_marginBottom="@dimen/_4sdp"
                     android:gravity="center"
                     android:paddingHorizontal="@dimen/_2sdp"
-                    android:text="@string/anonymous"
+                    tools:text="@string/anonymous"
                     android:textColor="@color/highlight" />
 
             </androidx.cardview.widget.CardView>
