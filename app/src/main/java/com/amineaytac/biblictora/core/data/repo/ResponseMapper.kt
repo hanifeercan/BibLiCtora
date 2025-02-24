@@ -2,6 +2,7 @@ package com.amineaytac.biblictora.core.data.repo
 
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.QuoteBook
+import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.core.data.model.ReadFormats
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.entity.FavoriteEntity
@@ -10,6 +11,8 @@ import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
 import com.amineaytac.biblictora.core.network.dto.Author
 import com.amineaytac.biblictora.core.network.dto.BookResponse
 import com.amineaytac.biblictora.core.network.dto.Formats
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import retrofit2.Response
 
 typealias RestBooksResponse = Response<BookResponse>
@@ -133,12 +136,15 @@ fun Book.toFavoriteItemEntity(): FavoriteEntity {
 }
 
 fun QuotesEntity.toQuoteBook(): QuoteBook {
+    val quotesListType = object : TypeToken<List<QuoteItem>>() {}.type
+    val quotesList: List<QuoteItem> = Gson().fromJson(this.quotesList, quotesListType)
+
     return QuoteBook(
         id = this.id,
         authors = this.authors,
         title = this.title,
         image = this.image,
-        quotesList = this.quotesList
+        quotesList = quotesList
     )
 }
 

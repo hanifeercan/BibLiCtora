@@ -1,6 +1,7 @@
 package com.amineaytac.biblictora.core.database.source
 
 import androidx.lifecycle.LiveData
+import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.dao.FavoriteDao
 import com.amineaytac.biblictora.core.database.dao.QuotesDao
@@ -12,7 +13,8 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class LocalDataSourceImpl @Inject constructor(
-    private val favoriteDao: FavoriteDao, private val readingStatusDao: ReadingStatusDao,
+    private val favoriteDao: FavoriteDao,
+    private val readingStatusDao: ReadingStatusDao,
     private val quotesDao: QuotesDao
 ) : LocalDataSource {
 
@@ -74,6 +76,10 @@ class LocalDataSourceImpl @Inject constructor(
         return quotesDao.getQuoteBook(bookId)
     }
 
+    override fun getQuoteBooks(): Flow<List<QuotesEntity>> {
+        return quotesDao.getQuoteBooks()
+    }
+
     override suspend fun addQuoteToBook(readingBook: ReadingBook, newQuote: String) {
         quotesDao.addQuoteToBook(readingBook, newQuote)
     }
@@ -82,7 +88,7 @@ class LocalDataSourceImpl @Inject constructor(
         quotesDao.deleteQuoteFromBook(bookId, quoteToRemove)
     }
 
-    override suspend fun updateQuotesList(bookId: Int, updatedList: List<String>) {
+    override suspend fun updateQuotesList(bookId: Int, updatedList: List<QuoteItem>) {
         quotesDao.updateQuotesList(bookId, updatedList)
     }
 }

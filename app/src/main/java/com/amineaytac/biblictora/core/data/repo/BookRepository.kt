@@ -3,6 +3,8 @@ package com.amineaytac.biblictora.core.data.repo
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import com.amineaytac.biblictora.core.data.model.Book
+import com.amineaytac.biblictora.core.data.model.QuoteBook
+import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.entity.QuotesEntity
 import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
@@ -43,9 +45,11 @@ interface BookRepository {
 
     fun getQuoteBook(bookId: Int): LiveData<QuotesEntity>
 
+    fun getQuoteBooks(): Flow<List<QuoteBook>>
+
     suspend fun addQuoteToBook(readingBook: ReadingBook, newQuote: String)
 
     suspend fun deleteQuoteFromBook(bookId: Int, quoteToRemove: String)
 
-    suspend fun updateQuotesList(bookId: Int, updatedList: List<String>)
+    suspend fun updateQuotesList(bookId: Int, updatedList: List<QuoteItem>)
 }

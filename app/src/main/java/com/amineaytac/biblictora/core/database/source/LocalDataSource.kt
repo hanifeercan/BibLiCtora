@@ -1,6 +1,7 @@
 package com.amineaytac.biblictora.core.database.source
 
 import androidx.lifecycle.LiveData
+import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.entity.FavoriteEntity
 import com.amineaytac.biblictora.core.database.entity.QuotesEntity
@@ -35,9 +36,11 @@ interface LocalDataSource {
 
     fun getQuoteBook(bookId: Int): LiveData<QuotesEntity>
 
+    fun getQuoteBooks(): Flow<List<QuotesEntity>>
+
     suspend fun addQuoteToBook(readingBook: ReadingBook, newQuote: String)
 
     suspend fun deleteQuoteFromBook(bookId: Int, quoteToRemove: String)
 
-    suspend fun updateQuotesList(bookId: Int, updatedList: List<String>)
+    suspend fun updateQuotesList(bookId: Int, updatedList: List<QuoteItem>)
 }
