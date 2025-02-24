@@ -1,6 +1,5 @@
 package com.amineaytac.biblictora.core.database.dao
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
@@ -38,7 +37,6 @@ interface QuotesDao {
             try {
                 Gson().fromJson<List<QuoteItem>>(it, type)
             } catch (e: JsonSyntaxException) {
-                Log.e("QuoteDao", "Json dönüştürme hatası: ${e.message}")
                 null
             }
         } ?: emptyList()
