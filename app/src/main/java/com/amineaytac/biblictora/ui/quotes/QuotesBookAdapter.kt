@@ -32,6 +32,10 @@ class QuotesBookAdapter(
         }
     }
 
+    fun containsId(id: Int): Boolean {
+        return currentList.any { it.id == id }
+    }
+
     companion object {
         private val COMPARATOR = object : DiffUtil.ItemCallback<QuoteBook>() {
             override fun areItemsTheSame(
