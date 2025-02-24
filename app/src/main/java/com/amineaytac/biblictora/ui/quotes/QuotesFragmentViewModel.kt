@@ -5,6 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amineaytac.biblictora.core.data.model.QuoteBook
+import com.amineaytac.biblictora.core.database.entity.QuotesEntity
+import com.amineaytac.biblictora.core.domain.quotes.DeleteQuoteFromBookUseCase
+import com.amineaytac.biblictora.core.domain.quotes.GetQuoteBookUseCase
 import com.amineaytac.biblictora.core.domain.quotes.GetQuoteBooksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +17,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class QuotesFragmentViewModel @Inject constructor(
-    private val getQuoteBooksUseCase: GetQuoteBooksUseCase
+    private val getQuoteBooksUseCase: GetQuoteBooksUseCase,
+    private val deleteQuoteFromBookUseCase: DeleteQuoteFromBookUseCase,
+    private val getQuoteBookUseCase: GetQuoteBookUseCase
 ) : ViewModel() {
 
     private val _quoteBooksScreenUiState = MutableLiveData<QuoteBookListScreenUiState>()
@@ -29,6 +34,16 @@ class QuotesFragmentViewModel @Inject constructor(
     private fun getQuoteBooksFlowData() {
         viewModelScope.launch {
             books = getQuoteBooksUseCase()
+        }
+    }
+
+    fun getQuoteBook(bookId: Int): LiveData<QuotesEntity> {
+        return getQuoteBookUseCase(bookId)
+    }
+
+    fun deleteQuoteFromBook(bookId: Int, quoteToRemove: String) {
+        viewModelScope.launch {
+            deleteQuoteFromBookUseCase(bookId, quoteToRemove)
         }
     }
 
