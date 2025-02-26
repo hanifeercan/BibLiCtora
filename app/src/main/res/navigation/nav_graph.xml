@@ -30,6 +30,9 @@
         <action
             android:id="@+id/navigateToBookDetailFragment"
             app:destination="@id/bookDetailFragment" />
+        <action
+            android:id="@+id/navigateToReadingFragment"
+            app:destination="@id/readingFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookDetailFragment"
