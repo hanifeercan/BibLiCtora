@@ -152,8 +152,7 @@ class QuotesFragment : Fragment(R.layout.fragment_quotes) {
 
         rvQuoteList.apply {
             layoutManager = LinearLayoutManager(
-                requireContext(),
-                LinearLayoutManager.VERTICAL, false
+                requireContext(), LinearLayoutManager.VERTICAL, false
             )
             setHasFixedSize(false)
             adapter = quoteListAdapter
@@ -161,8 +160,7 @@ class QuotesFragment : Fragment(R.layout.fragment_quotes) {
     }
 
     private fun buildAlertDialog(quote: String) {
-        AlertDialog.Builder(requireContext())
-            .setMessage(getString(R.string.remove_favorite_quote))
+        AlertDialog.Builder(requireContext()).setMessage(getString(R.string.remove_favorite_quote))
             .setPositiveButton("Yes") { dialog, _ ->
 
                 viewModel.deleteQuoteFromBook(quoteBook.id, quote)
@@ -170,12 +168,8 @@ class QuotesFragment : Fragment(R.layout.fragment_quotes) {
                 viewModel.getQuoteBooks()
 
                 dialog.dismiss()
-            }
-            .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
-            .create()
-            .show()
+            }.setNegativeButton("No") { dialog, _ -> dialog.dismiss() }.create().show()
     }
-
 
     private fun startTransitionAndOpenDetail(
         item: QuoteBook, clickedImageView: ImageView
@@ -255,6 +249,7 @@ class QuotesFragment : Fragment(R.layout.fragment_quotes) {
                 if (state == endState) {
                     getQuoteBook(item)
                     bookId = item.id
+                    bindUI()
                     rvQuoteList.post {
                         pbQuoteList.gone()
                         rvQuoteList.visible()
@@ -264,12 +259,6 @@ class QuotesFragment : Fragment(R.layout.fragment_quotes) {
             })
             transitionToEnd()
         }
-
-        motionLayout.postDelayed({
-            bindUI()
-            bookId = item.id
-            getQuoteBook(item)
-        }, 600)
     }
 
     private fun observeQuoteBooks() = with(binding) {
@@ -301,21 +290,20 @@ class QuotesFragment : Fragment(R.layout.fragment_quotes) {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun getQuoteBook(quoteBook: QuoteBook) = with(binding) {
-        viewModel.getQuoteBook(quoteBook.id)
-            .observe(viewLifecycleOwner) { quoteBookEntity ->
-                quoteBookEntity?.let {
+        viewModel.getQuoteBook(quoteBook.id).observe(viewLifecycleOwner) { quoteBookEntity ->
+            quoteBookEntity?.let {
 
-                    val quotesListType = object : TypeToken<List<QuoteItem>>() {}.type
-                    val quotesList: List<QuoteItem> = Gson().fromJson(it.quotesList, quotesListType)
+                val quotesListType = object : TypeToken<List<QuoteItem>>() {}.type
+                val quotesList: List<QuoteItem> = Gson().fromJson(it.quotesList, quotesListType)
 
-                    if (quotesList.isEmpty()) {
-                        rvQuoteList.gone()
-                        motionLayout.transitionToStart()
-                    } else {
-                        rvQuoteList.visible()
-                        quoteListAdapter.submitList(quotesList)
-                    }
+                if (quotesList.isEmpty()) {
+                    rvQuoteList.gone()
+                    motionLayout.transitionToStart()
+                } else {
+                    rvQuoteList.visible()
+                    quoteListAdapter.submitList(quotesList)
                 }
             }
+        }
     }
 }
