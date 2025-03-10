@@ -28,8 +28,8 @@
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite">
         <action
-            android:id="@+id/navigateToBookDetailFragment"
-            app:destination="@id/bookDetailFragment" />
+            android:id="@+id/navigateToReadingFragment"
+            app:destination="@id/readingFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookDetailFragment"
