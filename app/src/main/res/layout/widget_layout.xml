@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_widget"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/toad"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tv_quote"
+        style="@style/Text.H5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_8sdp"
+        android:layout_marginVertical="@dimen/_8sdp"
+        android:text="@string/widget_info"
+        android:textColor="@color/highlight"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/tv_author"
+        style="@style/Text.H5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginHorizontal="@dimen/_8sdp"
+        android:text="@string/widget_biblictora"
+        android:textColor="@color/highlight"
+        tools:ignore="TextContrastCheck" />
+
+    <ImageView
+        android:layout_width="@dimen/_32sdp"
+        android:layout_height="@dimen/_32sdp"
+        android:layout_margin="@dimen/_4sdp"
+        android:background="@drawable/ic_light_reading"
+        android:contentDescription="@string/ic_reading" />
+</LinearLayout>

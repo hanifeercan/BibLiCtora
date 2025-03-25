@@ -87,4 +87,7 @@
     <string name="empty_quote_books_info">Your quote list is currently empty!You can see the books you added quotes to here. Let\'s fill the list with book quotes! 📚✨</string>
 
     <string name="remove_favorite_quote">Are you sure you want to delete the quote?</string>
+
+    <string name="widget_info">Every book is a key that takes you to different worlds. As you turn the pages, your mind expands, your dreams grow, and your knowledge becomes limitless. Today a page, tomorrow a world! 📖✨</string>
+    <string name="widget_biblictora">- BibLiCtora</string>
 </resources>
