@@ -2,13 +2,16 @@ package com.amineaytac.biblictora.core.data.repo
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
+import com.amineaytac.biblictora.core.common.ResponseState
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.QuoteBook
 import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.entity.QuotesEntity
 import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
+import com.amineaytac.biblictora.core.network.dto.quotes.QuoteResponse
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 interface BookRepository {
     suspend fun getAllBooks(funcKey: String): Flow<PagingData<Book>>
@@ -52,4 +55,6 @@ interface BookRepository {
     suspend fun deleteQuoteFromBook(bookId: Int, quoteToRemove: String)
 
     suspend fun updateQuotesList(bookId: Int, updatedList: List<QuoteItem>)
+
+    suspend fun getRandomQuote(): StateFlow<ResponseState<QuoteResponse>>
 }

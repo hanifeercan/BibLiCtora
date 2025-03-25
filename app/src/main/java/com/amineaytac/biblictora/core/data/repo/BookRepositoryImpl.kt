@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.amineaytac.biblictora.core.common.ResponseState
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.QuoteBook
 import com.amineaytac.biblictora.core.data.model.QuoteItem
@@ -11,15 +12,29 @@ import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.entity.QuotesEntity
 import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
 import com.amineaytac.biblictora.core.database.source.LocalDataSource
+import com.amineaytac.biblictora.core.network.dto.quotes.QuoteResponse
 import com.amineaytac.biblictora.core.network.source.paging.PagingSource
+import com.amineaytac.biblictora.core.network.source.randomquote.RandomQuoteDataSource
 import com.amineaytac.biblictora.core.network.source.rest.RestDataSource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 class BookRepositoryImpl @Inject constructor(
-    private val restDataSource: RestDataSource, private val localDataSource: LocalDataSource
+    private val restDataSource: RestDataSource,
+    private val localDataSource: LocalDataSource,
+    private val randomQuoteDataSource: RandomQuoteDataSource
 ) : BookRepository {
+
+    private val repositoryScope = CoroutineScope(Dispatchers.IO)
+
     override suspend fun getAllBooks(funcKey: String): Flow<PagingData<Book>> {
         val pagingSource = PagingSource(restDataSource, funcKey)
         return Pager(
@@ -118,5 +133,14 @@ class BookRepositoryImpl @Inject constructor(
 
     override suspend fun deleteReadingBookItem(readingBook: ReadingBook) {
         localDataSource.deleteReadingBookItem(readingBook.toStatusEntity())
+    }
+
+    override suspend fun getRandomQuote(): StateFlow<ResponseState<QuoteResponse>> {
+        return flow {
+            emit(ResponseState.Loading)
+            emit(ResponseState.Success(randomQuoteDataSource.getRandomQuote().toQuote()))
+        }.catch {
+            emit(ResponseState.Error(it.message.orEmpty()))
+        }.stateIn(repositoryScope, SharingStarted.Lazily, ResponseState.Loading)
     }
 }
