@@ -11,6 +11,7 @@ import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
 import com.amineaytac.biblictora.core.network.dto.Author
 import com.amineaytac.biblictora.core.network.dto.BookResponse
 import com.amineaytac.biblictora.core.network.dto.Formats
+import com.amineaytac.biblictora.core.network.dto.quotes.QuoteResponse
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import retrofit2.Response
@@ -18,6 +19,7 @@ import retrofit2.Response
 typealias RestBooksResponse = Response<BookResponse>
 typealias AuthorsResponse = List<Author?>?
 typealias LanguageResponse = List<String?>?
+typealias RandomQuoteResponse = Response<QuoteResponse>
 
 fun RestBooksResponse.toBookList(): List<Book> {
     return body()!!.results!!.map { book ->
@@ -176,4 +178,12 @@ fun ReadingBook.toStatusEntity(): ReadingStatusEntity {
         readingPercentage = this.readingPercentage,
         readingProgress = this.readingProgress
     )
+}
+
+fun RandomQuoteResponse.toQuote(): QuoteResponse {
+    return body().let {
+        QuoteResponse(
+            author = "- " + it?.author, quote = "'" + it?.quote + "'"
+        )
+    }
 }
