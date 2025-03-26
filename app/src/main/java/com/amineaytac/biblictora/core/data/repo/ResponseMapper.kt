@@ -1,11 +1,13 @@
 package com.amineaytac.biblictora.core.data.repo
 
 import com.amineaytac.biblictora.core.data.model.Book
+import com.amineaytac.biblictora.core.data.model.MyBooksItem
 import com.amineaytac.biblictora.core.data.model.QuoteBook
 import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.core.data.model.ReadFormats
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.entity.FavoriteEntity
+import com.amineaytac.biblictora.core.database.entity.MyBooksEntity
 import com.amineaytac.biblictora.core.database.entity.QuotesEntity
 import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
 import com.amineaytac.biblictora.core.network.dto.Author
@@ -186,4 +188,22 @@ fun RandomQuoteResponse.toQuote(): QuoteResponse {
             author = "- " + it?.author, quote = "'" + it?.quote + "'"
         )
     }
+}
+
+fun MyBooksEntity.toMyBooksItem(): MyBooksItem {
+    return MyBooksItem(
+        id = this.id,
+        name = this.name,
+        filePath = this.filePath,
+        fileType = this.fileType
+    )
+}
+
+fun MyBooksItem.toMyBooksEntity(): MyBooksEntity {
+    return MyBooksEntity(
+        id = this.id,
+        name = this.name,
+        filePath = this.filePath,
+        fileType = this.fileType
+    )
 }
