@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import com.amineaytac.biblictora.core.common.ResponseState
 import com.amineaytac.biblictora.core.data.model.Book
+import com.amineaytac.biblictora.core.data.model.MyBooksItem
 import com.amineaytac.biblictora.core.data.model.QuoteBook
 import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.core.data.model.ReadingBook
@@ -57,4 +58,8 @@ interface BookRepository {
     suspend fun updateQuotesList(bookId: Int, updatedList: List<QuoteItem>)
 
     suspend fun getRandomQuote(): StateFlow<ResponseState<QuoteResponse>>
+
+    suspend fun addFileItem(myBooksItem: MyBooksItem)
+    suspend fun getAllFiles(): Flow<List<MyBooksItem>>
+    suspend fun deleteFileItem(myBooksItem: MyBooksItem)
 }

@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.amineaytac.biblictora.core.common.ResponseState
 import com.amineaytac.biblictora.core.data.model.Book
+import com.amineaytac.biblictora.core.data.model.MyBooksItem
 import com.amineaytac.biblictora.core.data.model.QuoteBook
 import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.core.data.model.ReadingBook
@@ -142,5 +143,18 @@ class BookRepositoryImpl @Inject constructor(
         }.catch {
             emit(ResponseState.Error(it.message.orEmpty()))
         }.stateIn(repositoryScope, SharingStarted.Lazily, ResponseState.Loading)
+    }
+
+    override suspend fun addFileItem(myBooksItem: MyBooksItem) {
+        localDataSource.addFileItem(myBooksItem.toMyBooksEntity())
+    }
+
+    override suspend fun getAllFiles(): Flow<List<MyBooksItem>> {
+        return localDataSource.getAllFiles()
+            .map { it.map { myBooksEntity -> myBooksEntity.toMyBooksItem() } }
+    }
+
+    override suspend fun deleteFileItem(myBooksItem: MyBooksItem) {
+        localDataSource.deleteFileItem(myBooksItem.toMyBooksEntity())
     }
 }
