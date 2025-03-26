@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.dao.FavoriteDao
+import com.amineaytac.biblictora.core.database.dao.MyBooksDao
 import com.amineaytac.biblictora.core.database.dao.QuotesDao
 import com.amineaytac.biblictora.core.database.dao.ReadingStatusDao
 import com.amineaytac.biblictora.core.database.entity.FavoriteEntity
+import com.amineaytac.biblictora.core.database.entity.MyBooksEntity
 import com.amineaytac.biblictora.core.database.entity.QuotesEntity
 import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +17,8 @@ import javax.inject.Inject
 class LocalDataSourceImpl @Inject constructor(
     private val favoriteDao: FavoriteDao,
     private val readingStatusDao: ReadingStatusDao,
-    private val quotesDao: QuotesDao
+    private val quotesDao: QuotesDao,
+    private val myBooksDao: MyBooksDao
 ) : LocalDataSource {
 
     override suspend fun addFavoriteItem(favoriteEntity: FavoriteEntity) {
@@ -90,5 +93,17 @@ class LocalDataSourceImpl @Inject constructor(
 
     override suspend fun updateQuotesList(bookId: Int, updatedList: List<QuoteItem>) {
         quotesDao.updateQuotesList(bookId, updatedList)
+    }
+
+    override suspend fun addFileItem(myBooksEntity: MyBooksEntity) {
+        myBooksDao.addFileItem(myBooksEntity)
+    }
+
+    override suspend fun getAllFiles(): Flow<List<MyBooksEntity>> {
+        return myBooksDao.getAllFiles()
+    }
+
+    override suspend fun deleteFileItem(myBooksEntity: MyBooksEntity) {
+        myBooksDao.deleteFileItem(myBooksEntity)
     }
 }
