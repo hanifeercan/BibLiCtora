@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/toad"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="@dimen/_8sdp">
 
     <TextView
         android:id="@+id/tv_quote"
