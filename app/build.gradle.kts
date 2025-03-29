@@ -97,4 +97,10 @@ dependencies {
 
     //Toastic
     implementation("com.github.yagmurerdogan:Toastic:1.0.1")
+
+    //SwipeDecorator
+    implementation("it.xabaras.android:recyclerview-swipedecorator:1.4")
+
+    //PdfViewer
+    implementation("com.github.DImuthuUpe:AndroidPdfViewer:3.1.0-beta.1")
 }
