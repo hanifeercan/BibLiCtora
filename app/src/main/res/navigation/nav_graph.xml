@@ -21,7 +21,11 @@
         android:id="@+id/myBooksFragment"
         android:name="com.amineaytac.biblictora.ui.mybooks.MyBooksFragment"
         android:label="fragment_my_books"
-        tools:layout="@layout/fragment_my_books" />
+        tools:layout="@layout/fragment_my_books">
+        <action
+            android:id="@+id/action_myBooksFragment_to_pdfViewerFragment"
+            app:destination="@id/pdfViewerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.amineaytac.biblictora.ui.favorite.FavoriteFragment"
@@ -54,5 +58,14 @@
         <action
             android:id="@+id/navigateToBookDetailFragment"
             app:destination="@id/bookDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pdfViewerFragment"
+        android:name="com.amineaytac.biblictora.ui.pdfviewer.PdfViewerFragment"
+        android:label="fragment_pdf_viewer"
+        tools:layout="@layout/fragment_pdf_viewer">
+        <argument
+            android:name="pdfPath"
+            app:argType="string" />
     </fragment>
 </navigation>
