@@ -9,5 +9,6 @@ data class MyBooksEntity(
     val id: Int = 0,
     val name: String,
     val filePath: String,
-    val fileType: String
+    val fileType: String,
+    val lastPage: Int = 0
 )

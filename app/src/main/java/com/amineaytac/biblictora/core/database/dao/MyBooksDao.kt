@@ -19,4 +19,10 @@ interface MyBooksDao {
 
     @Delete
     suspend fun deleteFileItem(myBooksEntity: MyBooksEntity)
+
+    @Query("SELECT lastPage FROM myBooks_table WHERE filePath = :filePath LIMIT 1")
+    suspend fun getLastPage(filePath: String): Int
+
+    @Query("UPDATE myBooks_table SET lastPage = :lastPage WHERE filePath = :filePath")
+    suspend fun updateLastPage(filePath: String, lastPage: Int)
 }
