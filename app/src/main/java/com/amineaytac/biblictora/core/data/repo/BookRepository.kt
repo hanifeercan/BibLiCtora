@@ -62,4 +62,7 @@ interface BookRepository {
     suspend fun addFileItem(myBooksItem: MyBooksItem)
     suspend fun getAllFiles(): Flow<List<MyBooksItem>>
     suspend fun deleteFileItem(myBooksItem: MyBooksItem)
+
+    suspend fun getLastPage(filePath: String): Int
+    suspend fun updateLastPage(filePath: String, lastPage: Int)
 }

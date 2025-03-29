@@ -195,7 +195,8 @@ fun MyBooksEntity.toMyBooksItem(): MyBooksItem {
         id = this.id,
         name = this.name,
         filePath = this.filePath,
-        fileType = this.fileType
+        fileType = this.fileType,
+        lastPage = this.lastPage
     )
 }
 
@@ -204,6 +205,7 @@ fun MyBooksItem.toMyBooksEntity(): MyBooksEntity {
         id = this.id,
         name = this.name,
         filePath = this.filePath,
-        fileType = this.fileType
+        fileType = this.fileType,
+        lastPage = this.lastPage
     )
 }
