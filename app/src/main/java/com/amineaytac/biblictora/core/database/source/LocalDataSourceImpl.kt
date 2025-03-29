@@ -106,4 +106,12 @@ class LocalDataSourceImpl @Inject constructor(
     override suspend fun deleteFileItem(myBooksEntity: MyBooksEntity) {
         myBooksDao.deleteFileItem(myBooksEntity)
     }
+
+    override suspend fun getLastPage(filePath: String): Int {
+        return myBooksDao.getLastPage(filePath)
+    }
+
+    override suspend fun updateLastPage(filePath: String, lastPage: Int) {
+        myBooksDao.updateLastPage(filePath, lastPage)
+    }
 }

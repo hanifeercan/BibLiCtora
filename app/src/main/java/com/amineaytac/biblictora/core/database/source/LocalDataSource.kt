@@ -50,4 +50,8 @@ interface LocalDataSource {
     suspend fun getAllFiles(): Flow<List<MyBooksEntity>>
 
     suspend fun deleteFileItem(myBooksEntity: MyBooksEntity)
+
+    suspend fun getLastPage(filePath: String): Int
+
+    suspend fun updateLastPage(filePath: String, lastPage: Int)
 }
