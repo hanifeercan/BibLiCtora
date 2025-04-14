@@ -108,4 +108,7 @@ dependencies {
     implementation("com.github.psiegman.epublib:epublib-core:69ac6b0"){
         exclude(group = "xmlpull", module = "xmlpull")
     }
+
+    //CircleImageView
+    implementation("com.github.hdodenhof:CircleImageView:v3.1.0")
 }
