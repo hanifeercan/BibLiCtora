@@ -3,6 +3,11 @@ package com.amineaytac.biblictora.ui.epubviewer
 import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
+import android.view.ActionMode
+import android.view.GestureDetector
+import android.view.Menu
+import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -12,6 +17,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.amineaytac.biblictora.R
+import com.amineaytac.biblictora.core.data.model.ReadFormats
+import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.databinding.FragmentEpubViewerBinding
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
@@ -36,9 +43,11 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
     private lateinit var book: Book
     private lateinit var uri: Uri
     private var lastPage = 0
+    private var myBooksId = -1
     private var themeColorHex = "#FFFFFF"
     private var textColorHex = "#000000"
     private var fontSize = 18
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
@@ -59,7 +68,6 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
             clearCache(true)
             clearHistory()
         }
-
         val epubUriString = arguments?.getString("epubPath")
         try {
             if (epubUriString != null) {
@@ -67,6 +75,7 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
                 getLastReadPage(epubUriString.toString()) { lastReadPage ->
                     lastPage = lastReadPage
                 }
+                getId(epubUriString.toString())
                 bindWebView(epubUriString)
                 openEpubFromUri(epubUri)
                 uri = epubUri
@@ -75,11 +84,14 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
             findNavController().popBackStack()
             Toastic.toastic(
                 context = requireContext(),
-                message = "File not exist!",
+                message = getString(R.string.file_not_exist),
                 duration = Toastic.LENGTH_SHORT,
                 type = Toastic.ERROR,
                 isIconAnimated = true
             ).show()
+        }
+        btnAddQuote.setOnClickListener {
+            addQuote()
         }
     }
 
@@ -91,6 +103,13 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
             } catch (e: Exception) {
                 callback(0)
             }
+        }
+    }
+
+    private fun getId(filePath: String) {
+        viewModel.getId(filePath)
+        viewModel.id.observe(viewLifecycleOwner) {
+            myBooksId = it
         }
     }
 
@@ -185,6 +204,25 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
                 viewModel.updateLastPage(epubUri, scrollY)
             }
 
+            val gestureDetector = GestureDetector(requireContext(),
+                object : GestureDetector.SimpleOnGestureListener() {
+                    override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                        if (btnAddQuote.visibility == View.VISIBLE) {
+                            btnAddQuote.gone()
+                        }
+                        return true
+                    }
+                })
+
+            setOnLongClickListener {
+                startActionMode(actionModeCallback)
+                setOnTouchListener { _, motionEvent ->
+                    gestureDetector.onTouchEvent(motionEvent)
+                    false
+                }
+                false
+            }
+
             webViewClient = object : WebViewClient() {
                 @Deprecated("Deprecated in Java")
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String): Boolean {
@@ -201,6 +239,55 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
                         webView.visible()
                     }
                 }
+            }
+        }
+    }
+
+    private val actionModeCallback = object : ActionMode.Callback {
+        override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            binding.btnAddQuote.visible()
+            return false
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            return false
+        }
+
+        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+            return false
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode?) {}
+    }
+
+    private fun addQuote() = with(binding) {
+        val title = book.title
+        val author = book.metadata.authors.joinToString(", ") { it.firstname + " " + it.lastname }
+        val readingBook = ReadingBook(
+            myBooksId, author, listOf(), "", title, ReadFormats("", ""), "", "", lastPage, 0
+        )
+        webView.evaluateJavascript(
+            "(function() { return window.getSelection().toString(); })();"
+        ) { selectedText ->
+            val text = selectedText.trim('"')
+            btnAddQuote.gone()
+            if (text.isNotEmpty() && text != "null") {
+                viewModel.addQuoteToBook(readingBook, text)
+                Toastic.toastic(
+                    context = requireContext(),
+                    message = getString(R.string.quote_added),
+                    duration = Toastic.LENGTH_SHORT,
+                    type = Toastic.SUCCESS,
+                    isIconAnimated = true
+                ).show()
+            } else {
+                Toastic.toastic(
+                    context = requireContext(),
+                    message = getString(R.string.no_text),
+                    duration = Toastic.LENGTH_SHORT,
+                    type = Toastic.ERROR,
+                    isIconAnimated = true
+                ).show()
             }
         }
     }
