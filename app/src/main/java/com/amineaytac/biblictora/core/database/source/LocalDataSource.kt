@@ -54,4 +54,7 @@ interface LocalDataSource {
     suspend fun getLastPage(filePath: String): Int
 
     suspend fun updateLastPage(filePath: String, lastPage: Int)
+
+    suspend fun getId(filePath: String): Int
+
 }

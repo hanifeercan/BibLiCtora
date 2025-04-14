@@ -114,4 +114,8 @@ class LocalDataSourceImpl @Inject constructor(
     override suspend fun updateLastPage(filePath: String, lastPage: Int) {
         myBooksDao.updateLastPage(filePath, lastPage)
     }
+
+    override suspend fun getId(filePath: String): Int {
+        return myBooksDao.getId(filePath)
+    }
 }
