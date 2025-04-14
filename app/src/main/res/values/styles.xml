@@ -40,6 +40,24 @@
         <item name="android:textColor">@color/highlight</item>
     </style>
 
+    <style name="Text.H8" parent="Text">
+        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/highlight</item>
+    </style>
+
+    <style name="Text.H9" parent="Text">
+        <item name="android:textSize">@dimen/_16ssp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/transparent_kettleman</item>
+    </style>
+
+    <style name="Text.H10" parent="Text">
+        <item name="android:textSize">@dimen/_16ssp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/moselle_green</item>
+    </style>
+
     <style name="CustomFloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">@color/moselle_green</item>
         <item name="tint">@color/white</item>
