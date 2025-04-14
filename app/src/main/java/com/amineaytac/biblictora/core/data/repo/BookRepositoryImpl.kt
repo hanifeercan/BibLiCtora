@@ -165,4 +165,8 @@ class BookRepositoryImpl @Inject constructor(
     override suspend fun updateLastPage(filePath: String, lastPage: Int) {
         localDataSource.updateLastPage(filePath, lastPage)
     }
+
+    override suspend fun getId(filePath: String): Int {
+        return localDataSource.getId(filePath)
+    }
 }
