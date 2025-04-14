@@ -46,8 +46,7 @@ class MyBooksFragment : Fragment(R.layout.fragment_my_books) {
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
             uri?.let { selectedUri ->
                 requireContext().contentResolver.takePersistableUriPermission(
-                    selectedUri,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    selectedUri, Intent.FLAG_GRANT_READ_URI_PERMISSION
                 )
 
                 val fileName = getFileNameFromUri(selectedUri)
@@ -104,7 +103,7 @@ class MyBooksFragment : Fragment(R.layout.fragment_my_books) {
                 val lastPageFromDb = myBooksViewModel.getLastPage(filePath)
 
                 val fileItem = MyBooksItem(
-                    id = 0,
+                    id = (UUID.randomUUID().mostSignificantBits % Int.MAX_VALUE).toInt(),
                     name = finalName,
                     filePath = filePath,
                     fileType = fileType,
