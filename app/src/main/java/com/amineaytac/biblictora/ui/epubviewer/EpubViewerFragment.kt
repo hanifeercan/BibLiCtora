@@ -5,13 +5,16 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.ActionMode
 import android.view.GestureDetector
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -20,9 +23,11 @@ import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.core.data.model.ReadFormats
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.databinding.FragmentEpubViewerBinding
+import com.amineaytac.biblictora.databinding.ReadingStyleDialogLayoutBinding
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
 import com.amineaytc.biblictora.util.viewBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.yagmurerdogan.toasticlib.Toastic
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -44,9 +49,9 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
     private lateinit var uri: Uri
     private var lastPage = 0
     private var myBooksId = -1
-    private var themeColorHex = "#FFFFFF"
+    private var backgroundColorHex = "#FFFFFF"
     private var textColorHex = "#000000"
-    private var fontSize = 18
+    private var textFontSize = 18
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -93,6 +98,9 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
         btnAddQuote.setOnClickListener {
             addQuote()
         }
+        tvSetStyle.setOnClickListener {
+            showFontSizeDialog()
+        }
     }
 
     private fun getLastReadPage(filePath: String, callback: (Int) -> Unit) {
@@ -135,10 +143,10 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
             }
             body {
                 text-align: justify; 
-                font-size: ${fontSize}px; 
+                font-size: ${textFontSize}px; 
                 line-height: 1.4; 
                 padding: 10px; 
-                background-color: ${themeColorHex};  
+                background-color: ${backgroundColorHex};  
                 font-family: Arial, sans-serif;  
                 color: ${textColorHex};
             }
@@ -204,7 +212,8 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
                 viewModel.updateLastPage(epubUri, scrollY)
             }
 
-            val gestureDetector = GestureDetector(requireContext(),
+            val gestureDetector = GestureDetector(
+                requireContext(),
                 object : GestureDetector.SimpleOnGestureListener() {
                     override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                         if (btnAddQuote.visibility == View.VISIBLE) {
@@ -290,5 +299,130 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
                 ).show()
             }
         }
+    }
+
+    private fun showFontSizeDialog() {
+        val dialogBinding =
+            ReadingStyleDialogLayoutBinding.inflate(LayoutInflater.from(requireContext()))
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(dialogBinding.root)
+        dialog.show()
+
+        val imageViews = listOf(
+            dialogBinding.ivLight, dialogBinding.ivMediumLight, dialogBinding.ivDark
+        )
+        var fontSize = textFontSize
+
+        dialogBinding.seekBar.progress = textFontSize
+        var selectedIndex = when (backgroundColorHex) {
+            "#FFFFFF" -> 0
+            "#EEF1DF" -> 1
+            "#000000" -> 2
+            else -> 0
+        }
+
+        when (selectedIndex) {
+            0 -> {
+                dialogBinding.ivLight.borderColor =
+                    ContextCompat.getColor(requireContext(), R.color.transparent_shēn_hóng_red)
+                dialogBinding.ivMediumLight.borderColor =
+                    ContextCompat.getColor(requireContext(), R.color.transparent_kettleman)
+                dialogBinding.ivDark.borderColor =
+                    ContextCompat.getColor(requireContext(), R.color.transparent_kettleman)
+            }
+
+            1 -> {
+                dialogBinding.ivLight.borderColor =
+                    ContextCompat.getColor(requireContext(), R.color.transparent_kettleman)
+                dialogBinding.ivMediumLight.borderColor =
+                    ContextCompat.getColor(requireContext(), R.color.transparent_shēn_hóng_red)
+                dialogBinding.ivDark.borderColor =
+                    ContextCompat.getColor(requireContext(), R.color.transparent_kettleman)
+            }
+
+            2 -> {
+                dialogBinding.ivLight.borderColor =
+                    ContextCompat.getColor(requireContext(), R.color.transparent_kettleman)
+                dialogBinding.ivMediumLight.borderColor =
+                    ContextCompat.getColor(requireContext(), R.color.transparent_kettleman)
+                dialogBinding.ivDark.borderColor =
+                    ContextCompat.getColor(requireContext(), R.color.transparent_shēn_hóng_red)
+            }
+        }
+
+        dialogBinding.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogBinding.btnSave.setOnClickListener {
+            textFontSize = fontSize
+            var themeColorInt = -1
+            var textColorInt = -1
+            when (selectedIndex) {
+                0 -> {
+                    themeColorInt = ContextCompat.getColor(requireContext(), R.color.white)
+                    textColorInt = ContextCompat.getColor(requireContext(), R.color.black)
+                }
+
+                1 -> {
+                    themeColorInt = ContextCompat.getColor(requireContext(), R.color.highlight)
+                    textColorInt = ContextCompat.getColor(requireContext(), R.color.black)
+                }
+
+                2 -> {
+                    themeColorInt = ContextCompat.getColor(requireContext(), R.color.black)
+                    textColorInt = ContextCompat.getColor(requireContext(), R.color.white)
+                }
+            }
+            backgroundColorHex = String.format("#%06X", 0xFFFFFF and themeColorInt)
+            textColorHex = String.format("#%06X", 0xFFFFFF and textColorInt)
+            setReadingStyle()
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
+
+        dialogBinding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                fontSize = progress
+                dialogBinding.txtFontSizeValue.textSize = fontSize.toFloat()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        imageViews.forEachIndexed { index, imageView ->
+            imageView.setOnClickListener {
+                imageViews.forEach {
+                    it.borderColor =
+                        ContextCompat.getColor(requireContext(), R.color.transparent_kettleman)
+                }
+
+                imageView.borderColor =
+                    ContextCompat.getColor(requireContext(), R.color.transparent_shēn_hóng_red)
+                selectedIndex = index
+            }
+        }
+    }
+
+    private fun setReadingStyle() {
+        binding.webView.evaluateJavascript(
+            """
+                (function() {
+                    var style = document.createElement('style');
+                    style.innerHTML = `
+                        body {
+                            font-size: ${textFontSize}px;
+                            background-color: ${backgroundColorHex};
+                            color: ${textColorHex};
+                        }
+                    `;
+                    document.head.appendChild(style);
+                })();
+            """.trimIndent(), null
+        )
     }
 }
