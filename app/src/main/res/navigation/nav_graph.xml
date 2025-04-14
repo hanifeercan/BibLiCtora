@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_myBooksFragment_to_pdfViewerFragment"
             app:destination="@id/pdfViewerFragment" />
+        <action
+            android:id="@+id/navigateToEpubViewerFragment"
+            app:destination="@id/epubViewerFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
@@ -66,6 +69,15 @@
         tools:layout="@layout/fragment_pdf_viewer">
         <argument
             android:name="pdfPath"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/epubViewerFragment"
+        android:name="com.amineaytac.biblictora.ui.epubviewer.EpubViewerFragment"
+        android:label="fragment_epub_viewer"
+        tools:layout="@layout/fragment_epub_viewer">
+        <argument
+            android:name="epubPath"
             app:argType="string" />
     </fragment>
 </navigation>

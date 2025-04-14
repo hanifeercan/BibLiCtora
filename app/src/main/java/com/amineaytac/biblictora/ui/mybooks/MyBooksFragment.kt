@@ -89,9 +89,7 @@ class MyBooksFragment : Fragment(R.layout.fragment_my_books) {
 
         binding.etPdfName.setText(defaultName)
 
-        val dialog = AlertDialog.Builder(requireContext())
-            .setView(binding.root)
-            .create()
+        val dialog = AlertDialog.Builder(requireContext()).setView(binding.root).create()
 
         binding.btnCancel.setOnClickListener {
             dialog.dismiss()
@@ -103,8 +101,7 @@ class MyBooksFragment : Fragment(R.layout.fragment_my_books) {
             val filePath = selectedUri.toString()
 
             lifecycleScope.launch {
-                val lastPageFromDb =
-                    myBooksViewModel.getLastPage(filePath)
+                val lastPageFromDb = myBooksViewModel.getLastPage(filePath)
 
                 val fileItem = MyBooksItem(
                     id = 0,
@@ -124,15 +121,13 @@ class MyBooksFragment : Fragment(R.layout.fragment_my_books) {
     }
 
     private fun setupRecyclerView() {
-        myBooksAdapter = MyBooksAdapter(
-            onMyBooksItemClickListener = { item ->
-                if (item.fileType == "epub") {
-                    //openEpub()
-                } else {
-                    openPdf(item)
-                }
+        myBooksAdapter = MyBooksAdapter(onMyBooksItemClickListener = { item ->
+            if (item.fileType == "epub") {
+                openEpub(Uri.parse(item.filePath))
+            } else {
+                openPdf(item)
             }
-        )
+        })
         binding.rvMyBooks.layoutManager = LinearLayoutManager(requireContext())
         binding.rvMyBooks.adapter = myBooksAdapter
     }
@@ -152,8 +147,9 @@ class MyBooksFragment : Fragment(R.layout.fragment_my_books) {
         }
     }
 
-    private fun openEpub() {
-        // epub
+    private fun openEpub(epubUri: Uri) {
+        val action = MyBooksFragmentDirections.navigateToEpubViewerFragment(epubUri.toString())
+        findNavController().navigate(action)
     }
 
     private fun openPdf(myBooksItem: MyBooksItem) {
@@ -163,7 +159,7 @@ class MyBooksFragment : Fragment(R.layout.fragment_my_books) {
     }
 
     private fun setupClickListeners() = with(binding) {
-        binding.fbAddBook.setOnClickListener {
+        fbAddBook.setOnClickListener {
             pickFileLauncher.launch(arrayOf("application/pdf", "application/epub+zip"))
         }
     }
