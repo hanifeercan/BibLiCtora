@@ -25,4 +25,7 @@ interface MyBooksDao {
 
     @Query("UPDATE myBooks_table SET lastPage = :lastPage WHERE filePath = :filePath")
     suspend fun updateLastPage(filePath: String, lastPage: Int)
+
+    @Query("SELECT id FROM myBooks_table WHERE filePath = :filePath LIMIT 1")
+    suspend fun getId(filePath: String): Int
 }
