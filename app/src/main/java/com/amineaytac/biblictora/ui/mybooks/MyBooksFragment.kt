@@ -25,6 +25,7 @@ import com.amineaytc.biblictora.util.viewBinding
 import com.yagmurerdogan.toasticlib.Toastic
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 @AndroidEntryPoint
 class MyBooksFragment : Fragment(R.layout.fragment_my_books) {
