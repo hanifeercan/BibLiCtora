@@ -103,4 +103,9 @@ dependencies {
 
     //PdfViewer
     implementation("com.github.DImuthuUpe:AndroidPdfViewer:3.1.0-beta.1")
+
+    //EpubLib
+    implementation("com.github.psiegman.epublib:epublib-core:69ac6b0"){
+        exclude(group = "xmlpull", module = "xmlpull")
+    }
 }
