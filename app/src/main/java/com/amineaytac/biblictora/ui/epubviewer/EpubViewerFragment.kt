@@ -24,6 +24,7 @@ import com.amineaytac.biblictora.core.data.model.ReadFormats
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.databinding.FragmentEpubViewerBinding
 import com.amineaytac.biblictora.databinding.ReadingStyleDialogLayoutBinding
+import com.amineaytac.biblictora.ui.basereading.ReadingStyleManager
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
 import com.amineaytc.biblictora.util.viewBinding
@@ -49,13 +50,14 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
     private lateinit var uri: Uri
     private var lastPage = 0
     private var myBooksId = -1
-    private var backgroundColorHex = "#FFFFFF"
-    private var textColorHex = "#000000"
-    private var textFontSize = 18
+    private lateinit var readingStyleManager: ReadingStyleManager
+    private lateinit var readingStyle: ReadingStyleManager.ReadingStyle
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        readingStyleManager = ReadingStyleManager(requireContext())
+        readingStyle = readingStyleManager.loadReadingStyle()
         bindUI()
     }
 
@@ -143,12 +145,12 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
             }
             body {
                 text-align: justify; 
-                font-size: ${textFontSize}px; 
+                font-size: ${readingStyle.textFontSize}px; 
                 line-height: 1.4; 
                 padding: 10px; 
-                background-color: ${backgroundColorHex};  
+                background-color: ${readingStyle.backgroundColorHex};  
                 font-family: Arial, sans-serif;  
-                color: ${textColorHex};
+                color: ${readingStyle.textColorHex};
             }
         </style>
     """.trimIndent()
@@ -311,10 +313,9 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
         val imageViews = listOf(
             dialogBinding.ivLight, dialogBinding.ivMediumLight, dialogBinding.ivDark
         )
-        var fontSize = textFontSize
-
-        dialogBinding.seekBar.progress = textFontSize
-        var selectedIndex = when (backgroundColorHex) {
+        var fontSize = readingStyle.textFontSize
+        dialogBinding.seekBar.progress = fontSize
+        var selectedIndex = when (readingStyle.backgroundColorHex) {
             "#FFFFFF" -> 0
             "#EEF1DF" -> 1
             "#000000" -> 2
@@ -355,7 +356,6 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
         }
 
         dialogBinding.btnSave.setOnClickListener {
-            textFontSize = fontSize
             var themeColorInt = -1
             var textColorInt = -1
             when (selectedIndex) {
@@ -374,8 +374,12 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
                     textColorInt = ContextCompat.getColor(requireContext(), R.color.white)
                 }
             }
-            backgroundColorHex = String.format("#%06X", 0xFFFFFF and themeColorInt)
-            textColorHex = String.format("#%06X", 0xFFFFFF and textColorInt)
+            val backgroundColorHex = String.format("#%06X", 0xFFFFFF and themeColorInt)
+            val textColorHex = String.format("#%06X", 0xFFFFFF and textColorInt)
+            val newStyle =
+                ReadingStyleManager.ReadingStyle(backgroundColorHex, textColorHex, fontSize)
+            readingStyleManager.saveReadingStyle(newStyle)
+            readingStyle = readingStyleManager.loadReadingStyle()
             setReadingStyle()
             dialog.dismiss()
         }
@@ -415,9 +419,9 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
                     var style = document.createElement('style');
                     style.innerHTML = `
                         body {
-                            font-size: ${textFontSize}px;
-                            background-color: ${backgroundColorHex};
-                            color: ${textColorHex};
+                            font-size: ${readingStyle.textFontSize}px;
+                            background-color: ${readingStyle.backgroundColorHex};
+                            color: ${readingStyle.textColorHex};
                         }
                     `;
                     document.head.appendChild(style);
