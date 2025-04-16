@@ -10,12 +10,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -23,12 +21,10 @@ import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.core.data.model.ReadFormats
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.databinding.FragmentEpubViewerBinding
-import com.amineaytac.biblictora.databinding.ReadingStyleDialogLayoutBinding
+import com.amineaytac.biblictora.ui.basereading.BaseReadingFragment
 import com.amineaytac.biblictora.ui.basereading.ReadingStyleManager
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
-import com.amineaytc.biblictora.util.viewBinding
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.yagmurerdogan.toasticlib.Toastic
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -42,16 +38,14 @@ import java.io.File
 import java.io.FileInputStream
 
 @AndroidEntryPoint
-class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
+class EpubViewerFragment : BaseReadingFragment() {
 
-    private val binding by viewBinding(FragmentEpubViewerBinding::bind)
+    private lateinit var binding: FragmentEpubViewerBinding
     private val viewModel: EpubViewerViewModel by viewModels()
     private lateinit var book: Book
     private lateinit var uri: Uri
     private var lastPage = 0
     private var myBooksId = -1
-    private lateinit var readingStyleManager: ReadingStyleManager
-    private lateinit var readingStyle: ReadingStyleManager.ReadingStyle
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,6 +53,32 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
         readingStyleManager = ReadingStyleManager(requireContext())
         readingStyle = readingStyleManager.loadReadingStyle()
         bindUI()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentEpubViewerBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+
+    private fun setupListeners() = with(binding) {
+        btnAddQuote.setOnClickListener {
+            val title = book.title
+            val author =
+                book.metadata.authors.joinToString(", ") { it.firstname + " " + it.lastname }
+            val readingBook = ReadingBook(
+                myBooksId, author, listOf(), "", title, ReadFormats("", ""), "", "", lastPage, 0
+            )
+
+            addQuoteToBook(webView, readingBook)
+        }
+        tvSetStyle.setOnClickListener {
+            showReadingStyleDialog {
+                setReadingStyle()
+            }
+        }
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -97,12 +117,7 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
                 isIconAnimated = true
             ).show()
         }
-        btnAddQuote.setOnClickListener {
-            addQuote()
-        }
-        tvSetStyle.setOnClickListener {
-            showFontSizeDialog()
-        }
+        setupListeners()
     }
 
     private fun getLastReadPage(filePath: String, callback: (Int) -> Unit) {
@@ -269,147 +284,6 @@ class EpubViewerFragment : Fragment(R.layout.fragment_epub_viewer) {
         }
 
         override fun onDestroyActionMode(mode: ActionMode?) {}
-    }
-
-    private fun addQuote() = with(binding) {
-        val title = book.title
-        val author = book.metadata.authors.joinToString(", ") { it.firstname + " " + it.lastname }
-        val readingBook = ReadingBook(
-            myBooksId, author, listOf(), "", title, ReadFormats("", ""), "", "", lastPage, 0
-        )
-        webView.evaluateJavascript(
-            "(function() { return window.getSelection().toString(); })();"
-        ) { selectedText ->
-            val text = selectedText.trim('"')
-            btnAddQuote.gone()
-            if (text.isNotEmpty() && text != "null") {
-                viewModel.addQuoteToBook(readingBook, text)
-                Toastic.toastic(
-                    context = requireContext(),
-                    message = getString(R.string.quote_added),
-                    duration = Toastic.LENGTH_SHORT,
-                    type = Toastic.SUCCESS,
-                    isIconAnimated = true
-                ).show()
-            } else {
-                Toastic.toastic(
-                    context = requireContext(),
-                    message = getString(R.string.no_text),
-                    duration = Toastic.LENGTH_SHORT,
-                    type = Toastic.ERROR,
-                    isIconAnimated = true
-                ).show()
-            }
-        }
-    }
-
-    private fun showFontSizeDialog() {
-        val dialogBinding =
-            ReadingStyleDialogLayoutBinding.inflate(LayoutInflater.from(requireContext()))
-        val dialog = BottomSheetDialog(requireContext())
-        dialog.setContentView(dialogBinding.root)
-        dialog.show()
-
-        val imageViews = listOf(
-            dialogBinding.ivLight, dialogBinding.ivMediumLight, dialogBinding.ivDark
-        )
-        var fontSize = readingStyle.textFontSize
-        dialogBinding.seekBar.progress = fontSize
-        var selectedIndex = when (readingStyle.backgroundColorHex) {
-            "#FFFFFF" -> 0
-            "#EEF1DF" -> 1
-            "#000000" -> 2
-            else -> 0
-        }
-
-        when (selectedIndex) {
-            0 -> {
-                dialogBinding.ivLight.borderColor =
-                    ContextCompat.getColor(requireContext(), R.color.transparent_shēn_hóng_red)
-                dialogBinding.ivMediumLight.borderColor =
-                    ContextCompat.getColor(requireContext(), R.color.transparent_kettleman)
-                dialogBinding.ivDark.borderColor =
-                    ContextCompat.getColor(requireContext(), R.color.transparent_kettleman)
-            }
-
-            1 -> {
-                dialogBinding.ivLight.borderColor =
-                    ContextCompat.getColor(requireContext(), R.color.transparent_kettleman)
-                dialogBinding.ivMediumLight.borderColor =
-                    ContextCompat.getColor(requireContext(), R.color.transparent_shēn_hóng_red)
-                dialogBinding.ivDark.borderColor =
-                    ContextCompat.getColor(requireContext(), R.color.transparent_kettleman)
-            }
-
-            2 -> {
-                dialogBinding.ivLight.borderColor =
-                    ContextCompat.getColor(requireContext(), R.color.transparent_kettleman)
-                dialogBinding.ivMediumLight.borderColor =
-                    ContextCompat.getColor(requireContext(), R.color.transparent_kettleman)
-                dialogBinding.ivDark.borderColor =
-                    ContextCompat.getColor(requireContext(), R.color.transparent_shēn_hóng_red)
-            }
-        }
-
-        dialogBinding.btnCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialogBinding.btnSave.setOnClickListener {
-            var themeColorInt = -1
-            var textColorInt = -1
-            when (selectedIndex) {
-                0 -> {
-                    themeColorInt = ContextCompat.getColor(requireContext(), R.color.white)
-                    textColorInt = ContextCompat.getColor(requireContext(), R.color.black)
-                }
-
-                1 -> {
-                    themeColorInt = ContextCompat.getColor(requireContext(), R.color.highlight)
-                    textColorInt = ContextCompat.getColor(requireContext(), R.color.black)
-                }
-
-                2 -> {
-                    themeColorInt = ContextCompat.getColor(requireContext(), R.color.black)
-                    textColorInt = ContextCompat.getColor(requireContext(), R.color.white)
-                }
-            }
-            val backgroundColorHex = String.format("#%06X", 0xFFFFFF and themeColorInt)
-            val textColorHex = String.format("#%06X", 0xFFFFFF and textColorInt)
-            val newStyle =
-                ReadingStyleManager.ReadingStyle(backgroundColorHex, textColorHex, fontSize)
-            readingStyleManager.saveReadingStyle(newStyle)
-            readingStyle = readingStyleManager.loadReadingStyle()
-            setReadingStyle()
-            dialog.dismiss()
-        }
-
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.show()
-
-        dialogBinding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                fontSize = progress
-                dialogBinding.txtFontSizeValue.textSize = fontSize.toFloat()
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
-
-        imageViews.forEachIndexed { index, imageView ->
-            imageView.setOnClickListener {
-                imageViews.forEach {
-                    it.borderColor =
-                        ContextCompat.getColor(requireContext(), R.color.transparent_kettleman)
-                }
-
-                imageView.borderColor =
-                    ContextCompat.getColor(requireContext(), R.color.transparent_shēn_hóng_red)
-                selectedIndex = index
-            }
-        }
     }
 
     private fun setReadingStyle() {
