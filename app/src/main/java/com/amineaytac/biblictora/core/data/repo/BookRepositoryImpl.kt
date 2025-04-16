@@ -157,4 +157,16 @@ class BookRepositoryImpl @Inject constructor(
     override suspend fun deleteFileItem(myBooksItem: MyBooksItem) {
         localDataSource.deleteFileItem(myBooksItem.toMyBooksEntity())
     }
+
+    override suspend fun getLastPage(filePath: String): Int {
+        return localDataSource.getLastPage(filePath)
+    }
+
+    override suspend fun updateLastPage(filePath: String, lastPage: Int) {
+        localDataSource.updateLastPage(filePath, lastPage)
+    }
+
+    override suspend fun getId(filePath: String): Int {
+        return localDataSource.getId(filePath)
+    }
 }

@@ -21,7 +21,11 @@ class QuotesBookAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: QuoteBook, position: Int) = with(binding) {
 
-            Picasso.get().load(item.image).error(R.drawable.ic_detail_book).into(ivBook)
+            if (item.image.isEmpty()) {
+                ivBook.setImageResource(R.drawable.ic_detail_book)
+            } else {
+                Picasso.get().load(item.image).error(R.drawable.ic_detail_book).into(ivBook)
+            }
 
             tvName.text = item.title
             ivBook.setOnClickListener {

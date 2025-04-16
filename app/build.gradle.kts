@@ -97,4 +97,18 @@ dependencies {
 
     //Toastic
     implementation("com.github.yagmurerdogan:Toastic:1.0.1")
+
+    //SwipeDecorator
+    implementation("it.xabaras.android:recyclerview-swipedecorator:1.4")
+
+    //PdfViewer
+    implementation("com.github.DImuthuUpe:AndroidPdfViewer:3.1.0-beta.1")
+
+    //EpubLib
+    implementation("com.github.psiegman.epublib:epublib-core:69ac6b0"){
+        exclude(group = "xmlpull", module = "xmlpull")
+    }
+
+    //CircleImageView
+    implementation("com.github.hdodenhof:CircleImageView:v3.1.0")
 }

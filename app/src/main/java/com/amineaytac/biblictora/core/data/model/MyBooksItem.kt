@@ -4,5 +4,6 @@ data class MyBooksItem(
     val id: Int,
     val name: String,
     val filePath: String,
-    val fileType: String
+    val fileType: String,
+    val lastPage: Int
 )

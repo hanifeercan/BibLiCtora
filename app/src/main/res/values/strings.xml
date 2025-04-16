@@ -90,4 +90,21 @@
 
     <string name="widget_info">Every book is a key that takes you to different worlds. As you turn the pages, your mind expands, your dreams grow, and your knowledge becomes limitless. Today a page, tomorrow a world! 📖✨</string>
     <string name="widget_biblictora">- BibLiCtora</string>
+
+    <string name="empty_my_page">Your books will appear here. Currently, there are no books in
+        your collection. Start by adding a book to begin your collection!</string>
+    <string name="fb_description">book selection button</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="edit_pdf">Please edit your book name</string>
+    <string name="et_description">edit text for book name</string>
+
+    <string name="pdf_not_parsed">PDF file path could not be parsed</string>
+    <string name="pdf_not_open">PDF file could not be opened</string>
+    <string name="pdf_not_loaded">PDF could not be loaded</string>
+    <string name="unsupported_file">Unsupported file type</string>
+    <string name="could_not_file">Could not select file</string>
+    <string name="Aa">Aa</string>
+    <string name="file_not_exist">File not exist!</string>
 </resources>
