@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.reading.ReadingFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -11,14 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_4sdp"
-        android:background="@color/white"
-        android:theme="?attr/actionBarTheme"
+        android:theme="@style/CustomToolbarTheme"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?android:attr/homeAsUpIndicator">
 
         <LinearLayout
-            android:id="@+id/ll_book_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -27,44 +26,45 @@
             tools:ignore="UseCompoundDrawables">
 
             <TextView
-                style="@style/Text.H2"
+                android:id="@+id/tvBookDetail"
+                style="@style/Text.H11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginEnd="@dimen/_12sdp"
-                android:text="@string/book_detail"
-                android:textColor="@color/méi_hēi_coal" />
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:text="@string/book_detail" />
 
-            <ImageView
-                android:layout_width="@dimen/_24sdp"
-                android:layout_height="@dimen/_24sdp"
-                android:background="@drawable/ic_book"
-                android:contentDescription="@string/ic_book" />
+            <TextView
+                android:id="@+id/tvSetStyle"
+                style="@style/Text.H7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Aa"
+                tools:ignore="TextSizeCheck" />
 
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
     <WebView
-        android:id="@+id/web_view"
+        android:id="@+id/webView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@color/white"
+        android:overScrollMode="always"
+        android:scrollbarStyle="outsideOverlay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress"
+    <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:progress="40"
-        app:indicatorColor="@color/moselle_green"
+        android:indeterminateTint="@color/medium_grey_green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:trackColor="@color/recycled_glass"
-        app:trackThickness="4dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:layout_width="match_parent"
