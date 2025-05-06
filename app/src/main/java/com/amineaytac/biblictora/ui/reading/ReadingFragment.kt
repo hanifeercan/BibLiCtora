@@ -1,18 +1,19 @@
 package com.amineaytac.biblictora.ui.reading
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.ActionMode
 import android.view.GestureDetector
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
-import android.webkit.WebChromeClient
+import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
@@ -22,9 +23,10 @@ import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.data.repo.toReadingBook
 import com.amineaytac.biblictora.databinding.FragmentReadingBinding
+import com.amineaytac.biblictora.ui.basereading.BaseReadingFragment
+import com.amineaytac.biblictora.ui.basereading.ReadingStyleManager
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
-import com.amineaytc.biblictora.util.viewBinding
 import com.yagmurerdogan.toasticlib.Toastic
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -34,27 +36,49 @@ import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
-class ReadingFragment : Fragment(R.layout.fragment_reading) {
+class ReadingFragment : BaseReadingFragment() {
 
-    private val binding by viewBinding(FragmentReadingBinding::bind)
+    private lateinit var binding: FragmentReadingBinding
     private val viewModel: ReadingViewModel by viewModels()
     private val args: ReadingFragmentArgs by navArgs()
     private lateinit var readingBook: ReadingBook
+    private var userIsTouching = false
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentReadingBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setListeners()
-        readingBook = args.readingBook
-        observeIsBookItemReading(readingBook.id.toString())
-        bindWebView(readingBook)
+        try {
+            readingStyleManager = ReadingStyleManager(requireContext())
+            readingStyle = readingStyleManager.loadReadingStyle()
+            binding.webView.gone()
+            binding.progressBar.visible()
+            setListeners()
+            readingBook = args.readingBook
+            observeIsBookItemReading(readingBook.id.toString())
+            bindWebView(readingBook)
+        } catch (e: Exception) {
+            findNavController().popBackStack()
+            Toastic.toastic(
+                context = requireContext(),
+                message = getString(R.string.file_not_exist),
+                duration = Toastic.LENGTH_SHORT,
+                type = Toastic.ERROR,
+                isIconAnimated = true
+            ).show()
+        }
     }
 
     private fun setListeners() = with(binding) {
         toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-        llBookDetail.setOnClickListener {
+        tvBookDetail.setOnClickListener {
             readingBook.apply {
                 val book = Book(id, authors, bookshelves, languages, title, formats, image)
                 findNavController().navigate(
@@ -62,6 +86,14 @@ class ReadingFragment : Fragment(R.layout.fragment_reading) {
                         book
                     )
                 )
+            }
+        }
+        btnAddQuote.setOnClickListener {
+            addQuoteToBook(webView, readingBook)
+        }
+        tvSetStyle.setOnClickListener {
+            showReadingStyleDialog {
+                setReadingStyle()
             }
         }
     }
@@ -79,17 +111,11 @@ class ReadingFragment : Fragment(R.layout.fragment_reading) {
 
             if (url != null) {
                 loadUrl(url)
-
-                settings.textZoom = 90
                 settings.javaScriptEnabled = true
+                settings.domStorageEnabled = true
 
-                setOnScrollChangeListener { _, _, scrollY, _, _ ->
-                    val maxScroll = (contentHeight * this.scale - height).toInt()
-                    val progressPercentage = (scrollY.toFloat() / maxScroll * 100).toInt()
-                    viewModel.updatePercentage(book.id, progressPercentage, scrollY)
-                }
-
-                val gestureDetector = GestureDetector(requireContext(),
+                val gestureDetector = GestureDetector(
+                    requireContext(),
                     object : GestureDetector.SimpleOnGestureListener() {
                         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                             if (btnAddQuote.visibility == View.VISIBLE) {
@@ -120,23 +146,39 @@ class ReadingFragment : Fragment(R.layout.fragment_reading) {
                         CoroutineScope(Dispatchers.Main).launch {
                             delay(1000)
                             view?.scrollTo(0, readingBook.readingProgress)
+                            setReadingStyle()
+                            progressBar.gone()
+                            webView.visible()
+                            setupUserScrollListener()
                         }
                     }
-                }
 
-                webChromeClient = object : WebChromeClient() {
-                    override fun onProgressChanged(view: WebView?, newProgress: Int) {
-                        binding.progress.progress = newProgress
-
-                        if (newProgress == 100) {
-                            binding.progress.visibility = View.GONE
-                        }
+                    override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                        super.onPageStarted(view, url, favicon)
                     }
                 }
             }
         }
-        btnAddQuote.setOnClickListener {
-            addQuote(readingBook)
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupUserScrollListener() = with(binding.webView) {
+        setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> userIsTouching = true
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> userIsTouching = false
+            }
+            false
+        }
+
+        setOnScrollChangeListener { _, _, scrollY, _, _ ->
+            if (userIsTouching) {
+                val maxScroll = (contentHeight * scale - height).toInt()
+                if (maxScroll <= 0) return@setOnScrollChangeListener
+                val progressPercentage =
+                    ((scrollY.toFloat() / maxScroll) * 100).toInt().coerceIn(0, 100)
+                viewModel.updatePercentage(readingBook.id, progressPercentage, scrollY)
+            }
         }
     }
 
@@ -176,30 +218,21 @@ class ReadingFragment : Fragment(R.layout.fragment_reading) {
         override fun onDestroyActionMode(mode: ActionMode?) {}
     }
 
-    private fun addQuote(readingBook: ReadingBook) = with(binding) {
-        webView.evaluateJavascript(
-            "(function() { return window.getSelection().toString(); })();"
-        ) { selectedText ->
-            val text = selectedText.trim('"')
-            btnAddQuote.gone()
-            if (text.isNotEmpty() && text != "null") {
-                viewModel.addQuoteToBook(readingBook, text)
-                Toastic.toastic(
-                    context = requireContext(),
-                    message = getString(R.string.quote_added),
-                    duration = Toastic.LENGTH_SHORT,
-                    type = Toastic.SUCCESS,
-                    isIconAnimated = true
-                ).show()
-            } else {
-                Toastic.toastic(
-                    context = requireContext(),
-                    message = getString(R.string.no_text),
-                    duration = Toastic.LENGTH_SHORT,
-                    type = Toastic.ERROR,
-                    isIconAnimated = true
-                ).show()
-            }
-        }
+    private fun setReadingStyle() {
+        binding.webView.evaluateJavascript(
+            """
+                (function() {
+                    var style = document.createElement('style');
+                    style.innerHTML = `
+                        body {
+                            font-size: ${readingStyle.textFontSize}px;
+                            background-color: ${readingStyle.backgroundColorHex};
+                            color: ${readingStyle.textColorHex};
+                        }
+                    `;
+                    document.head.appendChild(style);
+                })();
+            """.trimIndent(), null
+        )
     }
 }

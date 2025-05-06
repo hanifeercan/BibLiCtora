@@ -3,10 +3,8 @@ package com.amineaytac.biblictora.ui.reading
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.data.repo.BookRepository
 import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
-import com.amineaytac.biblictora.core.domain.quotes.AddQuoteToBookUseCase
 import com.amineaytac.biblictora.core.domain.readingstatus.UpdatePercentageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,8 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ReadingViewModel @Inject constructor(
     private val updatePercentageUseCase: UpdatePercentageUseCase,
-    private val bookRepository: BookRepository,
-    private val addQuoteToBookUseCase: AddQuoteToBookUseCase
+    private val bookRepository: BookRepository
 ) : ViewModel() {
 
     fun updatePercentage(id: Int, percentage: Int, readingProgress: Int) {
@@ -31,11 +28,5 @@ class ReadingViewModel @Inject constructor(
 
     fun isBookItemReading(itemId: String): LiveData<Boolean> {
         return bookRepository.isBookItemReading(itemId)
-    }
-
-    fun addQuoteToBook(readingBook: ReadingBook, newQuote: String) {
-        viewModelScope.launch {
-            addQuoteToBookUseCase(readingBook, newQuote)
-        }
     }
 }
