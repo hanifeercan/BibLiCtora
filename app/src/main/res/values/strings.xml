@@ -19,6 +19,25 @@
     <string name="try_searching_again">The book you are looking for could not be found. Please try searching again.</string>
     <string name="rv_up">Icon up</string>
 
+    <string name="on_boarding">onBoarding</string>
+    <string name="finished">finished</string>
+
+    <string name="screen_first">Discover a unique world of reading with thousands of books available
+        in over 10 different languages, tailored to every taste.</string>
+    <string name="screen_second">Easily add the books from your device to the app, gather your entire
+        collection in one place, and start reading anytime you like.</string>
+    <string name="screen_third">You can highlight inspiring quotes and bookmark the books you want to revisit.
+        This way, you can easily access your favorite sections.</string>
+    <string name="screen_fourth">Adjust the background color and font size to suit your needs, creating
+        a more comfortable reading experience while protecting your eye sensitivity.</string>
+    <string name="screen_fifth">Build a strong reading habit! Schedule notifications to remind you to
+        read at your preferred times and enjoy the joy of consistent daily reading.</string>
+    <string name="screen_sixth">Add the app\'s main screen widget to your device, greet the day with
+        inspiring quotes from books, and feel the magic of literature by your side at all times.</string>
+
+    <string name="next">Next</string>
+    <string name="got_it">Got It</string>
+
     <string-array name="languages">
         <item>0,English,en</item>
         <item>1,Finnish,fi</item>
