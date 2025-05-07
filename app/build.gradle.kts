@@ -105,10 +105,13 @@ dependencies {
     implementation("com.github.DImuthuUpe:AndroidPdfViewer:3.1.0-beta.1")
 
     //EpubLib
-    implementation("com.github.psiegman.epublib:epublib-core:69ac6b0"){
+    implementation("com.github.psiegman.epublib:epublib-core:69ac6b0") {
         exclude(group = "xmlpull", module = "xmlpull")
     }
 
     //CircleImageView
     implementation("com.github.hdodenhof:CircleImageView:v3.1.0")
+
+    //page indicator
+    implementation("com.tbuonomo:dotsindicator:4.3")
 }
