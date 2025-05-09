@@ -1,14 +1,18 @@
 package com.amineaytac.biblictora
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.amineaytac.biblictora.core.network.NetworkConnection
 import com.amineaytac.biblictora.databinding.ActivityMainBinding
+import com.amineaytac.biblictora.ui.home.HomeFragment
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
 import com.amineaytc.biblictora.util.viewBinding
+import com.yagmurerdogan.toasticlib.Toastic
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,6 +41,27 @@ class MainActivity : AppCompatActivity() {
                 binding.bottomNavigationView.visible()
             } else {
                 binding.bottomNavigationView.gone()
+            }
+        }
+
+        val networkConnection = NetworkConnection(applicationContext)
+        networkConnection.observe(this) { isConnected ->
+            if (isConnected) {
+                val currentFragment = navHostFragment.childFragmentManager.fragments.firstOrNull()
+                if (currentFragment is HomeFragment) {
+                    navHostFragment.childFragmentManager.setFragmentResult(
+                        "successful_connection",
+                        bundleOf("call_view_model_functions_after_successful_connection_run" to true)
+                    )
+                }
+            } else {
+                Toastic.toastic(
+                    context = this,
+                    message = getString(R.string.check_internet_connection),
+                    duration = Toastic.LENGTH_SHORT,
+                    type = Toastic.ERROR,
+                    isIconAnimated = true
+                ).show()
             }
         }
     }
