@@ -30,8 +30,20 @@ import java.util.Calendar
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val binding by viewBinding(FragmentHomeBinding::bind)
+    private val discoverFragment = DiscoverFragment()
+    private val readingListFragment = ReadingListFragment()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        parentFragmentManager.setFragmentResultListener(
+            "successful_connection",
+            viewLifecycleOwner
+        ) { _, result ->
+            if (result.getBoolean("call_view_model_functions_after_successful_connection_run")) {
+                discoverFragment.callViewModelFunctionsAfterSuccessfulConnection()
+            }
+        }
 
         bindTabLayout()
         bindSwitch()
@@ -39,7 +51,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun bindTabLayout() {
         val fragmentList = arrayListOf(
-            DiscoverFragment(), ReadingListFragment()
+            discoverFragment, readingListFragment
         )
 
         val adapter = ViewPagerAdapter(
