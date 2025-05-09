@@ -273,4 +273,27 @@ class DiscoverFragment : Fragment(R.layout.fragment_discover) {
             }
         }
     }
+
+    fun callViewModelFunctionsAfterSuccessfulConnection() {
+        if (bookAdapter.itemCount == 0) {
+            val languages = chipClickStatesToLanguageList()
+            val searchText = viewModel.getSearchText()
+
+            val inputMethodManager =
+                context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+            setComponentVisibility()
+
+            if (searchText.isNotEmpty()) {
+                viewModel.getBooksWithSearchFlow(searchText, languages)
+                viewModel.getBooksWithSearch()
+            } else if (languages.isNotEmpty() && searchText.isEmpty()) {
+                viewModel.getBooksWithLanguagesFlow(languages)
+                viewModel.getBooksWithLanguages()
+            } else {
+                viewModel.getAllBooksFlow()
+                viewModel.getAllBooks()
+            }
+        }
+    }
 }
