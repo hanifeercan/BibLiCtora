@@ -3,6 +3,7 @@ package com.amineaytac.biblictora
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -14,6 +15,8 @@ import com.amineaytac.biblictora.util.visible
 import com.amineaytc.biblictora.util.viewBinding
 import com.yagmurerdogan.toasticlib.Toastic
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -24,11 +27,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
         val navController: NavController = navHostFragment.navController
-        NavigationUI.setupWithNavController(binding.bottomNavigationView,navController)
+        NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
 
-        binding.bottomNavigationView.itemActiveIndicatorColor=null
+        binding.bottomNavigationView.itemActiveIndicatorColor = null
 
         val noBottomNavigationIds = listOf(
             R.id.homeFragment,
@@ -36,14 +40,13 @@ class MainActivity : AppCompatActivity() {
             R.id.favoriteFragment
         )
 
-        navController.addOnDestinationChangedListener { _, destination,_  ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             if (noBottomNavigationIds.contains(destination.id)) {
                 binding.bottomNavigationView.visible()
             } else {
                 binding.bottomNavigationView.gone()
             }
         }
-
         val networkConnection = NetworkConnection(applicationContext)
         networkConnection.observe(this) { isConnected ->
             if (isConnected) {
@@ -55,13 +58,16 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
             } else {
-                Toastic.toastic(
-                    context = this,
-                    message = getString(R.string.check_internet_connection),
-                    duration = Toastic.LENGTH_SHORT,
-                    type = Toastic.ERROR,
-                    isIconAnimated = true
-                ).show()
+                lifecycleScope.launch {
+                    delay(3000)
+                    Toastic.toastic(
+                        context = this@MainActivity,
+                        message = getString(R.string.check_internet_connection),
+                        duration = Toastic.LENGTH_SHORT,
+                        type = Toastic.ERROR,
+                        isIconAnimated = true
+                    ).show()
+                }
             }
         }
     }
