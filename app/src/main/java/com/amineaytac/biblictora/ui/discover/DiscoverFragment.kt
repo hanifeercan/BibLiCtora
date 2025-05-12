@@ -14,6 +14,8 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amineaytac.biblictora.R
+import com.amineaytac.biblictora.core.network.NetworkConnection
+import com.amineaytac.biblictora.core.network.NetworkListener
 import com.amineaytac.biblictora.databinding.FragmentDiscoverBinding
 import com.amineaytac.biblictora.ui.discover.adapter.ChipAdapter
 import com.amineaytac.biblictora.ui.discover.adapter.DiscoverBookAdapter
@@ -23,10 +25,11 @@ import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
 import com.amineaytc.biblictora.util.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.yagmurerdogan.toasticlib.Toastic
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DiscoverFragment : Fragment(R.layout.fragment_discover) {
+class DiscoverFragment : Fragment(R.layout.fragment_discover), NetworkListener {
 
     private val binding by viewBinding(FragmentDiscoverBinding::bind)
     private val viewModel: DiscoverViewModel by viewModels()
@@ -47,6 +50,24 @@ class DiscoverFragment : Fragment(R.layout.fragment_discover) {
         bindBookAdapter()
         observeUi()
         bindBackDrop()
+        
+        val networkConnection = NetworkConnection(requireContext())
+        networkConnection.observe(viewLifecycleOwner) { isConnected ->
+            onNetworkStateChanged(isConnected)
+        }
+    }
+
+    override fun onNetworkStateChanged(isConnected: Boolean) {
+
+        if (!isConnected) {
+            Toastic.toastic(
+                context = requireContext(),
+                message = getString(R.string.check_internet_connection),
+                duration = Toastic.LENGTH_SHORT,
+                type = Toastic.ERROR,
+                isIconAnimated = true
+            ).show()
+        }
     }
 
     private fun bindChipAdapter() = with(binding) {

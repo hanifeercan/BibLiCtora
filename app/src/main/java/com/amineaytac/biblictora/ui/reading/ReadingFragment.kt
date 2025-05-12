@@ -22,6 +22,8 @@ import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.data.repo.toReadingBook
+import com.amineaytac.biblictora.core.network.NetworkConnection
+import com.amineaytac.biblictora.core.network.NetworkListener
 import com.amineaytac.biblictora.databinding.FragmentReadingBinding
 import com.amineaytac.biblictora.ui.basereading.BaseReadingFragment
 import com.amineaytac.biblictora.ui.basereading.ReadingStyleManager
@@ -36,7 +38,7 @@ import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
-class ReadingFragment : BaseReadingFragment() {
+class ReadingFragment : BaseReadingFragment(), NetworkListener {
 
     private lateinit var binding: FragmentReadingBinding
     private val viewModel: ReadingViewModel by viewModels()
@@ -71,6 +73,11 @@ class ReadingFragment : BaseReadingFragment() {
                 type = Toastic.ERROR,
                 isIconAnimated = true
             ).show()
+        }
+
+        val networkConnection = NetworkConnection(requireContext())
+        networkConnection.observe(viewLifecycleOwner) { isConnected ->
+            onNetworkStateChanged(isConnected)
         }
     }
 
@@ -234,5 +241,17 @@ class ReadingFragment : BaseReadingFragment() {
                 })();
             """.trimIndent(), null
         )
+    }
+
+    override fun onNetworkStateChanged(isConnected: Boolean) {
+        if (!isConnected) {
+            Toastic.toastic(
+                context = requireContext(),
+                message = getString(R.string.check_internet_connection),
+                duration = Toastic.LENGTH_SHORT,
+                type = Toastic.ERROR,
+                isIconAnimated = true
+            ).show()
+        }
     }
 }
