@@ -2,21 +2,18 @@ package com.amineaytac.biblictora
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.amineaytac.biblictora.core.network.NetworkConnection
 import com.amineaytac.biblictora.databinding.ActivityMainBinding
 import com.amineaytac.biblictora.ui.home.HomeFragment
+import com.amineaytac.biblictora.ui.splash.SplashFragment
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
 import com.amineaytc.biblictora.util.viewBinding
 import com.yagmurerdogan.toasticlib.Toastic
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -49,17 +46,9 @@ class MainActivity : AppCompatActivity() {
         }
         val networkConnection = NetworkConnection(applicationContext)
         networkConnection.observe(this) { isConnected ->
-            if (isConnected) {
+            if (!isConnected) {
                 val currentFragment = navHostFragment.childFragmentManager.fragments.firstOrNull()
-                if (currentFragment is HomeFragment) {
-                    navHostFragment.childFragmentManager.setFragmentResult(
-                        "successful_connection",
-                        bundleOf("call_view_model_functions_after_successful_connection_run" to true)
-                    )
-                }
-            } else {
-                lifecycleScope.launch {
-                    delay(3000)
+                if (currentFragment !is SplashFragment && currentFragment !is HomeFragment) {
                     Toastic.toastic(
                         context = this@MainActivity,
                         message = getString(R.string.check_internet_connection),
