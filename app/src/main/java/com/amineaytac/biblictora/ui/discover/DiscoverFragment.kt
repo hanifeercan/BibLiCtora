@@ -25,7 +25,6 @@ import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
 import com.amineaytc.biblictora.util.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.yagmurerdogan.toasticlib.Toastic
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,7 +49,7 @@ class DiscoverFragment : Fragment(R.layout.fragment_discover), NetworkListener {
         bindBookAdapter()
         observeUi()
         bindBackDrop()
-        
+
         val networkConnection = NetworkConnection(requireContext())
         networkConnection.observe(viewLifecycleOwner) { isConnected ->
             onNetworkStateChanged(isConnected)
@@ -60,14 +59,14 @@ class DiscoverFragment : Fragment(R.layout.fragment_discover), NetworkListener {
     override fun onNetworkStateChanged(isConnected: Boolean) {
 
         if (!isConnected) {
-            Toastic.toastic(
-                context = requireContext(),
-                message = getString(R.string.check_internet_connection),
-                duration = Toastic.LENGTH_SHORT,
-                type = Toastic.ERROR,
-                isIconAnimated = true
-            ).show()
+            onInternetDisconnected(requireContext())
+        } else {
+            onInternetConnected(requireContext())
         }
+    }
+
+    override fun onInternetConnected(context: Context) {
+        callViewModelFunctionsAfterSuccessfulConnection()
     }
 
     private fun bindChipAdapter() = with(binding) {
@@ -295,7 +294,7 @@ class DiscoverFragment : Fragment(R.layout.fragment_discover), NetworkListener {
         }
     }
 
-    fun callViewModelFunctionsAfterSuccessfulConnection() {
+    private fun callViewModelFunctionsAfterSuccessfulConnection() {
         if (bookAdapter.itemCount == 0) {
             val languages = chipClickStatesToLanguageList()
             val searchText = viewModel.getSearchText()
