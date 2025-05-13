@@ -1,6 +1,7 @@
 package com.amineaytac.biblictora.ui.reading
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.ActionMode
@@ -121,8 +122,7 @@ class ReadingFragment : BaseReadingFragment(), NetworkListener {
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
 
-                val gestureDetector = GestureDetector(
-                    requireContext(),
+                val gestureDetector = GestureDetector(requireContext(),
                     object : GestureDetector.SimpleOnGestureListener() {
                         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                             if (btnAddQuote.visibility == View.VISIBLE) {
@@ -245,13 +245,13 @@ class ReadingFragment : BaseReadingFragment(), NetworkListener {
 
     override fun onNetworkStateChanged(isConnected: Boolean) {
         if (!isConnected) {
-            Toastic.toastic(
-                context = requireContext(),
-                message = getString(R.string.check_internet_connection),
-                duration = Toastic.LENGTH_SHORT,
-                type = Toastic.ERROR,
-                isIconAnimated = true
-            ).show()
+            onInternetDisconnected(requireContext())
+        } else {
+            onInternetConnected(requireContext())
         }
+    }
+
+    override fun onInternetConnected(context: Context) {
+        bindWebView(readingBook)
     }
 }
