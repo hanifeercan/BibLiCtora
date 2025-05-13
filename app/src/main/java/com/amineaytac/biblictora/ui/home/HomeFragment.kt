@@ -36,15 +36,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        parentFragmentManager.setFragmentResultListener(
-            "successful_connection",
-            viewLifecycleOwner
-        ) { _, result ->
-            if (result.getBoolean("call_view_model_functions_after_successful_connection_run")) {
-                discoverFragment.callViewModelFunctionsAfterSuccessfulConnection()
-            }
-        }
-
         bindTabLayout()
         bindSwitch()
     }
