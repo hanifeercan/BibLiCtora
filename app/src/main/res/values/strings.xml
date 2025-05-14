@@ -126,4 +126,5 @@
     <string name="could_not_file">Could not select file</string>
     <string name="Aa">Aa</string>
     <string name="file_not_exist">File not exist!</string>
+    <string name="check_internet_connection">Please check your internet connection!</string>
 </resources>

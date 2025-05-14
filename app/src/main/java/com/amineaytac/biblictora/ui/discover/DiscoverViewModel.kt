@@ -39,7 +39,7 @@ class DiscoverViewModel @Inject constructor(
         getAllBooksFlow()
     }
 
-    private fun getAllBooksFlow() {
+    fun getAllBooksFlow() {
         viewModelScope.launch {
             allBooksFlow = getAllBooksUseCase().cachedIn(this)
         }

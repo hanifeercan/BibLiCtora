@@ -1,6 +1,7 @@
 package com.amineaytac.biblictora.ui.reading
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.ActionMode
@@ -22,6 +23,8 @@ import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.data.repo.toReadingBook
+import com.amineaytac.biblictora.core.network.NetworkConnection
+import com.amineaytac.biblictora.core.network.NetworkListener
 import com.amineaytac.biblictora.databinding.FragmentReadingBinding
 import com.amineaytac.biblictora.ui.basereading.BaseReadingFragment
 import com.amineaytac.biblictora.ui.basereading.ReadingStyleManager
@@ -36,7 +39,7 @@ import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
-class ReadingFragment : BaseReadingFragment() {
+class ReadingFragment : BaseReadingFragment(), NetworkListener {
 
     private lateinit var binding: FragmentReadingBinding
     private val viewModel: ReadingViewModel by viewModels()
@@ -71,6 +74,11 @@ class ReadingFragment : BaseReadingFragment() {
                 type = Toastic.ERROR,
                 isIconAnimated = true
             ).show()
+        }
+
+        val networkConnection = NetworkConnection(requireContext())
+        networkConnection.observe(viewLifecycleOwner) { isConnected ->
+            onNetworkStateChanged(isConnected)
         }
     }
 
@@ -114,8 +122,7 @@ class ReadingFragment : BaseReadingFragment() {
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
 
-                val gestureDetector = GestureDetector(
-                    requireContext(),
+                val gestureDetector = GestureDetector(requireContext(),
                     object : GestureDetector.SimpleOnGestureListener() {
                         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                             if (btnAddQuote.visibility == View.VISIBLE) {
@@ -234,5 +241,17 @@ class ReadingFragment : BaseReadingFragment() {
                 })();
             """.trimIndent(), null
         )
+    }
+
+    override fun onNetworkStateChanged(isConnected: Boolean) {
+        if (!isConnected) {
+            onInternetDisconnected(requireContext())
+        } else {
+            onInternetConnected(requireContext())
+        }
+    }
+
+    override fun onInternetConnected(context: Context) {
+        bindWebView(readingBook)
     }
 }

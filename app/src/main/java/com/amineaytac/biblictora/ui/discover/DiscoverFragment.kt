@@ -14,6 +14,8 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amineaytac.biblictora.R
+import com.amineaytac.biblictora.core.network.NetworkConnection
+import com.amineaytac.biblictora.core.network.NetworkListener
 import com.amineaytac.biblictora.databinding.FragmentDiscoverBinding
 import com.amineaytac.biblictora.ui.discover.adapter.ChipAdapter
 import com.amineaytac.biblictora.ui.discover.adapter.DiscoverBookAdapter
@@ -26,7 +28,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DiscoverFragment : Fragment(R.layout.fragment_discover) {
+class DiscoverFragment : Fragment(R.layout.fragment_discover), NetworkListener {
 
     private val binding by viewBinding(FragmentDiscoverBinding::bind)
     private val viewModel: DiscoverViewModel by viewModels()
@@ -47,6 +49,24 @@ class DiscoverFragment : Fragment(R.layout.fragment_discover) {
         bindBookAdapter()
         observeUi()
         bindBackDrop()
+
+        val networkConnection = NetworkConnection(requireContext())
+        networkConnection.observe(viewLifecycleOwner) { isConnected ->
+            onNetworkStateChanged(isConnected)
+        }
+    }
+
+    override fun onNetworkStateChanged(isConnected: Boolean) {
+
+        if (!isConnected) {
+            onInternetDisconnected(requireContext())
+        } else {
+            onInternetConnected(requireContext())
+        }
+    }
+
+    override fun onInternetConnected(context: Context) {
+        callViewModelFunctionsAfterSuccessfulConnection()
     }
 
     private fun bindChipAdapter() = with(binding) {
@@ -270,6 +290,29 @@ class DiscoverFragment : Fragment(R.layout.fragment_discover) {
                     bindBookAdapter()
                     bookAdapter.submitData(lifecycle, it.books)
                 }
+            }
+        }
+    }
+
+    private fun callViewModelFunctionsAfterSuccessfulConnection() {
+        if (bookAdapter.itemCount == 0) {
+            val languages = chipClickStatesToLanguageList()
+            val searchText = viewModel.getSearchText()
+
+            val inputMethodManager =
+                context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+            setComponentVisibility()
+
+            if (searchText.isNotEmpty()) {
+                viewModel.getBooksWithSearchFlow(searchText, languages)
+                viewModel.getBooksWithSearch()
+            } else if (languages.isNotEmpty() && searchText.isEmpty()) {
+                viewModel.getBooksWithLanguagesFlow(languages)
+                viewModel.getBooksWithLanguages()
+            } else {
+                viewModel.getAllBooksFlow()
+                viewModel.getAllBooks()
             }
         }
     }
