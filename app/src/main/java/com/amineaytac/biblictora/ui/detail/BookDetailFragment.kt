@@ -16,6 +16,7 @@ import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.data.repo.toReadingBook
 import com.amineaytac.biblictora.databinding.FragmentBookDetailBinding
 import com.amineaytac.biblictora.util.gone
+import com.amineaytac.biblictora.util.lightenColor
 import com.amineaytc.biblictora.util.viewBinding
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +31,7 @@ class BookDetailFragment : Fragment(R.layout.fragment_book_detail) {
 
     private val binding by viewBinding(FragmentBookDetailBinding::bind)
     private val viewModel: BookDetailViewModel by viewModels()
-    private var isFavorited = false
+    private var isFavorite = false
     private var readingBook: ReadingBook? = null
     private var isAddBookInReadingList = false
 
@@ -39,21 +40,10 @@ class BookDetailFragment : Fragment(R.layout.fragment_book_detail) {
         bindUI()
     }
 
-    private fun createTransparentColor(color: Int): Int {
-        val alpha = Color.alpha(color)
-        val red = Color.red(color)
-        val green = Color.green(color)
-        val blue = Color.blue(color)
-
-        val transparentAlpha = (alpha * 0.5f).toInt()
-
-        return Color.argb(transparentAlpha, red, green, blue)
-    }
-
     private fun bindUI() = with(binding) {
         if (arguments != null) {
             val book = BookDetailFragmentArgs.fromBundle(requireArguments()).book
-            observeIsItemFavorited(book)
+            observeIsItemFavorite(book)
             observeIsItemReading(book)
             setReadingStateClickListener(book)
             bindReadingNow(book)
@@ -92,12 +82,12 @@ class BookDetailFragment : Fragment(R.layout.fragment_book_detail) {
                 val dominantColor = palette?.dominantSwatch?.rgb ?: 0
                 if (dominantColor != 0) {
 
-                    val transparentDominantColor = createTransparentColor(dominantColor)
+                    val newColor = dominantColor.lightenColor()
                     val vibrantColor = palette?.vibrantSwatch?.rgb ?: 0
 
-                    llLanguages.setBackgroundColor(transparentDominantColor)
-                    llBookshelves.setBackgroundColor(transparentDominantColor)
-                    llReadInfo.setBackgroundColor(transparentDominantColor)
+                    llLanguages.setBackgroundColor(newColor)
+                    llBookshelves.setBackgroundColor(newColor)
+                    llReadInfo.setBackgroundColor(newColor)
 
                     if (vibrantColor != 0) {
                         if (calculateColorDistanceToWhite(vibrantColor) < 200) {
@@ -135,9 +125,9 @@ class BookDetailFragment : Fragment(R.layout.fragment_book_detail) {
         )
     }
 
-    private fun observeIsItemFavorited(book: Book) {
+    private fun observeIsItemFavorite(book: Book) {
         viewModel.isItemFavorited(book.id.toString()).observe(viewLifecycleOwner) {
-            isFavorited = it
+            isFavorite = it
             bindHeartView(book)
         }
     }
@@ -351,20 +341,20 @@ class BookDetailFragment : Fragment(R.layout.fragment_book_detail) {
         }
     }
 
-    private fun onFavoriteClickListener(book: Book, isFavorited: Boolean) {
-        if (isFavorited) {
+    private fun onFavoriteClickListener(book: Book, isFavorite: Boolean) {
+        if (isFavorite) {
             viewModel.addFavoriteItem(book)
         } else {
             viewModel.deleteFavoriteItem(book)
         }
-        observeIsItemFavorited(book)
+        observeIsItemFavorite(book)
     }
 
     private fun bindHeartView(book: Book) = with(binding) {
-        heartView.isClicked = isFavorited
+        heartView.isClicked = isFavorite
         heartView.changeColor()
         heartView.setOnFavoriteClickListener {
-            if (isFavorited) {
+            if (isFavorite) {
                 onFavoriteClickListener(book, false)
             } else {
                 onFavoriteClickListener(book, true)
