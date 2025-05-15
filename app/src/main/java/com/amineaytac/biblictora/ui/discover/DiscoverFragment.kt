@@ -4,8 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.SearchView
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -234,6 +235,20 @@ class DiscoverFragment : Fragment(R.layout.fragment_discover), NetworkListener {
 
     private fun bindSearchView() = with(binding) {
 
+        searchContainer.setOnClickListener {
+            searchView.isIconified = false
+            searchView.requestFocus()
+        }
+
+        val closeButton = searchView.findViewById<ImageView>(
+            androidx.appcompat.R.id.search_close_btn
+        )
+
+        closeButton.setOnClickListener {
+            searchView.setQuery("", false)
+            searchView.clearFocus()
+            searchView.isIconified = true
+        }
         searchView.setQuery(viewModel.getSearchText(), false)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
