@@ -25,18 +25,25 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_16sdp"
                 android:contentDescription="@string/image_button"
-                android:src="@drawable/ic_world" />
+                android:src="@drawable/ic_world"
+                tools:ignore="RedundantDescriptionCheck" />
 
-            <SearchView
-                android:id="@+id/searchView"
+            <FrameLayout
+                android:id="@+id/searchContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_8sdp"
                 android:layout_marginRight="@dimen/_8sdp"
-                android:background="@drawable/bg_search"
-                android:closeIcon="@drawable/ic_close"
-                android:searchIcon="@drawable/ic_search"
-                android:theme="@style/CustomSearchViewStyle" />
+                android:clickable="true"
+                android:focusable="true">
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_search"
+                    android:theme="@style/CustomSearchViewStyle" />
+            </FrameLayout>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -48,7 +55,7 @@
             android:layout_marginTop="@dimen/_12sdp"
             android:orientation="horizontal" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnShowResults"
             style="@style/Text.H2"
             android:layout_width="wrap_content"
@@ -57,9 +64,16 @@
             android:layout_marginTop="@dimen/_16sdp"
             android:layout_marginEnd="@dimen/_16sdp"
             android:layout_marginBottom="@dimen/_16sdp"
-            android:backgroundTint="@color/medium_grey_green"
+            android:background="@drawable/bg_corners_button3"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="8dp"
+            android:minHeight="1dp"
+            android:paddingHorizontal="@dimen/_8sdp"
+            android:paddingVertical="@dimen/_4sdp"
             android:text="@string/show_results"
-            android:textColor="@color/oyster_island" />
+            android:textAllCaps="false"
+            android:textColor="@color/oyster_island"
+            tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
     <!--This is the backdrop's content with a BottomSheetBehaviour applied to it-->
@@ -155,6 +169,7 @@
                     android:id="@+id/ivFailurePicture"
                     android:layout_width="@dimen/_200sdp"
                     android:layout_height="@dimen/_200sdp"
+                    android:contentDescription="@string/failure_picture"
                     android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@id/tvFailureText"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -163,10 +178,13 @@
 
                 <TextView
                     android:id="@+id/tvFailureText"
-                    style="@style/Text.H3"
-                    android:layout_width="wrap_content"
+                    style="@style/Text.H5"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
                     android:gravity="center"
+                    android:textAlignment="center"
                     android:textColor="@color/black"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"

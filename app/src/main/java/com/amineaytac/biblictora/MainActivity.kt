@@ -11,7 +11,7 @@ import com.amineaytac.biblictora.ui.home.HomeFragment
 import com.amineaytac.biblictora.ui.splash.SplashFragment
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
-import com.amineaytc.biblictora.util.viewBinding
+import com.amineaytac.biblictora.util.viewBinding
 import com.yagmurerdogan.toasticlib.Toastic
 import dagger.hilt.android.AndroidEntryPoint
 

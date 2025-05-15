@@ -14,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
@@ -86,7 +85,7 @@ class ReadingFragment : BaseReadingFragment(), NetworkListener {
         toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-        tvBookDetail.setOnClickListener {
+        ivBookDetail.setOnClickListener {
             readingBook.apply {
                 val book = Book(id, authors, bookshelves, languages, title, formats, image)
                 findNavController().navigate(
@@ -122,7 +121,8 @@ class ReadingFragment : BaseReadingFragment(), NetworkListener {
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
 
-                val gestureDetector = GestureDetector(requireContext(),
+                val gestureDetector = GestureDetector(
+                    requireContext(),
                     object : GestureDetector.SimpleOnGestureListener() {
                         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                             if (btnAddQuote.visibility == View.VISIBLE) {
@@ -200,8 +200,12 @@ class ReadingFragment : BaseReadingFragment(), NetworkListener {
             if (it) {
                 observeGetItemReading(readingBook.id.toString())
             } else {
-                Toast.makeText(
-                    requireContext(), R.string.reading_book_error, Toast.LENGTH_LONG
+                Toastic.toastic(
+                    context = requireContext(),
+                    message = getString(R.string.reading_book_error),
+                    duration = Toastic.LENGTH_SHORT,
+                    type = Toastic.ERROR,
+                    isIconAnimated = true
                 ).show()
                 findNavController().popBackStack()
             }

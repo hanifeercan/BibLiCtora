@@ -11,7 +11,7 @@ import com.amineaytac.biblictora.databinding.FragmentReadingListBinding
 import com.amineaytac.biblictora.ui.home.HomeFragmentDirections
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
-import com.amineaytc.biblictora.util.viewBinding
+import com.amineaytac.biblictora.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,18 +44,16 @@ class ReadingListFragment : Fragment(R.layout.fragment_reading_list) {
         viewModel.readingBookScreenUiState.observe(viewLifecycleOwner) {
             when {
                 it.isError -> {
-                    tvInfo.text = it.errorMessage
-                    tvInfo.visible()
                     progressBar.gone()
+                    ivEmptyImage.visible()
                 }
 
                 else -> {
                     if (it.books.isEmpty()) {
-                        tvInfo.setText(R.string.reading_list_empty)
-                        tvInfo.visible()
+                        ivEmptyImage.visible()
                         progressBar.gone()
                     } else {
-                        tvInfo.gone()
+                        ivEmptyImage.gone()
                         bookAdapter.submitList(it.books) {
                             progressBar.gone()
                         }

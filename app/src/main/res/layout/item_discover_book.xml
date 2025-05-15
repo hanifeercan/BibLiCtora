@@ -1,35 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:ignore="MissingDefaultResource">
 
     <com.amineaytac.biblictora.ui.discover.customview.BookItemLayout
         android:id="@+id/bookItemLayout"
-        android:layout_width="@dimen/_130sdp"
-        android:layout_height="@dimen/_140sdp"
-        android:layout_marginStart="@dimen/_11sdp"
-        android:layout_marginBottom="@dimen/_8sdp">
+        android:layout_width="@dimen/_110sdp"
+        android:layout_height="@dimen/_120sdp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/_16sdp">
 
         <FrameLayout
-            android:layout_width="@dimen/_80sdp"
-            android:layout_height="@dimen/_110sdp"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_90sdp"
             android:layout_gravity="top|end">
 
             <com.amineaytac.biblictora.ui.discover.customview.BookPictureView
                 android:id="@+id/pictureView"
-                android:layout_width="@dimen/_80sdp"
-                android:layout_height="@dimen/_110sdp" />
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_90sdp" />
 
             <ProgressBar
                 android:id="@+id/progressBarPicture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
                 android:layout_gravity="center"
                 android:indeterminateTint="@color/moselle_green" />
         </FrameLayout>
-
 
         <TextView
             android:id="@+id/tvName"

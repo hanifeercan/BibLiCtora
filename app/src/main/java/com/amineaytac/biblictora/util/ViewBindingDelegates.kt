@@ -1,4 +1,4 @@
-package com.amineaytc.biblictora.util
+package com.amineaytac.biblictora.util
 
 import android.view.LayoutInflater
 import android.view.View

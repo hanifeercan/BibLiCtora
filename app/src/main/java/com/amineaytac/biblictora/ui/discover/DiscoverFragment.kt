@@ -4,8 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.SearchView
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,7 +24,7 @@ import com.amineaytac.biblictora.ui.discover.adapter.LoaderAdapter
 import com.amineaytac.biblictora.ui.home.HomeFragmentDirections
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
-import com.amineaytc.biblictora.util.viewBinding
+import com.amineaytac.biblictora.util.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -146,11 +147,30 @@ class DiscoverFragment : Fragment(R.layout.fragment_discover), NetworkListener {
         }
     }
 
+    private fun setupScrollListener() = with(binding) {
+        rvBook.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val layoutManager = recyclerView.layoutManager as? GridLayoutManager ?: return
+
+                val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
+
+                if (dy > 0 && firstVisiblePosition > 0) {
+                    binding.floatingButton.visible()
+                } else if (firstVisiblePosition == 0) {
+                    binding.floatingButton.gone()
+                }
+            }
+        })
+    }
+
     private fun bindBackDrop() = with(binding) {
 
         floatingButton.setOnClickListener {
             rvBook.scrollToPosition(0)
         }
+
+        setupScrollListener()
 
         rvBook.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -234,6 +254,20 @@ class DiscoverFragment : Fragment(R.layout.fragment_discover), NetworkListener {
 
     private fun bindSearchView() = with(binding) {
 
+        searchContainer.setOnClickListener {
+            searchView.isIconified = false
+            searchView.requestFocus()
+        }
+
+        val closeButton = searchView.findViewById<ImageView>(
+            androidx.appcompat.R.id.search_close_btn
+        )
+
+        closeButton.setOnClickListener {
+            searchView.setQuery("", false)
+            searchView.clearFocus()
+            searchView.isIconified = true
+        }
         searchView.setQuery(viewModel.getSearchText(), false)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {

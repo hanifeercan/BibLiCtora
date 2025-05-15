@@ -5,6 +5,7 @@
     android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.detail.BookDetailFragment">
 
     <ScrollView
@@ -184,7 +185,8 @@
                                             android:layout_height="wrap_content"
                                             android:paddingHorizontal="@dimen/_8sdp"
                                             android:text="@string/will_read"
-                                            android:textColor="@color/digital" />
+                                            android:textColor="@color/digital"
+                                            tools:ignore="TextContrastCheck" />
                                     </LinearLayout>
 
                                     <ImageView
@@ -214,7 +216,8 @@
                                             android:layout_height="wrap_content"
                                             android:paddingHorizontal="@dimen/_8sdp"
                                             android:text="@string/reading"
-                                            android:textColor="@color/digital" />
+                                            android:textColor="@color/digital"
+                                            tools:ignore="TextContrastCheck" />
                                     </LinearLayout>
 
                                     <ImageView
@@ -244,7 +247,8 @@
                                             android:layout_height="wrap_content"
                                             android:paddingHorizontal="@dimen/_8sdp"
                                             android:text="@string/have_read"
-                                            android:textColor="@color/digital" />
+                                            android:textColor="@color/digital"
+                                            tools:ignore="TextContrastCheck" />
                                     </LinearLayout>
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
@@ -264,7 +268,8 @@
                             android:textColor="@color/highlight"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:ignore="VisualLintButtonSize" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
@@ -305,7 +310,8 @@
                         android:layout_gravity="end"
                         android:layout_marginTop="@dimen/_16sdp"
                         android:layout_marginEnd="@dimen/_14sdp"
-                        android:contentDescription="@string/heart_view" />
+                        android:contentDescription="@string/heart_view"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>

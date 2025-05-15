@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialLayout="@layout/widget_layout"
-    android:minWidth="@dimen/_300sdp"
-    android:minHeight="@dimen/_120sdp"
+    android:minWidth="@dimen/_230sdp"
+    android:minHeight="@dimen/_80sdp"
     android:previewImage="@drawable/ic_biblictora"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="60000"
