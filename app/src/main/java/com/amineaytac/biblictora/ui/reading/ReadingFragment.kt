@@ -86,7 +86,7 @@ class ReadingFragment : BaseReadingFragment(), NetworkListener {
         toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-        tvBookDetail.setOnClickListener {
+        ivBookDetail.setOnClickListener {
             readingBook.apply {
                 val book = Book(id, authors, bookshelves, languages, title, formats, image)
                 findNavController().navigate(

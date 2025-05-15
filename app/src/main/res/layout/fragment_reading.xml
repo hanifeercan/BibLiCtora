@@ -25,19 +25,22 @@
             android:orientation="horizontal"
             tools:ignore="UseCompoundDrawables">
 
-            <TextView
-                android:id="@+id/tvBookDetail"
-                style="@style/Text.H11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/iv_book_detail"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/_8sdp"
-                android:text="@string/book_detail" />
+                android:contentDescription="@string/book_detail"
+                android:src="@drawable/ic_biblictora_book"
+                tools:ignore="ImageContrastCheck" />
 
             <TextView
                 android:id="@+id/tvSetStyle"
                 style="@style/Text.H7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="@string/Aa"
                 tools:ignore="TextSizeCheck" />
 
