@@ -23,6 +23,7 @@
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
             android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/_4sdp"
             android:text="@string/Aa"
             tools:ignore="TextSizeCheck"
             tools:layout_editor_absoluteX="365dp"
