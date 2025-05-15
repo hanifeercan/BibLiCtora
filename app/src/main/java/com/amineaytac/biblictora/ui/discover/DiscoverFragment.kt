@@ -147,11 +147,30 @@ class DiscoverFragment : Fragment(R.layout.fragment_discover), NetworkListener {
         }
     }
 
+    private fun setupScrollListener() = with(binding) {
+        rvBook.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val layoutManager = recyclerView.layoutManager as? GridLayoutManager ?: return
+
+                val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
+
+                if (dy > 0 && firstVisiblePosition > 0) {
+                    binding.floatingButton.visible()
+                } else if (firstVisiblePosition == 0) {
+                    binding.floatingButton.gone()
+                }
+            }
+        })
+    }
+
     private fun bindBackDrop() = with(binding) {
 
         floatingButton.setOnClickListener {
             rvBook.scrollToPosition(0)
         }
+
+        setupScrollListener()
 
         rvBook.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
