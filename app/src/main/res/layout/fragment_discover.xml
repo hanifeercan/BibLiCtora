@@ -55,7 +55,7 @@
             android:layout_marginTop="@dimen/_12sdp"
             android:orientation="horizontal" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnShowResults"
             style="@style/Text.H2"
             android:layout_width="wrap_content"
@@ -64,9 +64,16 @@
             android:layout_marginTop="@dimen/_16sdp"
             android:layout_marginEnd="@dimen/_16sdp"
             android:layout_marginBottom="@dimen/_16sdp"
-            android:backgroundTint="@color/medium_grey_green"
+            android:background="@drawable/bg_corners_button3"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="8dp"
+            android:minHeight="1dp"
+            android:paddingHorizontal="@dimen/_8sdp"
+            android:paddingVertical="@dimen/_4sdp"
             android:text="@string/show_results"
-            android:textColor="@color/oyster_island" />
+            android:textAllCaps="false"
+            android:textColor="@color/oyster_island"
+            tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
     <!--This is the backdrop's content with a BottomSheetBehaviour applied to it-->
