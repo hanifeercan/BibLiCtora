@@ -7,7 +7,7 @@ import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.databinding.FragmentFavoriteBinding
 import com.amineaytac.biblictora.ui.favoritebooks.FavoriteBooksFragment
 import com.amineaytac.biblictora.ui.quotes.QuotesFragment
-import com.amineaytc.biblictora.util.viewBinding
+import com.amineaytac.biblictora.util.viewBinding
 
 class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 

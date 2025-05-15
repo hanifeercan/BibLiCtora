@@ -17,7 +17,7 @@ import com.amineaytac.biblictora.core.data.repo.toReadingBook
 import com.amineaytac.biblictora.databinding.FragmentBookDetailBinding
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.lightenColor
-import com.amineaytc.biblictora.util.viewBinding
+import com.amineaytac.biblictora.util.viewBinding
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope

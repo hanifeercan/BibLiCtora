@@ -24,7 +24,7 @@ import com.amineaytac.biblictora.ui.discover.adapter.LoaderAdapter
 import com.amineaytac.biblictora.ui.home.HomeFragmentDirections
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
-import com.amineaytc.biblictora.util.viewBinding
+import com.amineaytac.biblictora.util.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 

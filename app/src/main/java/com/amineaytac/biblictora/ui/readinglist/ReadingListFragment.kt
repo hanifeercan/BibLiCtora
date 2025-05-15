@@ -11,7 +11,7 @@ import com.amineaytac.biblictora.databinding.FragmentReadingListBinding
 import com.amineaytac.biblictora.ui.home.HomeFragmentDirections
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
-import com.amineaytc.biblictora.util.viewBinding
+import com.amineaytac.biblictora.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

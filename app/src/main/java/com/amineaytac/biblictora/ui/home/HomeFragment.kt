@@ -21,7 +21,7 @@ import com.amineaytac.biblictora.ui.discover.DiscoverFragment
 import com.amineaytac.biblictora.ui.home.notification.AlarmReceiver
 import com.amineaytac.biblictora.ui.home.notification.PreferenceHelper
 import com.amineaytac.biblictora.ui.readinglist.ReadingListFragment
-import com.amineaytc.biblictora.util.viewBinding
+import com.amineaytac.biblictora.util.viewBinding
 import com.yagmurerdogan.toasticlib.Toastic
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar

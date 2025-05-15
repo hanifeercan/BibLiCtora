@@ -20,7 +20,7 @@ import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.databinding.FragmentQuotesBinding
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.visible
-import com.amineaytc.biblictora.util.viewBinding
+import com.amineaytac.biblictora.util.viewBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Picasso

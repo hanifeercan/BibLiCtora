@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.databinding.FragmentPdfViewerBinding
-import com.amineaytc.biblictora.util.viewBinding
+import com.amineaytac.biblictora.util.viewBinding
 import com.yagmurerdogan.toasticlib.Toastic
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
