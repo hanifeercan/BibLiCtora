@@ -5,6 +5,7 @@
     android:id="@+id/motionLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     app:layoutDescription="@xml/quotes_fragment_scene"
     tools:context=".ui.quotes.QuotesFragment">
 
@@ -86,10 +87,10 @@
                         android:layout_marginTop="@dimen/_90sdp"
                         android:gravity="center"
                         android:paddingHorizontal="@dimen/_16sdp"
-                        tools:text="@string/anonymous"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="@string/anonymous" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_quote_list"
@@ -131,8 +132,8 @@
                     android:layout_marginBottom="@dimen/_4sdp"
                     android:gravity="center"
                     android:paddingHorizontal="@dimen/_2sdp"
-                    tools:text="@string/anonymous"
-                    android:textColor="@color/highlight" />
+                    android:textColor="@color/highlight"
+                    tools:text="@string/anonymous" />
 
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
