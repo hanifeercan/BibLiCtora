@@ -10,7 +10,6 @@ import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -23,6 +22,7 @@ import com.amineaytac.biblictora.ui.home.notification.AlarmReceiver
 import com.amineaytac.biblictora.ui.home.notification.PreferenceHelper
 import com.amineaytac.biblictora.ui.readinglist.ReadingListFragment
 import com.amineaytc.biblictora.util.viewBinding
+import com.yagmurerdogan.toasticlib.Toastic
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 
@@ -81,7 +81,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 switchNotification.thumbTintList =
                     ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
                 preferenceHelper.setHourAndMinute(-1, -1)
-                Toast.makeText(requireContext(), R.string.no_notification, Toast.LENGTH_LONG).show()
+                Toastic.toastic(
+                    context = requireContext(),
+                    message = getString(R.string.no_notification),
+                    duration = Toastic.LENGTH_SHORT,
+                    type = Toastic.WARNING,
+                    isIconAnimated = true
+                ).show()
             }
         }
     }
