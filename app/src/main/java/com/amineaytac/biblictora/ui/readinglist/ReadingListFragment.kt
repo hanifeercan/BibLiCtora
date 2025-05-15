@@ -44,18 +44,16 @@ class ReadingListFragment : Fragment(R.layout.fragment_reading_list) {
         viewModel.readingBookScreenUiState.observe(viewLifecycleOwner) {
             when {
                 it.isError -> {
-                    tvInfo.text = it.errorMessage
-                    tvInfo.visible()
                     progressBar.gone()
+                    ivEmptyImage.visible()
                 }
 
                 else -> {
                     if (it.books.isEmpty()) {
-                        tvInfo.setText(R.string.reading_list_empty)
-                        tvInfo.visible()
+                        ivEmptyImage.visible()
                         progressBar.gone()
                     } else {
-                        tvInfo.gone()
+                        ivEmptyImage.gone()
                         bookAdapter.submitList(it.books) {
                             progressBar.gone()
                         }
