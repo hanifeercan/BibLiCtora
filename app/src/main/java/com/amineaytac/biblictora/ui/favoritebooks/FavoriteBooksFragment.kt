@@ -23,6 +23,7 @@ import com.amineaytac.biblictora.ui.quotes.ItemTouchInterceptor
 import com.amineaytac.biblictora.ui.quotes.QuotesFragment
 import com.amineaytac.biblictora.ui.quotes.setTransitionListener
 import com.amineaytac.biblictora.util.gone
+import com.amineaytac.biblictora.util.lightenColor
 import com.amineaytac.biblictora.util.visible
 import com.amineaytc.biblictora.util.viewBinding
 import com.squareup.picasso.Picasso
@@ -152,15 +153,6 @@ class FavoriteBooksFragment : Fragment(R.layout.fragment_favorite_books) {
             })
             transitionToEnd()
         }
-    }
-
-    private fun createTransparentColor(color: Int): Int {
-        val alpha = Color.alpha(color)
-        val red = Color.red(color)
-        val green = Color.green(color)
-        val blue = Color.blue(color)
-        val transparentAlpha = (alpha * 0.5f).toInt()
-        return Color.argb(transparentAlpha, red, green, blue)
     }
 
     private fun bindDetailUI(book: Book) = with(binding) {
@@ -417,12 +409,12 @@ class FavoriteBooksFragment : Fragment(R.layout.fragment_favorite_books) {
                 val dominantColor = palette?.dominantSwatch?.rgb ?: 0
                 if (dominantColor != 0) {
 
-                    val transparentDominantColor = createTransparentColor(dominantColor)
+                    val newColor = dominantColor.lightenColor()
                     val vibrantColor = palette?.vibrantSwatch?.rgb ?: 0
 
-                    llLanguages.setBackgroundColor(transparentDominantColor)
-                    llBookshelves.setBackgroundColor(transparentDominantColor)
-                    llReadInfo.setBackgroundColor(transparentDominantColor)
+                    llLanguages.setBackgroundColor(newColor)
+                    llBookshelves.setBackgroundColor(newColor)
+                    llReadInfo.setBackgroundColor(newColor)
 
                     if (vibrantColor != 0) {
                         if (calculateColorDistanceToWhite(vibrantColor) < 200) {
