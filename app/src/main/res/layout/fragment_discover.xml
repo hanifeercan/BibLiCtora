@@ -169,7 +169,7 @@
                     android:id="@+id/ivFailurePicture"
                     android:layout_width="@dimen/_200sdp"
                     android:layout_height="@dimen/_200sdp"
-                    android:contentDescription="@string/ic_reading"
+                    android:contentDescription="@string/failure_picture"
                     android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@id/tvFailureText"
                     app:layout_constraintEnd_toEndOf="parent"
