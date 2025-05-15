@@ -127,4 +127,5 @@
     <string name="Aa">Aa</string>
     <string name="file_not_exist">File not exist!</string>
     <string name="check_internet_connection">Please check your internet connection!</string>
+    <string name="tab_layout">Tab Layout</string>
 </resources>
