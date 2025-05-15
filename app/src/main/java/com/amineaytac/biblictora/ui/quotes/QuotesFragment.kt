@@ -1,13 +1,13 @@
 package com.amineaytac.biblictora.ui.quotes
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,8 +19,8 @@ import com.amineaytac.biblictora.core.data.model.QuoteBook
 import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.databinding.FragmentQuotesBinding
 import com.amineaytac.biblictora.util.gone
-import com.amineaytac.biblictora.util.visible
 import com.amineaytac.biblictora.util.viewBinding
+import com.amineaytac.biblictora.util.visible
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Picasso
@@ -160,7 +160,8 @@ class QuotesFragment : Fragment(R.layout.fragment_quotes) {
     }
 
     private fun buildAlertDialog(quote: String) {
-        AlertDialog.Builder(requireContext()).setMessage(getString(R.string.remove_favorite_quote))
+        AlertDialog.Builder(requireContext(), R.style.CustomAlertDialogTheme)
+            .setMessage(getString(R.string.remove_favorite_quote))
             .setPositiveButton("Yes") { dialog, _ ->
 
                 viewModel.deleteQuoteFromBook(quoteBook.id, quote)
