@@ -8,7 +8,6 @@ import com.amineaytac.biblictora.core.common.ResponseState
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.MyBooksItem
 import com.amineaytac.biblictora.core.data.model.QuoteBook
-import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.entity.QuotesEntity
 import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
@@ -113,10 +112,6 @@ class BookRepositoryImpl @Inject constructor(
 
     override suspend fun deleteQuoteFromBook(bookId: Int, quoteToRemove: String) {
         localDataSource.deleteQuoteFromBook(bookId, quoteToRemove)
-    }
-
-    override suspend fun updateQuotesList(bookId: Int, updatedList: List<QuoteItem>) {
-        localDataSource.updateQuotesList(bookId, updatedList)
     }
 
     override fun getReadingBookItems(): Flow<List<ReadingBook>> {

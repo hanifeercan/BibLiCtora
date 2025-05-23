@@ -6,7 +6,6 @@ import com.amineaytac.biblictora.core.common.ResponseState
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.MyBooksItem
 import com.amineaytac.biblictora.core.data.model.QuoteBook
-import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.entity.QuotesEntity
 import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
@@ -52,8 +51,6 @@ interface BookRepository {
     suspend fun addQuoteToBook(readingBook: ReadingBook, newQuote: String)
 
     suspend fun deleteQuoteFromBook(bookId: Int, quoteToRemove: String)
-
-    suspend fun updateQuotesList(bookId: Int, updatedList: List<QuoteItem>)
 
     suspend fun getRandomQuote(): StateFlow<ResponseState<QuoteResponse>>
 
