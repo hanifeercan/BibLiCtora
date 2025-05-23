@@ -61,7 +61,7 @@ class BookRepositoryImpl @Inject constructor(
             pagingSourceFactory = { pagingSource }).flow
     }
 
-    override suspend fun getFavoriteItems(): Flow<List<Book>> {
+    override fun getFavoriteItems(): Flow<List<Book>> {
         return localDataSource.getFavoriteItems()
             .map { it.map { favoriteEntity -> favoriteEntity.toBook() } }
     }

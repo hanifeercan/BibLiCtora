@@ -24,7 +24,7 @@ interface BookRepository {
         languages: List<String>, funcKey: String
     ): Flow<PagingData<Book>>
 
-    suspend fun getFavoriteItems(): Flow<List<Book>>
+    fun getFavoriteItems(): Flow<List<Book>>
     suspend fun addFavoriteItem(book: Book)
     suspend fun deleteFavoriteItem(book: Book)
     fun isItemFavorited(itemId: String): LiveData<Boolean>

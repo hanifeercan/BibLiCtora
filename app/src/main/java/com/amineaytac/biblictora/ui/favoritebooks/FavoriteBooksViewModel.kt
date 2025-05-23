@@ -43,9 +43,7 @@ class FavoriteBooksViewModel @Inject constructor(
     }
 
     private fun getFavoriteBooksFlowData() {
-        viewModelScope.launch {
-            books = getFavoriteItemsUseCase()
-        }
+        books = getFavoriteItemsUseCase()
     }
 
     fun getFavoriteBooks() {

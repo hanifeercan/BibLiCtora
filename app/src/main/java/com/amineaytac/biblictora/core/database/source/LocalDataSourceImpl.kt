@@ -29,7 +29,7 @@ class LocalDataSourceImpl @Inject constructor(
         favoriteDao.deleteFavoriteItem(favoriteEntity)
     }
 
-    override suspend fun getFavoriteItems(): Flow<List<FavoriteEntity>> {
+    override fun getFavoriteItems(): Flow<List<FavoriteEntity>> {
         return favoriteDao.getFavoriteItems()
     }
 
@@ -68,9 +68,7 @@ class LocalDataSourceImpl @Inject constructor(
     }
 
     override suspend fun updatePercentage(
-        bookId: Int,
-        readingPercentage: Int,
-        readingProgress: Int
+        bookId: Int, readingPercentage: Int, readingProgress: Int
     ) {
         readingStatusDao.updatePercentage(bookId, readingPercentage, readingProgress)
     }
