@@ -5,13 +5,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.databinding.FragmentPdfViewerBinding
 import com.amineaytac.biblictora.util.viewBinding
 import com.yagmurerdogan.toasticlib.Toastic
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -29,24 +27,17 @@ class PdfViewerFragment : Fragment(R.layout.fragment_pdf_viewer) {
         val pdfUriString = arguments?.getString("pdfPath")
 
         if (!pdfUriString.isNullOrEmpty()) {
-            val pdfUri = Uri.parse(pdfUriString)
-            getLastReadPage(pdfUriString) { lastReadPage ->
-                lastPage = lastReadPage
-                openPdfFromUri(pdfUri, lastPage)
-            }
+            getLastReadPage(pdfUriString)
         } else {
             showToastic(getString(R.string.pdf_not_parsed))
         }
     }
 
-    private fun getLastReadPage(filePath: String, callback: (Int) -> Unit) {
-        lifecycleScope.launch {
-            try {
-                val lastReadPage = viewModel.getLastPage(filePath)
-                callback(lastReadPage)
-            } catch (e: Exception) {
-                callback(0)
-            }
+    private fun getLastReadPage(filePath: String) {
+        viewModel.getLastPage(filePath)
+        viewModel.lastPage.observe(viewLifecycleOwner) {
+            lastPage = it
+            openPdfFromUri(Uri.parse(filePath), lastPage)
         }
     }
 
@@ -60,15 +51,10 @@ class PdfViewerFragment : Fragment(R.layout.fragment_pdf_viewer) {
                 outputStream.close()
                 it.close()
 
-                binding.pdfView.fromFile(tempFile)
-                    .enableSwipe(true)
-                    .swipeHorizontal(false)
-                    .enableDoubletap(true)
-                    .defaultPage(lastPage)
-                    .onPageChange { page, _ ->
+                binding.pdfView.fromFile(tempFile).enableSwipe(true).swipeHorizontal(false)
+                    .enableDoubletap(true).defaultPage(lastPage).onPageChange { page, _ ->
                         this.lastPage = page
-                    }
-                    .load()
+                    }.load()
             } ?: run {
                 showToastic(getString(R.string.pdf_not_open))
             }

@@ -15,7 +15,6 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.core.data.model.ReadFormats
@@ -99,9 +98,7 @@ class EpubViewerFragment : BaseReadingFragment() {
         try {
             if (epubUriString != null) {
                 val epubUri = Uri.parse(epubUriString)
-                getLastReadPage(epubUriString.toString()) { lastReadPage ->
-                    lastPage = lastReadPage
-                }
+                getLastReadPage(epubUriString.toString())
                 getId(epubUriString.toString())
                 bindWebView(epubUriString)
                 openEpubFromUri(epubUri)
@@ -120,14 +117,10 @@ class EpubViewerFragment : BaseReadingFragment() {
         setupListeners()
     }
 
-    private fun getLastReadPage(filePath: String, callback: (Int) -> Unit) {
-        lifecycleScope.launch {
-            try {
-                val lastReadPage = viewModel.getLastPage(filePath)
-                callback(lastReadPage)
-            } catch (e: Exception) {
-                callback(0)
-            }
+    private fun getLastReadPage(filePath: String) {
+        viewModel.getLastPage(filePath)
+        viewModel.lastPage.observe(viewLifecycleOwner) {
+            lastPage = it
         }
     }
 
@@ -229,8 +222,7 @@ class EpubViewerFragment : BaseReadingFragment() {
                 viewModel.updateLastPage(epubUri, scrollY)
             }
 
-            val gestureDetector = GestureDetector(
-                requireContext(),
+            val gestureDetector = GestureDetector(requireContext(),
                 object : GestureDetector.SimpleOnGestureListener() {
                     override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                         if (btnAddQuote.visibility == View.VISIBLE) {

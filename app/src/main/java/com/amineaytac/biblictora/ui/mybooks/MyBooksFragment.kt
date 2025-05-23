@@ -10,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,11 +19,10 @@ import com.amineaytac.biblictora.core.data.model.MyBooksItem
 import com.amineaytac.biblictora.databinding.FragmentMyBooksBinding
 import com.amineaytac.biblictora.databinding.RenameDialogLayoutBinding
 import com.amineaytac.biblictora.util.gone
-import com.amineaytac.biblictora.util.visible
 import com.amineaytac.biblictora.util.viewBinding
+import com.amineaytac.biblictora.util.visible
 import com.yagmurerdogan.toasticlib.Toastic
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import java.util.UUID
 
 @AndroidEntryPoint
@@ -33,6 +31,7 @@ class MyBooksFragment : Fragment(R.layout.fragment_my_books) {
     private val binding by viewBinding(FragmentMyBooksBinding::bind)
     private val myBooksViewModel: MyBooksViewModel by viewModels()
     private lateinit var myBooksAdapter: MyBooksAdapter
+    private var lastPage = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -100,24 +99,28 @@ class MyBooksFragment : Fragment(R.layout.fragment_my_books) {
             val finalName = userInput.ifEmpty { defaultName }
             val filePath = selectedUri.toString()
 
-            lifecycleScope.launch {
-                val lastPageFromDb = myBooksViewModel.getLastPage(filePath)
+            getLastReadPage(filePath)
+            val fileItem = MyBooksItem(
+                id = (UUID.randomUUID().mostSignificantBits % Int.MAX_VALUE).toInt(),
+                name = finalName,
+                filePath = filePath,
+                fileType = fileType,
+                lastPage = lastPage
+            )
 
-                val fileItem = MyBooksItem(
-                    id = (UUID.randomUUID().mostSignificantBits % Int.MAX_VALUE).toInt(),
-                    name = finalName,
-                    filePath = filePath,
-                    fileType = fileType,
-                    lastPage = lastPageFromDb
-                )
-
-                myBooksViewModel.addFileItem(fileItem)
-                dialog.dismiss()
-            }
+            myBooksViewModel.addFileItem(fileItem)
+            dialog.dismiss()
         }
 
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.show()
+    }
+
+    private fun getLastReadPage(filePath: String) {
+        myBooksViewModel.getLastPage(filePath)
+        myBooksViewModel.lastPage.observe(viewLifecycleOwner) {
+            lastPage = it
+        }
     }
 
     private fun setupRecyclerView() {
