@@ -49,7 +49,7 @@ class LocalDataSourceImpl @Inject constructor(
         return readingStatusDao.getReadingPercentage(itemId)
     }
 
-    override suspend fun getReadingBookItems(): Flow<List<ReadingStatusEntity>> {
+    override fun getReadingBookItems(): Flow<List<ReadingStatusEntity>> {
         return readingStatusDao.getReadingBookItems()
     }
 

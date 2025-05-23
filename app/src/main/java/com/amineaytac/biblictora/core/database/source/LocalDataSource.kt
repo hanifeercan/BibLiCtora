@@ -23,7 +23,7 @@ interface LocalDataSource {
 
     fun getReadingPercentage(itemId: Int): LiveData<Int>
 
-    suspend fun getReadingBookItems(): Flow<List<ReadingStatusEntity>>
+    fun getReadingBookItems(): Flow<List<ReadingStatusEntity>>
 
     suspend fun addReadingBookItem(readingStatusEntity: ReadingStatusEntity)
 

@@ -29,7 +29,7 @@ interface BookRepository {
     suspend fun deleteFavoriteItem(book: Book)
     fun isItemFavorited(itemId: String): LiveData<Boolean>
 
-    suspend fun getReadingBookItems(): Flow<List<ReadingBook>>
+    fun getReadingBookItems(): Flow<List<ReadingBook>>
 
     suspend fun addReadingBookItem(readingBook: ReadingBook)
 

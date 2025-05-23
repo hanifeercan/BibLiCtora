@@ -27,9 +27,7 @@ class ReadingListViewModel @Inject constructor(
     }
 
     private fun getReadingBooksFlowData() {
-        viewModelScope.launch {
-            books = getReadingBookItemsUseCase()
-        }
+        books = getReadingBookItemsUseCase()
     }
 
     fun getReadingBooks() {

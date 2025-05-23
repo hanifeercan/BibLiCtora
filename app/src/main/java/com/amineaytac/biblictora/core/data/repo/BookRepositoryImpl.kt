@@ -120,7 +120,7 @@ class BookRepositoryImpl @Inject constructor(
         localDataSource.updateQuotesList(bookId, updatedList)
     }
 
-    override suspend fun getReadingBookItems(): Flow<List<ReadingBook>> {
+    override fun getReadingBookItems(): Flow<List<ReadingBook>> {
         return localDataSource.getReadingBookItems()
             .map { it.map { readingStatusEntity -> readingStatusEntity.toReadingBook() } }
     }

@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetReadingBookItemsUseCase @Inject constructor(private val bookRepository: BookRepository) {
-    suspend operator fun invoke(): Flow<List<ReadingBook>> {
+    operator fun invoke(): Flow<List<ReadingBook>> {
         return bookRepository.getReadingBookItems()
     }
 }
