@@ -14,7 +14,7 @@ interface LocalDataSource {
     suspend fun deleteFavoriteItem(favoriteEntity: FavoriteEntity)
     fun getFavoriteItems(): Flow<List<FavoriteEntity>>
 
-    fun isItemFavorited(itemId: String): LiveData<Boolean>
+    fun isItemFavorite(itemId: String): LiveData<Boolean>
 
     fun getBookItemReading(itemId: String): LiveData<ReadingStatusEntity>
 

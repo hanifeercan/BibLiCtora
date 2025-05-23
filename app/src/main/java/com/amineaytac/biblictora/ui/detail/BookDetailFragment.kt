@@ -125,7 +125,7 @@ class BookDetailFragment : Fragment(R.layout.fragment_book_detail) {
     }
 
     private fun observeIsItemFavorite(book: Book) {
-        viewModel.isItemFavorited(book.id.toString()).observe(viewLifecycleOwner) {
+        viewModel.isItemFavorite(book.id.toString()).observe(viewLifecycleOwner) {
             isFavorite = it
             bindHeartView(book)
         }

@@ -35,8 +35,7 @@ class BookRepositoryImpl @Inject constructor(
 
     override suspend fun getAllBooks(funcKey: String): Flow<PagingData<Book>> {
         val pagingSource = PagingSource(restDataSource, funcKey)
-        return Pager(
-            config = PagingConfig(pageSize = 20),
+        return Pager(config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { pagingSource }).flow
     }
 
@@ -44,8 +43,7 @@ class BookRepositoryImpl @Inject constructor(
         search: String, languages: List<String>, funcKey: String
     ): Flow<PagingData<Book>> {
         val pagingSource = PagingSource(restDataSource, funcKey, search, languages)
-        return Pager(
-            config = PagingConfig(pageSize = 20),
+        return Pager(config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { pagingSource }).flow
     }
 
@@ -53,8 +51,7 @@ class BookRepositoryImpl @Inject constructor(
         languages: List<String>, funcKey: String
     ): Flow<PagingData<Book>> {
         val pagingSource = PagingSource(restDataSource, funcKey, languages = languages)
-        return Pager(
-            config = PagingConfig(pageSize = 20),
+        return Pager(config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { pagingSource }).flow
     }
 
@@ -71,8 +68,8 @@ class BookRepositoryImpl @Inject constructor(
         localDataSource.deleteFavoriteItem(book.toFavoriteItemEntity())
     }
 
-    override fun isItemFavorited(itemId: String): LiveData<Boolean> {
-        return localDataSource.isItemFavorited(itemId)
+    override fun isItemFavorite(itemId: String): LiveData<Boolean> {
+        return localDataSource.isItemFavorite(itemId)
     }
 
     override fun getBookItemReading(itemId: String): LiveData<ReadingBook> {

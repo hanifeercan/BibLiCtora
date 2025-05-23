@@ -32,8 +32,8 @@ class LocalDataSourceImpl @Inject constructor(
         return favoriteDao.getFavoriteItems()
     }
 
-    override fun isItemFavorited(itemId: String): LiveData<Boolean> {
-        return favoriteDao.isItemFavorited(itemId)
+    override fun isItemFavorite(itemId: String): LiveData<Boolean> {
+        return favoriteDao.isItemFavorite(itemId)
     }
 
     override fun getBookItemReading(itemId: String): LiveData<ReadingStatusEntity> {
