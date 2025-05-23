@@ -47,7 +47,7 @@ interface LocalDataSource {
 
     suspend fun addFileItem(myBooksEntity: MyBooksEntity)
 
-    suspend fun getAllFiles(): Flow<List<MyBooksEntity>>
+    fun getAllFiles(): Flow<List<MyBooksEntity>>
 
     suspend fun deleteFileItem(myBooksEntity: MyBooksEntity)
 

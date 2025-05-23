@@ -60,7 +60,7 @@ interface BookRepository {
     suspend fun getRandomQuote(): StateFlow<ResponseState<QuoteResponse>>
 
     suspend fun addFileItem(myBooksItem: MyBooksItem)
-    suspend fun getAllFiles(): Flow<List<MyBooksItem>>
+    fun getAllFiles(): Flow<List<MyBooksItem>>
     suspend fun deleteFileItem(myBooksItem: MyBooksItem)
 
     suspend fun getLastPage(filePath: String): Int

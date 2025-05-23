@@ -33,9 +33,7 @@ class MyBooksViewModel @Inject constructor(
     }
 
     private fun getAllFiles() {
-        viewModelScope.launch {
-            myBooksItem = getAllFilesUseCase()
-        }
+        myBooksItem = getAllFilesUseCase()
     }
 
     fun getFiles() {

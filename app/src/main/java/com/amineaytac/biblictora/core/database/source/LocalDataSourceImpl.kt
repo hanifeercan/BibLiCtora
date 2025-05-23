@@ -97,7 +97,7 @@ class LocalDataSourceImpl @Inject constructor(
         myBooksDao.addFileItem(myBooksEntity)
     }
 
-    override suspend fun getAllFiles(): Flow<List<MyBooksEntity>> {
+    override fun getAllFiles(): Flow<List<MyBooksEntity>> {
         return myBooksDao.getAllFiles()
     }
 
