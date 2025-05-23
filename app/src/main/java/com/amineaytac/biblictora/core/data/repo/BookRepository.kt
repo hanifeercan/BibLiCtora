@@ -8,7 +8,6 @@ import com.amineaytac.biblictora.core.data.model.MyBooksItem
 import com.amineaytac.biblictora.core.data.model.QuoteBook
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.entity.QuotesEntity
-import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
 import com.amineaytac.biblictora.core.network.dto.quotes.QuoteResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -34,7 +33,7 @@ interface BookRepository {
 
     suspend fun deleteReadingBookItem(readingBook: ReadingBook)
 
-    fun getBookItemReading(itemId: String): LiveData<ReadingStatusEntity>
+    fun getBookItemReading(itemId: String): LiveData<ReadingBook>
 
     fun isBookItemReading(itemId: String): LiveData<Boolean>
 

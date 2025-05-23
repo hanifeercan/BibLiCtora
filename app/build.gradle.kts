@@ -114,4 +114,7 @@ dependencies {
 
     //page indicator
     implementation("com.tbuonomo:dotsindicator:4.3")
+
+    //Lifecycle
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
 }

@@ -10,7 +10,6 @@ import com.amineaytac.biblictora.core.data.model.MyBooksItem
 import com.amineaytac.biblictora.core.data.model.QuoteBook
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.entity.QuotesEntity
-import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
 import com.amineaytac.biblictora.core.database.source.LocalDataSource
 import com.amineaytac.biblictora.core.network.dto.quotes.QuoteResponse
 import com.amineaytac.biblictora.core.network.source.paging.PagingSource
@@ -77,8 +76,8 @@ class BookRepositoryImpl @Inject constructor(
         return localDataSource.isItemFavorited(itemId)
     }
 
-    override fun getBookItemReading(itemId: String): LiveData<ReadingStatusEntity> {
-        return localDataSource.getBookItemReading(itemId)
+    override fun getBookItemReading(itemId: String): LiveData<ReadingBook> {
+        return localDataSource.getBookItemReading(itemId).toLiveDataReadingBook()
     }
 
     override fun isBookItemReading(itemId: String): LiveData<Boolean> {

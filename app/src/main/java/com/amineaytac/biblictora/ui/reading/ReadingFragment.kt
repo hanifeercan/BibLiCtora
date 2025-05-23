@@ -21,7 +21,6 @@ import androidx.navigation.fragment.navArgs
 import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.ReadingBook
-import com.amineaytac.biblictora.core.data.repo.toReadingBook
 import com.amineaytac.biblictora.core.network.NetworkConnection
 import com.amineaytac.biblictora.core.network.NetworkListener
 import com.amineaytac.biblictora.databinding.FragmentReadingBinding
@@ -191,7 +190,7 @@ class ReadingFragment : BaseReadingFragment(), NetworkListener {
 
     private fun observeGetItemReading(id: String) {
         viewModel.getBookItemReading(id).distinctUntilChanged().observe(viewLifecycleOwner) {
-            readingBook = it.toReadingBook()
+            readingBook = it
         }
     }
 
