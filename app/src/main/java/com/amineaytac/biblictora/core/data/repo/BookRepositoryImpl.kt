@@ -9,7 +9,6 @@ import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.MyBooksItem
 import com.amineaytac.biblictora.core.data.model.QuoteBook
 import com.amineaytac.biblictora.core.data.model.ReadingBook
-import com.amineaytac.biblictora.core.database.entity.QuotesEntity
 import com.amineaytac.biblictora.core.database.source.LocalDataSource
 import com.amineaytac.biblictora.core.network.dto.quotes.QuoteResponse
 import com.amineaytac.biblictora.core.network.source.paging.PagingSource
@@ -96,8 +95,8 @@ class BookRepositoryImpl @Inject constructor(
         localDataSource.updatePercentage(bookId, readingPercentage, readingProgress)
     }
 
-    override fun getQuoteBook(bookId: Int): LiveData<QuotesEntity> {
-        return localDataSource.getQuoteBook(bookId)
+    override fun getQuoteBook(bookId: Int): LiveData<QuoteBook> {
+        return localDataSource.getQuoteBook(bookId).toLiveDataQuoteBook()
     }
 
     override fun getQuoteBooks(): Flow<List<QuoteBook>> {

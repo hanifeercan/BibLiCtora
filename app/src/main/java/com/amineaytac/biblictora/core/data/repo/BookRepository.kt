@@ -7,7 +7,6 @@ import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.MyBooksItem
 import com.amineaytac.biblictora.core.data.model.QuoteBook
 import com.amineaytac.biblictora.core.data.model.ReadingBook
-import com.amineaytac.biblictora.core.database.entity.QuotesEntity
 import com.amineaytac.biblictora.core.network.dto.quotes.QuoteResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -43,7 +42,7 @@ interface BookRepository {
 
     suspend fun updatePercentage(bookId: Int, readingPercentage: Int, readingProgress: Int)
 
-    fun getQuoteBook(bookId: Int): LiveData<QuotesEntity>
+    fun getQuoteBook(bookId: Int): LiveData<QuoteBook>
 
     fun getQuoteBooks(): Flow<List<QuoteBook>>
 

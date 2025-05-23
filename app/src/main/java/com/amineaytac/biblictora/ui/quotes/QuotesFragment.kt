@@ -16,13 +16,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.core.data.model.QuoteBook
-import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.databinding.FragmentQuotesBinding
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.viewBinding
 import com.amineaytac.biblictora.util.visible
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -294,15 +291,12 @@ class QuotesFragment : Fragment(R.layout.fragment_quotes) {
         viewModel.getQuoteBook(quoteBook.id).observe(viewLifecycleOwner) { quoteBookEntity ->
             quoteBookEntity?.let {
 
-                val quotesListType = object : TypeToken<List<QuoteItem>>() {}.type
-                val quotesList: List<QuoteItem> = Gson().fromJson(it.quotesList, quotesListType)
-
-                if (quotesList.isEmpty()) {
+                if (it.quotesList.isEmpty()) {
                     rvQuoteList.gone()
                     motionLayout.transitionToStart()
                 } else {
                     rvQuoteList.visible()
-                    quoteListAdapter.submitList(quotesList)
+                    quoteListAdapter.submitList(it.quotesList)
                 }
             }
         }
