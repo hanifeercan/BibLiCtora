@@ -26,9 +26,6 @@ interface ReadingStatusDao {
     @Query("SELECT EXISTS(SELECT 1 FROM reading_status_table WHERE id = :itemId LIMIT 1)")
     fun isBookItemReading(itemId: String): LiveData<Boolean>
 
-    @Query("SELECT readingPercentage FROM reading_status_table WHERE id = :itemId LIMIT 1")
-    fun getReadingPercentage(itemId: Int): LiveData<Int>
-
     @Query("UPDATE reading_status_table SET readingStates = :readingStates, readingPercentage = :readingPercentage WHERE id = :itemId")
     suspend fun updateBookStatusAndPercentage(
         itemId: Int, readingStates: String, readingPercentage: Int

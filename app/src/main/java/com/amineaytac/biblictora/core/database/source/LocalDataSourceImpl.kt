@@ -45,10 +45,6 @@ class LocalDataSourceImpl @Inject constructor(
         return readingStatusDao.isBookItemReading(itemId)
     }
 
-    override fun getReadingPercentage(itemId: Int): LiveData<Int> {
-        return readingStatusDao.getReadingPercentage(itemId)
-    }
-
     override fun getReadingBookItems(): Flow<List<ReadingStatusEntity>> {
         return readingStatusDao.getReadingBookItems()
     }

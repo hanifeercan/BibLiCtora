@@ -39,8 +39,6 @@ interface BookRepository {
 
     fun isBookItemReading(itemId: String): LiveData<Boolean>
 
-    fun getReadingPercentage(itemId: Int): LiveData<Int>
-
     suspend fun updateBookStatusAndPercentage(
         itemId: Int, readingStates: String, readingPercentage: Int
     )

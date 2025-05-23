@@ -21,8 +21,6 @@ interface LocalDataSource {
 
     fun isBookItemReading(itemId: String): LiveData<Boolean>
 
-    fun getReadingPercentage(itemId: Int): LiveData<Int>
-
     fun getReadingBookItems(): Flow<List<ReadingStatusEntity>>
 
     suspend fun addReadingBookItem(readingStatusEntity: ReadingStatusEntity)
