@@ -1,6 +1,5 @@
 package com.amineaytac.biblictora.ui.discover.adapter
 
-import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import com.google.android.material.chip.ChipDrawable
 
 class ChipAdapter(
     val recyclerView: RecyclerView,
-    private val context: Context,
     private val chips: MutableList<LanguageChipBox>,
     private val chipClickStates: Array<Boolean>,
     private val onChipClickListener: (position: Int) -> Unit
@@ -28,11 +26,11 @@ class ChipAdapter(
 
             val chipDrawable = if (chipClickStates[position]) {
                 ChipDrawable.createFromAttributes(
-                    context, null, 0, R.style.ClickedChip
+                    binding.root.context, null, 0, R.style.ClickedChip
                 )
             } else {
                 ChipDrawable.createFromAttributes(
-                    context, null, 0, R.style.NotClickedChip
+                    binding.root.context, null, 0, R.style.NotClickedChip
                 )
             }
             chip.setChipDrawable(chipDrawable)

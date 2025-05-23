@@ -74,10 +74,9 @@ class DiscoverFragment : Fragment(R.layout.fragment_discover), NetworkListener {
 
         chipClickStates = viewModel.getChipClickStates()
         recyclerView.setHasFixedSize(true)
-        chipAdapter =
-            ChipAdapter(recyclerView, requireContext(), chips, chipClickStates) { position ->
-                viewModel.setChipClickListener(position)
-            }
+        chipAdapter = ChipAdapter(recyclerView, chips, chipClickStates) { position ->
+            viewModel.setChipClickListener(position)
+        }
 
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
         recyclerView.adapter = chipAdapter
