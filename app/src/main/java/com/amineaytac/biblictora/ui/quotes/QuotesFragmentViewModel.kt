@@ -32,9 +32,7 @@ class QuotesFragmentViewModel @Inject constructor(
     }
 
     private fun getQuoteBooksFlowData() {
-        viewModelScope.launch {
-            books = getQuoteBooksUseCase()
-        }
+        books = getQuoteBooksUseCase()
     }
 
     fun getQuoteBook(bookId: Int): LiveData<QuotesEntity> {
