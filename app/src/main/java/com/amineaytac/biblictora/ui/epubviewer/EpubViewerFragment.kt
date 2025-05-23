@@ -78,6 +78,9 @@ class EpubViewerFragment : BaseReadingFragment() {
                 setReadingStyle()
             }
         }
+        toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -222,7 +225,8 @@ class EpubViewerFragment : BaseReadingFragment() {
                 viewModel.updateLastPage(epubUri, scrollY)
             }
 
-            val gestureDetector = GestureDetector(requireContext(),
+            val gestureDetector = GestureDetector(
+                requireContext(),
                 object : GestureDetector.SimpleOnGestureListener() {
                     override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                         if (btnAddQuote.visibility == View.VISIBLE) {
