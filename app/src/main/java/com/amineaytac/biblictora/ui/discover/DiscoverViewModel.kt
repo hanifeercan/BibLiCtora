@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.domain.rest.GetAllBooksUseCase
 import com.amineaytac.biblictora.core.domain.rest.GetBooksWithLanguagesUseCase
@@ -44,9 +43,7 @@ class DiscoverViewModel @Inject constructor(
     }
 
     fun getBooksWithLanguagesFlow(languages: List<String>) {
-        viewModelScope.launch {
-            languagesBookFlow = getBooksWithLanguagesUseCase(languages).cachedIn(this)
-        }
+        languagesBookFlow = getBooksWithLanguagesUseCase(languages)
     }
 
     fun getBooksWithSearchFlow(search: String, languages: List<String>) {

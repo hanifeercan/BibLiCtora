@@ -35,8 +35,7 @@ class BookRepositoryImpl @Inject constructor(
 
     override fun getAllBooks(funcKey: String): Flow<PagingData<Book>> {
         val pagingSource = PagingSource(restDataSource, funcKey)
-        return Pager(
-            config = PagingConfig(pageSize = 20),
+        return Pager(config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { pagingSource }).flow
     }
 
@@ -44,17 +43,15 @@ class BookRepositoryImpl @Inject constructor(
         search: String, languages: List<String>, funcKey: String
     ): Flow<PagingData<Book>> {
         val pagingSource = PagingSource(restDataSource, funcKey, search, languages)
-        return Pager(
-            config = PagingConfig(pageSize = 20),
+        return Pager(config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { pagingSource }).flow
     }
 
-    override suspend fun getBooksWithLanguages(
+    override fun getBooksWithLanguages(
         languages: List<String>, funcKey: String
     ): Flow<PagingData<Book>> {
         val pagingSource = PagingSource(restDataSource, funcKey, languages = languages)
-        return Pager(
-            config = PagingConfig(pageSize = 20),
+        return Pager(config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { pagingSource }).flow
     }
 

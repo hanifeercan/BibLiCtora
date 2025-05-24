@@ -17,7 +17,7 @@ interface BookRepository {
         search: String, languages: List<String>, funcKey: String
     ): Flow<PagingData<Book>>
 
-    suspend fun getBooksWithLanguages(
+    fun getBooksWithLanguages(
         languages: List<String>, funcKey: String
     ): Flow<PagingData<Book>>
 
