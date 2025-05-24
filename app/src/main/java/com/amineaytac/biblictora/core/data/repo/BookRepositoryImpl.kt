@@ -33,9 +33,10 @@ class BookRepositoryImpl @Inject constructor(
 
     private val repositoryScope = CoroutineScope(Dispatchers.IO)
 
-    override suspend fun getAllBooks(funcKey: String): Flow<PagingData<Book>> {
+    override fun getAllBooks(funcKey: String): Flow<PagingData<Book>> {
         val pagingSource = PagingSource(restDataSource, funcKey)
-        return Pager(config = PagingConfig(pageSize = 20),
+        return Pager(
+            config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { pagingSource }).flow
     }
 
@@ -43,7 +44,8 @@ class BookRepositoryImpl @Inject constructor(
         search: String, languages: List<String>, funcKey: String
     ): Flow<PagingData<Book>> {
         val pagingSource = PagingSource(restDataSource, funcKey, search, languages)
-        return Pager(config = PagingConfig(pageSize = 20),
+        return Pager(
+            config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { pagingSource }).flow
     }
 
@@ -51,7 +53,8 @@ class BookRepositoryImpl @Inject constructor(
         languages: List<String>, funcKey: String
     ): Flow<PagingData<Book>> {
         val pagingSource = PagingSource(restDataSource, funcKey, languages = languages)
-        return Pager(config = PagingConfig(pageSize = 20),
+        return Pager(
+            config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { pagingSource }).flow
     }
 

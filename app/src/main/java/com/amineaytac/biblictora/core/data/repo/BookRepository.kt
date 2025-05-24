@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
 interface BookRepository {
-    suspend fun getAllBooks(funcKey: String): Flow<PagingData<Book>>
+    fun getAllBooks(funcKey: String): Flow<PagingData<Book>>
     suspend fun getBooksWithSearch(
         search: String, languages: List<String>, funcKey: String
     ): Flow<PagingData<Book>>
