@@ -3,6 +3,7 @@ package com.amineaytac.biblictora.ui.home
 import android.Manifest
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -13,8 +14,6 @@ import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.akexorcist.snaptimepicker.SnapTimePickerDialog
-import com.akexorcist.snaptimepicker.TimeValue
 import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.databinding.FragmentHomeBinding
 import com.amineaytac.biblictora.ui.discover.DiscoverFragment
@@ -110,22 +109,38 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         var minute = preferenceHelper.getMinute()
 
         if (hour == -1 || minute == -1) {
-            val c = Calendar.getInstance()
-            hour = c.get(Calendar.HOUR_OF_DAY)
-            minute = c.get(Calendar.MINUTE)
+            val calendar = Calendar.getInstance()
+            hour = calendar.get(Calendar.HOUR_OF_DAY)
+            minute = calendar.get(Calendar.MINUTE)
         }
 
-        SnapTimePickerDialog.Builder().apply {
-            setTitle(R.string.time_picker_title)
-            setPreselectedTime(TimeValue(hour, minute))
-            setThemeColor(R.color.moselle_green)
-            setTitleColor(R.color.white)
-        }.build().apply {
-            setListener { hour, minute ->
-                preferenceHelper.setHourAndMinute(hour, minute)
+        val timePickerDialog = TimePickerDialog(
+            requireContext(), R.style.TimePickerDialogTheme, { _, selectedHour, selectedMinute ->
+                preferenceHelper.setHourAndMinute(selectedHour, selectedMinute)
                 setAlarm()
-            }
-        }.show(childFragmentManager, "timePicker")
+                Toastic.toastic(
+                    context = requireContext(),
+                    message = getString(R.string.success_notification_info),
+                    duration = Toastic.LENGTH_SHORT,
+                    type = Toastic.SUCCESS,
+                    isIconAnimated = true
+                ).show()
+            }, hour, minute, true
+        )
+
+        timePickerDialog.setOnCancelListener {
+            binding.switchNotification.isChecked = false
+            Toastic.toastic(
+                context = requireContext(),
+                message = getString(R.string.no_notification),
+                duration = Toastic.LENGTH_SHORT,
+                type = Toastic.WARNING,
+                isIconAnimated = true
+            ).show()
+        }
+
+        timePickerDialog.setTitle(getString(R.string.time_picker_title))
+        timePickerDialog.show()
     }
 
     private fun setAlarm() {

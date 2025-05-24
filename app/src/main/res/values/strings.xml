@@ -130,4 +130,5 @@
     <string name="tab_layout">Tab Layout</string>
     <string name="icon_pencil">Icon Pencil</string>
     <string name="failure_picture">Failure Picture </string>
+    <string name="success_notification_info">Alarm for notification set successfully.</string>
 </resources>
