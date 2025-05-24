@@ -40,7 +40,7 @@ class BookRepositoryImpl @Inject constructor(
             pagingSourceFactory = { pagingSource }).flow
     }
 
-    override suspend fun getBooksWithSearch(
+    override fun getBooksWithSearch(
         search: String, languages: List<String>, funcKey: String
     ): Flow<PagingData<Book>> {
         val pagingSource = PagingSource(restDataSource, funcKey, search, languages)

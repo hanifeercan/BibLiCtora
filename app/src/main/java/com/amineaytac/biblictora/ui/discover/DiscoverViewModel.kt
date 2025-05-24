@@ -50,9 +50,7 @@ class DiscoverViewModel @Inject constructor(
     }
 
     fun getBooksWithSearchFlow(search: String, languages: List<String>) {
-        viewModelScope.launch {
-            searchBookFlow = getBooksWithSearchUseCase(search, languages).cachedIn(this)
-        }
+        searchBookFlow = getBooksWithSearchUseCase(search, languages)
     }
 
     fun getAllBooks() {

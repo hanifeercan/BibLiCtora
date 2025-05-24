@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetBooksWithSearchUseCase @Inject constructor(private val bookRepository: BookRepository) {
-    suspend operator fun invoke(
+    operator fun invoke(
         search: String, languages: List<String>
     ): Flow<PagingData<Book>> {
         return bookRepository.getBooksWithSearch(search, languages, "getBooksWithSearch")
