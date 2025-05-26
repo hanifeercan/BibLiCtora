@@ -34,7 +34,6 @@ abstract class SwipeGesture(context: Context) : ItemTouchHelper.SimpleCallback(
         isCurrentlyActive: Boolean
     ) {
         val itemView = viewHolder.itemView
-        val radius = 77f
 
         if (dX < 0) {
             val bgPaint = Paint().apply {
@@ -42,14 +41,15 @@ abstract class SwipeGesture(context: Context) : ItemTouchHelper.SimpleCallback(
                 isAntiAlias = true
             }
 
+            val height = itemView.height.toFloat()
             val rectF = RectF(
                 itemView.right + dX,
                 itemView.top.toFloat(),
                 itemView.right.toFloat(),
-                itemView.bottom.toFloat()
+                itemView.top + height
             )
 
-            c.drawRoundRect(rectF, radius, radius, bgPaint)
+            c.drawRect(rectF, bgPaint)
 
             val strokePaint = Paint().apply {
                 color = deleteColor
@@ -57,7 +57,7 @@ abstract class SwipeGesture(context: Context) : ItemTouchHelper.SimpleCallback(
                 strokeWidth = strokeWidth
                 isAntiAlias = true
             }
-            c.drawRoundRect(rectF, radius, radius, strokePaint)
+            c.drawRect(rectF, strokePaint)
 
             RecyclerViewSwipeDecorator.Builder(
                 c,
