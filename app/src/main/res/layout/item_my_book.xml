@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/_16sdp"
     android:backgroundTint="@color/oyster_island"
     android:elevation="@dimen/_4sdp"
-    app:cardCornerRadius="@dimen/_16sdp"
     app:cardElevation="@dimen/_4sdp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
+    app:shapeAppearanceOverlay="@style/ShapeAppearance.CustomBottomLeftRounded"
     app:strokeColor="@color/medium_grey_green"
     app:strokeWidth="@dimen/_2sdp">
 
@@ -21,13 +22,15 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="@dimen/_8sdp">
+        android:padding="@dimen/_4sdp"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:id="@+id/iv_book"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:contentDescription="@string/myBooks_icon"
             android:src="@drawable/ic_my_book" />
 
         <TextView
