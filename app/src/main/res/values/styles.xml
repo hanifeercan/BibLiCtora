@@ -136,4 +136,11 @@
         <item name="android:background">@color/moselle_green</item>
     </style>
 
+    <style name="ShapeAppearance.CustomBottomLeftRounded" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">16dp</item>
+    </style>
 </resources>

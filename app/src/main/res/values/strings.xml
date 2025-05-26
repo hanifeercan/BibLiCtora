@@ -131,4 +131,5 @@
     <string name="icon_pencil">Icon Pencil</string>
     <string name="failure_picture">Failure Picture </string>
     <string name="success_notification_info">Alarm for notification set successfully.</string>
+    <string name="myBooks_icon">My Books Icon</string>
 </resources>
