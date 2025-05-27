@@ -9,6 +9,7 @@
         android:id="@+id/bookItemLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_120sdp"
+        android:layout_marginHorizontal="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_12sdp"
         app:whichItem="item_reading_list">
 
