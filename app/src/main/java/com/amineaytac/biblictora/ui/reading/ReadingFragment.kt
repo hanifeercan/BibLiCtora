@@ -148,14 +148,18 @@ class ReadingFragment : BaseReadingFragment(), NetworkListener {
                         return true
                     }
 
+                    var scrollRestored = false
                     override fun onPageFinished(view: WebView?, url: String?) {
-                        CoroutineScope(Dispatchers.Main).launch {
-                            delay(1000)
-                            view?.scrollTo(0, readingBook.readingProgress)
-                            setReadingStyle()
-                            progressBar.gone()
-                            webView.visible()
-                            setupUserScrollListener()
+                        if (!scrollRestored) {
+                            scrollRestored = true
+                            CoroutineScope(Dispatchers.Main).launch {
+                                delay(1000)
+                                view?.scrollTo(0, readingBook.readingProgress)
+                                setReadingStyle()
+                                progressBar.gone()
+                                webView.visible()
+                                setupUserScrollListener()
+                            }
                         }
                     }
 
