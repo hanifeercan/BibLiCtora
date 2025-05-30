@@ -72,7 +72,7 @@ class BookRepositoryImpl @Inject constructor(
         return localDataSource.isItemFavorite(itemId)
     }
 
-    override fun getBookItemReading(itemId: String): LiveData<ReadingBook> {
+    override fun getBookItemReading(itemId: String): LiveData<ReadingBook?> {
         return localDataSource.getBookItemReading(itemId).toLiveDataReadingBook()
     }
 

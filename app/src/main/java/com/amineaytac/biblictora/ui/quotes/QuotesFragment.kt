@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Rect
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -14,19 +15,21 @@ import androidx.fragment.app.viewModels
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.core.data.model.QuoteBook
 import com.amineaytac.biblictora.databinding.FragmentQuotesBinding
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.viewBinding
 import com.amineaytac.biblictora.util.visible
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.sqrt
+import androidx.core.graphics.toColorInt
 
 @AndroidEntryPoint
 class QuotesFragment : Fragment(R.layout.fragment_quotes) {
@@ -67,7 +70,7 @@ class QuotesFragment : Fragment(R.layout.fragment_quotes) {
 
     private fun calculateColorDistanceToWhite(colorInt: Int): Double {
         val colorHex = String.format("#%06X", 0xFFFFFF and colorInt)
-        val color = Color.parseColor(colorHex)
+        val color = colorHex.toColorInt()
         val red = Color.red(color)
         val green = Color.green(color)
         val blue = Color.blue(color)
@@ -86,7 +89,12 @@ class QuotesFragment : Fragment(R.layout.fragment_quotes) {
         if (quoteBook.image.isNotEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
-                    val bitmap = Picasso.get().load(quoteBook.image).get()
+                    val imageLoader = ImageLoader(requireContext())
+                    val request = ImageRequest.Builder(requireContext())
+                        .data(quoteBook.image)
+                        .build()
+                    val result = imageLoader.execute(request)
+                    val bitmap = (result.drawable as? BitmapDrawable)?.bitmap
                     withContext(Dispatchers.Main) {
                         bindBackground(bitmap)
                     }

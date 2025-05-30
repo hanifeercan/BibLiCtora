@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.databinding.ItemReadingListBinding
-import com.squareup.picasso.Picasso
 
 class ReadingListAdapter(
     private val onItemClickListener: (item: ReadingBook) -> Unit
@@ -36,8 +36,10 @@ class ReadingListAdapter(
             tvReadingPercentage.text = percentageStr
             progressBar.progress = item.readingPercentage
 
-            Picasso.get().load(item.image).error(R.drawable.ic_detail_book)
-                .placeholder(R.drawable.ic_detail_book).into(ivBookPicture)
+            ivBookPicture.load(item.image) {
+                error(R.drawable.ic_detail_book)
+                placeholder(R.drawable.ic_detail_book)
+            }
 
             when (item.readingStates) {
                 "willRead" -> {

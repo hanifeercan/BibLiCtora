@@ -3,6 +3,7 @@ package com.amineaytac.biblictora.ui.detail
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -10,6 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
 import androidx.palette.graphics.Palette
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.ReadingBook
@@ -17,7 +20,6 @@ import com.amineaytac.biblictora.databinding.FragmentBookDetailBinding
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.lightenColor
 import com.amineaytac.biblictora.util.viewBinding
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +51,12 @@ class BookDetailFragment : Fragment(R.layout.fragment_book_detail) {
             if (book.image.isNotEmpty()) {
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
-                        val bitmap = Picasso.get().load(book.image).get()
+                        val imageLoader = ImageLoader(requireContext())
+                        val request = ImageRequest.Builder(requireContext())
+                            .data(book.image)
+                            .build()
+                        val result = imageLoader.execute(request)
+                        val bitmap = (result.drawable as? BitmapDrawable)?.bitmap
                         withContext(Dispatchers.Main) {
                             bindBackground(bitmap)
                         }
@@ -133,10 +140,10 @@ class BookDetailFragment : Fragment(R.layout.fragment_book_detail) {
 
     private fun observeGetItemReading(book: Book) {
         viewModel.getBookItemReading(book.id.toString()).distinctUntilChanged()
-            .observe(viewLifecycleOwner) {
+            .observe(viewLifecycleOwner) { readingBookResult ->
                 if (isAddBookInReadingList) {
-                    readingBook = it
-                    bindReadingBook(it)
+                    readingBook = readingBookResult
+                    readingBookResult?.let { bindReadingBook(it) }
                 }
             }
     }

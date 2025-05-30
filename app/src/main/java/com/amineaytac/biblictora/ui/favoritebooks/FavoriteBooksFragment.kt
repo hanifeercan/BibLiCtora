@@ -3,6 +3,7 @@ package com.amineaytac.biblictora.ui.favoritebooks
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Rect
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -13,6 +14,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.ReadingBook
@@ -25,13 +28,13 @@ import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.lightenColor
 import com.amineaytac.biblictora.util.viewBinding
 import com.amineaytac.biblictora.util.visible
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.sqrt
+import androidx.core.graphics.toColorInt
 
 @AndroidEntryPoint
 class FavoriteBooksFragment : Fragment(R.layout.fragment_favorite_books) {
@@ -162,7 +165,12 @@ class FavoriteBooksFragment : Fragment(R.layout.fragment_favorite_books) {
         if (book.image.isNotEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
-                    val bitmap = Picasso.get().load(book.image).get()
+                    val imageLoader = ImageLoader(requireContext())
+                    val request = ImageRequest.Builder(requireContext())
+                        .data(book.image)
+                        .build()
+                    val result = imageLoader.execute(request)
+                    val bitmap = (result.drawable as? BitmapDrawable)?.bitmap
                     withContext(Dispatchers.Main) {
                         bindBackground(bitmap)
                     }
@@ -190,7 +198,7 @@ class FavoriteBooksFragment : Fragment(R.layout.fragment_favorite_books) {
 
     private fun calculateColorDistanceToWhite(colorInt: Int): Double {
         val colorHex = String.format("#%06X", 0xFFFFFF and colorInt)
-        val color = Color.parseColor(colorHex)
+        val color = colorHex.toColorInt()
         val red = Color.red(color)
         val green = Color.green(color)
         val blue = Color.blue(color)
@@ -458,9 +466,9 @@ class FavoriteBooksFragment : Fragment(R.layout.fragment_favorite_books) {
 
     private fun observeGetItemReading(book: Book) {
         viewModel.getBookItemReading(book.id.toString()).distinctUntilChanged()
-            .observe(viewLifecycleOwner) {
+            .observe(viewLifecycleOwner) { readingBookResult ->
                 if (isAddBookInReadingList) {
-                    readingBook = it
+                    readingBook = readingBookResult
                     bindReadingBook()
                 }
             }

@@ -85,7 +85,7 @@ class FavoriteBooksViewModel @Inject constructor(
         }
     }
 
-    fun getBookItemReading(itemId: String): LiveData<ReadingBook> {
+    fun getBookItemReading(itemId: String): LiveData<ReadingBook?> {
         return getBookItemReadingUseCase(itemId)
     }
 

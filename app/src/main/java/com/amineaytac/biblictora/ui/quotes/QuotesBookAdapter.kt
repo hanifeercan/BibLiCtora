@@ -6,10 +6,10 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.core.data.model.QuoteBook
 import com.amineaytac.biblictora.databinding.ItemQuoteListBinding
-import com.squareup.picasso.Picasso
 
 class QuotesBookAdapter(
     private val onBookClickListener: (item: QuoteBook, ImageView) -> Unit
@@ -21,13 +21,11 @@ class QuotesBookAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: QuoteBook, position: Int) = with(binding) {
 
-            if (item.image.isEmpty()) {
-                ivBook.setImageResource(R.drawable.ic_detail_book)
-            } else {
-                Picasso.get().load(item.image).error(R.drawable.ic_detail_book).into(ivBook)
+            tvName.text = item.title
+            ivBook.load(item.image) {
+                error(R.drawable.ic_detail_book)
             }
 
-            tvName.text = item.title
             ivBook.setOnClickListener {
                 getItem(position)?.let {
                     onBookClickListener.invoke(it, ivBook)

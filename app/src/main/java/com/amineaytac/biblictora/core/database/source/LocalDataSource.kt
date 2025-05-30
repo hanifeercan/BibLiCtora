@@ -16,7 +16,7 @@ interface LocalDataSource {
 
     fun isItemFavorite(itemId: String): LiveData<Boolean>
 
-    fun getBookItemReading(itemId: String): LiveData<ReadingStatusEntity>
+    fun getBookItemReading(itemId: String): LiveData<ReadingStatusEntity?>
 
     fun isBookItemReading(itemId: String): LiveData<Boolean>
 

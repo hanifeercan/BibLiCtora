@@ -213,20 +213,22 @@ fun MyBooksItem.toMyBooksEntity(): MyBooksEntity {
     )
 }
 
-fun LiveData<ReadingStatusEntity>.toLiveDataReadingBook(): LiveData<ReadingBook> {
+fun LiveData<ReadingStatusEntity?>.toLiveDataReadingBook(): LiveData<ReadingBook?> {
     return this.map { readingStatusEntity ->
-        ReadingBook(
-            id = readingStatusEntity.id,
-            authors = readingStatusEntity.authors,
-            bookshelves = readingStatusEntity.bookshelves,
-            languages = readingStatusEntity.languages,
-            title = readingStatusEntity.title,
-            formats = readingStatusEntity.formats,
-            image = readingStatusEntity.image,
-            readingStates = readingStatusEntity.readingStates,
-            readingPercentage = readingStatusEntity.readingPercentage,
-            readingProgress = readingStatusEntity.readingProgress
-        )
+        readingStatusEntity?.let {
+            ReadingBook(
+                id = it.id,
+                authors = it.authors,
+                bookshelves = it.bookshelves,
+                languages = it.languages,
+                title = it.title,
+                formats = it.formats,
+                image = it.image,
+                readingStates = it.readingStates,
+                readingPercentage = it.readingPercentage,
+                readingProgress = it.readingProgress
+            )
+        }
     }
 }
 
@@ -246,7 +248,7 @@ fun String.toQuoteItemList(): List<QuoteItem> {
     return this.let {
         val type = object : TypeToken<List<QuoteItem>>() {}.type
         try {
-            Gson().fromJson<List<QuoteItem>>(it, type)
+            Gson().fromJson(it, type)
         } catch (e: JsonSyntaxException) {
             null
         }

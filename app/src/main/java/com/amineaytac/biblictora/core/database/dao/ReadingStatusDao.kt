@@ -21,7 +21,7 @@ interface ReadingStatusDao {
     fun getReadingBookItems(): Flow<List<ReadingStatusEntity>>
 
     @Query("SELECT * FROM reading_status_table WHERE id = :itemId LIMIT 1")
-    fun getBookItemReading(itemId: String): LiveData<ReadingStatusEntity>
+    fun getBookItemReading(itemId: String): LiveData<ReadingStatusEntity?>
 
     @Query("SELECT EXISTS(SELECT 1 FROM reading_status_table WHERE id = :itemId LIMIT 1)")
     fun isBookItemReading(itemId: String): LiveData<Boolean>
