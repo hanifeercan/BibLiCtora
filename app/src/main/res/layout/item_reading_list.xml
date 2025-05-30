@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.amineaytac.biblictora.ui.discover.customview.BookItemLayout
+        android:id="@+id/bookItemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_120sdp"
+        android:layout_marginHorizontal="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_12sdp"
+        app:whichItem="item_reading_list">
+
+        <ImageView
+            android:id="@+id/iv_book_picture"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_112sdp"
+            android:layout_gravity="end|center"
+            android:layout_marginEnd="@dimen/_3sdp"
+            android:contentDescription="@string/book_picture" />
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/Text.H2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_80sdp"
+            android:gravity="top|center"
+            android:text="@string/anonymous" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|bottom"
+            android:layout_marginStart="@dimen/_24sdp"
+            android:layout_marginBottom="@dimen/_30sdp"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:id="@+id/iv_reading_state"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:contentDescription="@string/ic_reading_status" />
+
+            <TextView
+                android:id="@+id/tv_reading_state"
+                style="@style/Text.H4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:textColor="@color/digital"
+                tools:text="@string/reading" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="@dimen/_24sdp"
+            android:layout_marginEnd="@dimen/_100sdp"
+            android:layout_marginBottom="@dimen/_16sdp"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="50"
+            android:progressTint="@color/moselle_green" />
+
+        <TextView
+            android:id="@+id/tv_reading_percentage"
+            style="@style/Text.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/_100sdp"
+            android:layout_marginBottom="@dimen/_30sdp"
+            tools:text="%50" />
+    </com.amineaytac.biblictora.ui.discover.customview.BookItemLayout>
+</RelativeLayout>

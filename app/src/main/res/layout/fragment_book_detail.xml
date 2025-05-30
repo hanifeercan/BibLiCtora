@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.detail.BookDetailFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.utils.widget.ImageFilterView
+                android:id="@+id/iv_book_background"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:alpha="0.7"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_detail_book"
+                app:imageZoom="1"
+                app:layout_constraintBottom_toBottomOf="@id/iv_book_picture"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:background="@drawable/bg_gradient"
+                app:layout_constraintBottom_toBottomOf="@id/iv_book_picture"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/_24sdp"
+                    android:layout_marginTop="@dimen/_110sdp"
+                    android:layout_marginBottom="@dimen/_30sdp"
+                    android:backgroundTint="@color/oyster_island"
+                    app:cardCornerRadius="@dimen/_4sdp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/frame_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:id="@+id/ll_general_info"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginHorizontal="@dimen/_24sdp"
+                            android:layout_marginTop="@dimen/_70sdp"
+                            android:layout_marginBottom="@dimen/_16sdp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toTopOf="@id/btn_reading_now"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/tv_author"
+                                style="@style/Text.H3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_24sdp"
+                                android:layout_marginBottom="@dimen/_16sdp"
+                                android:gravity="center"
+                                android:paddingHorizontal="@dimen/_16sdp"
+                                android:text="@string/anonymous" />
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cv_languages"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_16sdp"
+                                app:cardCornerRadius="@dimen/_4sdp">
+
+                                <LinearLayout
+                                    android:id="@+id/ll_languages"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/recycled_glass"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        style="@style/Text.H3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingHorizontal="@dimen/_8sdp"
+                                        android:text="@string/languages"
+                                        tools:ignore="TooDeepLayout" />
+
+                                    <TextView
+                                        android:id="@+id/tv_languages"
+                                        style="@style/Text.H2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingHorizontal="@dimen/_8sdp"
+                                        android:text="@string/anonymous" />
+                                </LinearLayout>
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cv_bookshelves"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_16sdp"
+                                app:cardCornerRadius="@dimen/_4sdp">
+
+                                <LinearLayout
+                                    android:id="@+id/ll_bookshelves"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/recycled_glass"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        style="@style/Text.H3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingHorizontal="@dimen/_8sdp"
+                                        android:paddingVertical="@dimen/_5sdp"
+                                        android:text="@string/bookshelves" />
+
+                                    <TextView
+                                        android:id="@+id/tv_bookshelves"
+                                        style="@style/Text.H2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingHorizontal="@dimen/_8sdp"
+                                        android:paddingBottom="@dimen/_4sdp"
+                                        android:text="@string/anonymous" />
+                                </LinearLayout>
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cv_read_info"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:cardCornerRadius="@dimen/_4sdp">
+
+                                <LinearLayout
+                                    android:id="@+id/ll_read_info"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/recycled_glass"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:padding="@dimen/_4sdp">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical"
+                                        tools:ignore="UseCompoundDrawables">
+
+                                        <ImageView
+                                            android:id="@+id/iv_will_read"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:background="@drawable/ic_dark_will_read"
+                                            android:contentDescription="@string/ic_will_read"
+                                            android:paddingHorizontal="@dimen/_4sdp" />
+
+                                        <TextView
+                                            style="@style/Text.H4"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:paddingHorizontal="@dimen/_8sdp"
+                                            android:text="@string/will_read"
+                                            android:textColor="@color/digital"
+                                            tools:ignore="TextContrastCheck" />
+                                    </LinearLayout>
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/ic_line"
+                                        android:contentDescription="@string/line" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical"
+                                        tools:ignore="UseCompoundDrawables">
+
+                                        <ImageView
+                                            android:id="@+id/iv_reading"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:background="@drawable/ic_dark_reading"
+                                            android:contentDescription="@string/ic_reading"
+                                            android:paddingHorizontal="@dimen/_4sdp" />
+
+                                        <TextView
+                                            style="@style/Text.H4"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:paddingHorizontal="@dimen/_8sdp"
+                                            android:text="@string/reading"
+                                            android:textColor="@color/digital"
+                                            tools:ignore="TextContrastCheck" />
+                                    </LinearLayout>
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/ic_line"
+                                        android:contentDescription="@string/line" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical"
+                                        tools:ignore="UseCompoundDrawables">
+
+                                        <ImageView
+                                            android:id="@+id/iv_have_read"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:background="@drawable/ic_dark_have_read"
+                                            android:contentDescription="@string/ic_have_read"
+                                            android:paddingHorizontal="@dimen/_4sdp" />
+
+                                        <TextView
+                                            style="@style/Text.H4"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:paddingHorizontal="@dimen/_8sdp"
+                                            android:text="@string/have_read"
+                                            android:textColor="@color/digital"
+                                            tools:ignore="TextContrastCheck" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </androidx.cardview.widget.CardView>
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_reading_now"
+                            style="@style/Text.H2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/_24sdp"
+                            android:layout_marginBottom="@dimen/_16sdp"
+                            android:background="@drawable/bg_corners_button"
+                            android:backgroundTint="@color/méi_hēi_coal"
+                            android:paddingVertical="@dimen/_8sdp"
+                            android:text="@string/reading_now"
+                            android:textColor="@color/highlight"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:ignore="VisualLintButtonSize" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+            </FrameLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_48sdp"
+                android:layout_marginTop="@dimen/_60sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_bg_book_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_130sdp"
+                    app:cardBackgroundColor="@color/méi_hēi_coal"
+                    app:cardCornerRadius="@dimen/_4sdp">
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        style="@style/Text.H2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="@dimen/_4sdp"
+                        android:gravity="center"
+                        android:paddingHorizontal="@dimen/_2sdp"
+                        android:text="@string/anonymous"
+                        android:textColor="@color/highlight" />
+
+                    <com.amineaytac.biblictora.ui.discover.customview.HeartView
+                        android:id="@+id/heartView"
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:layout_marginEnd="@dimen/_14sdp"
+                        android:contentDescription="@string/heart_view"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/iv_book_picture"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_120sdp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:contentDescription="@string/book_picture"
+                android:src="@drawable/ic_detail_book"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

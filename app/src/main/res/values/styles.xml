@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Text">
+        <item name="fontFamily">@font/lusitana_regular</item>
+        <item name="android:fontFamily">@font/lusitana_regular</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Text.H1" parent="Text">
+        <item name="android:textSize">@dimen/_20ssp</item>
+    </style>
+
+    <style name="Text.H2" parent="Text">
+        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.H3" parent="Text">
+        <item name="android:textSize">@dimen/_16ssp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.H4" parent="Text">
+        <item name="android:textSize">@dimen/_10ssp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.H5" parent="Text">
+        <item name="android:textSize">@dimen/_12ssp</item>
+    </style>
+
+    <style name="Text.H6" parent="Text">
+        <item name="android:textSize">@dimen/_9ssp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.H7" parent="Text">
+        <item name="android:textSize">@dimen/_20ssp</item>
+        <item name="android:textColor">@color/highlight</item>
+    </style>
+
+    <style name="Text.H8" parent="Text">
+        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/highlight</item>
+    </style>
+
+    <style name="Text.H9" parent="Text">
+        <item name="android:textSize">@dimen/_16ssp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/transparent_kettleman</item>
+    </style>
+
+    <style name="Text.H10" parent="Text">
+        <item name="android:textSize">@dimen/_16ssp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/moselle_green</item>
+    </style>
+
+    <style name="Text.H11" parent="Text">
+        <item name="android:textSize">@dimen/_16ssp</item>
+        <item name="android:textColor">@color/highlight</item>
+    </style>
+
+    <style name="CustomFloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/moselle_green</item>
+        <item name="tint">@color/white</item>
+    </style>
+
+    <style name="BottomNavigationViewStyle" parent="Widget.Design.NavigationView">
+        <item name="android:fontFamily">@font/lusitana_regular</item>
+    </style>
+
+    <style name="ClickedChip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/medium_grey_green</item>
+        <item name="rippleColor">@color/moselle_green</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlayChip</item>
+        <item name="android:textAppearance">@style/CustomChipTextAppearance</item>
+        <item name="chipStartPadding">@dimen/_4sdp</item>
+        <item name="chipEndPadding">@dimen/_4sdp</item>
+    </style>
+
+    <style name="NotClickedChip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/white</item>
+        <item name="rippleColor">@color/moselle_green</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlayChip</item>
+        <item name="android:textAppearance">@style/CustomChipTextAppearance</item>
+        <item name="chipStartPadding">@dimen/_4sdp</item>
+        <item name="chipEndPadding">@dimen/_4sdp</item>
+    </style>
+
+    <style name="CustomChipTextAppearance" parent="TextAppearance.MaterialComponents.Chip">
+        <item name="android:fontFamily">@font/lusitana_regular</item>
+        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlayChip" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/_8sdp</item>
+    </style>
+
+    <style name="CustomSearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="android:editTextColor">@color/black</item>
+        <item name="android:textCursorDrawable">@drawable/drawable_search_cursor</item>
+        <item name="android:textColorHint">@color/black</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:tint">@color/black</item>
+        <item name="fontFamily">@font/lusitana_regular</item>
+        <item name="android:fontFamily">@font/lusitana_regular</item>
+        <item name="android:textSize">@dimen/_16ssp</item>
+    </style>
+
+    <style name="CustomAlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/toad</item>
+        <item name="colorAccent">@color/méi_hēi_coal</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
+    <style name="CustomToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!-- Arka plan rengi -->
+        <item name="colorPrimary">@color/toad</item>
+        <item name="colorOnPrimary">@color/highlight</item> <!-- Toolbar yazı rengi -->
+        <item name="android:textColorPrimary">@color/highlight</item>
+        <item name="android:background">@color/toad</item> <!-- Toolbar arka planı -->
+        <item name="titleTextStyle">@style/Text.H1</item>
+    </style>
+
+    <style name="TimePickerDialogTheme" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="android:textColorPrimary">@color/medium_grey_green</item>
+        <item name="android:textColorSecondary">@color/medium_grey_green</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:colorAccent">@color/moselle_green</item>
+        <item name="colorAccent">@color/medium_grey_green</item>
+        <item name="android:background">@color/moselle_green</item>
+    </style>
+
+    <style name="ShapeAppearance.CustomBottomLeftRounded" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">16dp</item>
+    </style>
+</resources>

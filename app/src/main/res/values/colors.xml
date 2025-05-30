@@ -2,4 +2,14 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="medium_grey_green">#4F6F52</color>
+    <color name="toad">#739072</color>
+    <color name="moselle_green">#304D30</color>
+    <color name="oyster_island">#EEF0E5</color>
+    <color name="méi_hēi_coal">#FD163020</color>
+    <color name="recycled_glass">#B6C4B6</color>
+    <color name="digital">#636363</color>
+    <color name="highlight">#EEF1DF</color>
+    <color name="transparent_kettleman">#9A616160</color>
+    <color name="transparent_shēn_hóng_red">#92BF0421</color>
 </resources>

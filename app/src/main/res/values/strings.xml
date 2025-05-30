@@ -1,3 +1,135 @@
 <resources>
     <string name="app_name">BibLiCtora</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Bottom Navigation Titles -->
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
+    <string name="my_books">My Books</string>
+
+    <string name="image_button">Image Button</string>
+    <string name="search">search</string>
+    <string name="filter">Filter</string>
+    <string name="show_results">Show Results</string>
+    <string name="zero_results">0 results</string>
+
+    <string name="heart_view">Favorite Heart Icon</string>
+    <string name="item_names">Item Names</string>
+    <string name="try_searching_again">The book you are looking for could not be found. Please try searching again.</string>
+    <string name="rv_up">Icon up</string>
+
+    <string name="on_boarding">onBoarding</string>
+    <string name="finished">finished</string>
+
+    <string name="screen_first">Discover a unique world of reading with thousands of books available
+        in over 10 different languages, tailored to every taste.</string>
+    <string name="screen_second">Easily add the books from your device to the app, gather your entire
+        collection in one place, and start reading anytime you like.</string>
+    <string name="screen_third">You can highlight inspiring quotes and bookmark the books you want to revisit.
+        This way, you can easily access your favorite sections.</string>
+    <string name="screen_fourth">Adjust the background color and font size to suit your needs, creating
+        a more comfortable reading experience while protecting your eye sensitivity.</string>
+    <string name="screen_fifth">Build a strong reading habit! Schedule notifications to remind you to
+        read at your preferred times and enjoy the joy of consistent daily reading.</string>
+    <string name="screen_sixth">Add the app\'s main screen widget to your device, greet the day with
+        inspiring quotes from books, and feel the magic of literature by your side at all times.</string>
+
+    <string name="next">Next</string>
+    <string name="got_it">Got It</string>
+
+    <string-array name="languages">
+        <item>0,English,en</item>
+        <item>1,Finnish,fi</item>
+        <item>2,French,fr</item>
+        <item>3,German,de</item>
+        <item>4,Greek,el</item>
+        <item>5,Italian,it</item>
+        <item>6,Swedish,sv</item>
+        <item>7,Dutch,nl</item>
+        <item>8,Spanish,es</item>
+        <item>9,Hungarian,hu</item>
+        <item>10,Chinese,zh</item>
+        <item>11,Portuguese,pt</item>
+    </string-array>
+
+    <integer-array name="flag_drawable_ids">
+        <item>@drawable/ic_flag_united_kingdom</item>
+        <item>@drawable/ic_flag_finland</item>
+        <item>@drawable/ic_flag_france</item>
+        <item>@drawable/ic_flag_germany</item>
+        <item>@drawable/ic_flag_greece</item>
+        <item>@drawable/ic_flag_italy</item>
+        <item>@drawable/ic_flag_sweden</item>
+        <item>@drawable/ic_flag_netherlands</item>
+        <item>@drawable/ic_flag_spain</item>
+        <item>@drawable/ic_flag_hungary</item>
+        <item>@drawable/ic_flag_china</item>
+        <item>@drawable/ic_flag_portugal</item>
+    </integer-array>
+
+    <string name="ic_biblictora">Icon Biblictora App</string>
+    <string name="ic_notification">Icon Notification</string>
+
+    <string name="time_picker_title">Choose a time for notification.</string>
+    <string name="no_notification">There are no configured notifications.</string>
+
+    <string name="anonymous">Anonymous</string>
+    <string name="reading_now">Reading Now</string>
+    <string name="have_read">Have Read</string>
+    <string name="reading">Reading</string>
+    <string name="will_read">Will Read</string>
+    <string name="bookshelves">Bookshelves:</string>
+    <string name="languages">Languages:</string>
+    <string name="book_picture">Book Picture</string>
+    <string name="line">Grey Line</string>
+    <string name="ic_have_read">İcon Have Read</string>
+    <string name="ic_reading">İcon Reading</string>
+    <string name="ic_will_read">İcon Will Read</string>
+
+    <string name="ic_reading_status">İcon Reading Status</string>
+
+    <string name="reading_list_empty">Your reading list is empty!</string>
+
+    <string name="book_detail">Book Detail</string>
+    <string name="ic_book">Icon Book</string>
+    <string name="reading_book_error">This book is not on your reading list!</string>
+    <string name="add_quote">Add Quote</string>
+
+    <string name="quote_added">Quote Added</string>
+    <string name="no_text">No text selected!</string>
+
+    <string name="empty_favorite_books_info">Your favorite book list is currently empty! You can see the books you\'ve added to your favorites here. Come on, let\'s fill up the list with the books you love! 📚✨</string>
+    <string name="empty_favorite_books_icon">Empty Favorite Books Icon</string>
+    <string name="remove_favorite_book">Are you sure you want to remove the book \""%s"\" from favorites?</string>
+
+    <string name="empty_quote_books_info">Your quote list is currently empty!You can see the books you added quotes to here. Let\'s fill the list with book quotes! 📚✨</string>
+
+    <string name="remove_favorite_quote">Are you sure you want to delete the quote?</string>
+
+    <string name="widget_info">Every book is a key that takes you to different worlds. As you turn the pages, your mind expands, your dreams grow, and your knowledge becomes limitless. Today a page, tomorrow a world! 📖✨</string>
+    <string name="widget_biblictora">- BibLiCtora</string>
+
+    <string name="empty_my_page">Your books will appear here. Currently, there are no books in
+        your collection. Start by adding a book to begin your collection!</string>
+    <string name="fb_description">book selection button</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="edit_pdf">Please edit your book name</string>
+    <string name="et_description">edit text for book name</string>
+
+    <string name="pdf_not_parsed">PDF file path could not be parsed</string>
+    <string name="pdf_not_open">PDF file could not be opened</string>
+    <string name="pdf_not_loaded">PDF could not be loaded</string>
+    <string name="unsupported_file">Unsupported file type</string>
+    <string name="could_not_file">Could not select file</string>
+    <string name="Aa">Aa</string>
+    <string name="file_not_exist">File not exist!</string>
+    <string name="check_internet_connection">Please check your internet connection!</string>
+    <string name="tab_layout">Tab Layout</string>
+    <string name="icon_pencil">Icon Pencil</string>
+    <string name="failure_picture">Failure Picture </string>
+    <string name="success_notification_info">Alarm for notification set successfully.</string>
+    <string name="myBooks_icon">My Books Icon</string>
 </resources>

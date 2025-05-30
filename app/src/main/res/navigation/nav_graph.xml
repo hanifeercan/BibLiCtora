@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.amineaytac.biblictora.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/navigateToBookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
+        <action
+            android:id="@+id/navigateToReadingFragment"
+            app:destination="@id/readingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myBooksFragment"
+        android:name="com.amineaytac.biblictora.ui.mybooks.MyBooksFragment"
+        android:label="fragment_my_books"
+        tools:layout="@layout/fragment_my_books">
+        <action
+            android:id="@+id/action_myBooksFragment_to_pdfViewerFragment"
+            app:destination="@id/pdfViewerFragment" />
+        <action
+            android:id="@+id/navigateToEpubViewerFragment"
+            app:destination="@id/epubViewerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.amineaytac.biblictora.ui.favorite.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite">
+        <action
+            android:id="@+id/navigateToReadingFragment"
+            app:destination="@id/readingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookDetailFragment"
+        android:name="com.amineaytac.biblictora.ui.detail.BookDetailFragment"
+        android:label="fragment_book_detail"
+        tools:layout="@layout/fragment_book_detail">
+        <argument
+            android:name="book"
+            app:argType="com.amineaytac.biblictora.core.data.model.Book" />
+        <action
+            android:id="@+id/navigateToReadingFragment"
+            app:destination="@id/readingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/readingFragment"
+        android:name="com.amineaytac.biblictora.ui.reading.ReadingFragment"
+        android:label="fragment_reading"
+        tools:layout="@layout/fragment_reading">
+        <argument
+            android:name="readingBook"
+            app:argType="com.amineaytac.biblictora.core.data.model.ReadingBook" />
+        <action
+            android:id="@+id/navigateToBookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pdfViewerFragment"
+        android:name="com.amineaytac.biblictora.ui.pdfviewer.PdfViewerFragment"
+        android:label="fragment_pdf_viewer"
+        tools:layout="@layout/fragment_pdf_viewer">
+        <argument
+            android:name="pdfPath"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/epubViewerFragment"
+        android:name="com.amineaytac.biblictora.ui.epubviewer.EpubViewerFragment"
+        android:label="fragment_epub_viewer"
+        tools:layout="@layout/fragment_epub_viewer">
+        <argument
+            android:name="epubPath"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.amineaytac.biblictora.ui.splash.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_pageFragment"
+            app:destination="@id/pageFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/pageFragment"
+        android:name="com.amineaytac.biblictora.ui.onboard.page.PageFragment"
+        android:label="fragment_page"
+        tools:layout="@layout/fragment_page">
+        <action
+            android:id="@+id/action_pageFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/pageFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>
