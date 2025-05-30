@@ -5,12 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.ReadingBook
-import com.amineaytac.biblictora.core.data.repo.BookRepository
-import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
 import com.amineaytac.biblictora.core.domain.favorite.AddFavoriteItemUseCase
 import com.amineaytac.biblictora.core.domain.favorite.DeleteFavoriteItemUseCase
+import com.amineaytac.biblictora.core.domain.favorite.IsItemFavoriteUseCase
 import com.amineaytac.biblictora.core.domain.readingstatus.AddReadingBookItemUseCase
 import com.amineaytac.biblictora.core.domain.readingstatus.DeleteReadingBookItemUseCase
+import com.amineaytac.biblictora.core.domain.readingstatus.GetBookItemReadingUseCase
+import com.amineaytac.biblictora.core.domain.readingstatus.IsBookItemReadingUseCase
 import com.amineaytac.biblictora.core.domain.readingstatus.UpdateBookStatusAndPercentageUseCase
 import com.amineaytac.biblictora.core.domain.readingstatus.UpdatePercentageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,12 +22,13 @@ import javax.inject.Inject
 class BookDetailViewModel @Inject constructor(
     private val addFavoriteItemUseCase: AddFavoriteItemUseCase,
     private val deleteFavoriteItemUseCase: DeleteFavoriteItemUseCase,
-    private val bookRepository: BookRepository,
     private val addReadingBookItemUseCase: AddReadingBookItemUseCase,
     private val deleteReadingBookItemUseCase: DeleteReadingBookItemUseCase,
     private val updatePercentageUseCase: UpdatePercentageUseCase,
-    private val updateBookStatusAndPercentageUseCase: UpdateBookStatusAndPercentageUseCase
-
+    private val updateBookStatusAndPercentageUseCase: UpdateBookStatusAndPercentageUseCase,
+    private val getBookItemReadingUseCase: GetBookItemReadingUseCase,
+    private val isBookItemReadingUseCase: IsBookItemReadingUseCase,
+    private val isItemFavoriteUseCase: IsItemFavoriteUseCase
 ) : ViewModel() {
     fun addFavoriteItem(book: Book) {
         viewModelScope.launch {
@@ -40,8 +42,8 @@ class BookDetailViewModel @Inject constructor(
         }
     }
 
-    fun isItemFavorited(itemId: String): LiveData<Boolean> {
-        return bookRepository.isItemFavorited(itemId)
+    fun isItemFavorite(itemId: String): LiveData<Boolean> {
+        return isItemFavoriteUseCase(itemId)
     }
 
     fun addReadingBookItem(readingBook: ReadingBook) {
@@ -56,12 +58,12 @@ class BookDetailViewModel @Inject constructor(
         }
     }
 
-    fun getBookItemReading(itemId: String): LiveData<ReadingStatusEntity> {
-        return bookRepository.getBookItemReading(itemId)
+    fun getBookItemReading(itemId: String): LiveData<ReadingBook> {
+        return getBookItemReadingUseCase(itemId)
     }
 
     fun isBookItemReading(itemId: String): LiveData<Boolean> {
-        return bookRepository.isBookItemReading(itemId)
+        return isBookItemReadingUseCase(itemId)
     }
 
     fun updatePercentage(bookId: Int, readingPercentage: Int, readingProcess: Int) {

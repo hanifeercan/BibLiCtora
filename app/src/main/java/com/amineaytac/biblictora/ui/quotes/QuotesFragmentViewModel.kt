@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amineaytac.biblictora.core.data.model.QuoteBook
-import com.amineaytac.biblictora.core.database.entity.QuotesEntity
 import com.amineaytac.biblictora.core.domain.quotes.DeleteQuoteFromBookUseCase
 import com.amineaytac.biblictora.core.domain.quotes.GetQuoteBookUseCase
 import com.amineaytac.biblictora.core.domain.quotes.GetQuoteBooksUseCase
@@ -32,12 +31,10 @@ class QuotesFragmentViewModel @Inject constructor(
     }
 
     private fun getQuoteBooksFlowData() {
-        viewModelScope.launch {
-            books = getQuoteBooksUseCase()
-        }
+        books = getQuoteBooksUseCase()
     }
 
-    fun getQuoteBook(bookId: Int): LiveData<QuotesEntity> {
+    fun getQuoteBook(bookId: Int): LiveData<QuoteBook> {
         return getQuoteBookUseCase(bookId)
     }
 

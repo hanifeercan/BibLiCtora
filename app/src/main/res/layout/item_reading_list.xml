@@ -3,20 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <com.amineaytac.biblictora.ui.discover.customview.BookItemLayout
         android:id="@+id/bookItemLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_120sdp"
+        android:layout_marginHorizontal="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_12sdp"
         app:whichItem="item_reading_list">
 
         <ImageView
             android:id="@+id/iv_book_picture"
             android:layout_width="@dimen/_80sdp"
-            android:layout_height="@dimen/_120sdp"
+            android:layout_height="@dimen/_112sdp"
             android:layout_gravity="end|center"
+            android:layout_marginEnd="@dimen/_3sdp"
             android:contentDescription="@string/book_picture" />
 
         <TextView

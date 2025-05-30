@@ -1,5 +1,7 @@
 package com.amineaytac.biblictora.core.data.repo
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.MyBooksItem
 import com.amineaytac.biblictora.core.data.model.QuoteBook
@@ -15,6 +17,7 @@ import com.amineaytac.biblictora.core.network.dto.BookResponse
 import com.amineaytac.biblictora.core.network.dto.Formats
 import com.amineaytac.biblictora.core.network.dto.quotes.QuoteResponse
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import retrofit2.Response
 
@@ -208,4 +211,44 @@ fun MyBooksItem.toMyBooksEntity(): MyBooksEntity {
         fileType = this.fileType,
         lastPage = this.lastPage
     )
+}
+
+fun LiveData<ReadingStatusEntity>.toLiveDataReadingBook(): LiveData<ReadingBook> {
+    return this.map { readingStatusEntity ->
+        ReadingBook(
+            id = readingStatusEntity.id,
+            authors = readingStatusEntity.authors,
+            bookshelves = readingStatusEntity.bookshelves,
+            languages = readingStatusEntity.languages,
+            title = readingStatusEntity.title,
+            formats = readingStatusEntity.formats,
+            image = readingStatusEntity.image,
+            readingStates = readingStatusEntity.readingStates,
+            readingPercentage = readingStatusEntity.readingPercentage,
+            readingProgress = readingStatusEntity.readingProgress
+        )
+    }
+}
+
+fun LiveData<QuotesEntity>.toLiveDataQuoteBook(): LiveData<QuoteBook> {
+    return this.map { quotesEntity ->
+        QuoteBook(
+            id = quotesEntity.id,
+            authors = quotesEntity.authors,
+            title = quotesEntity.title,
+            image = quotesEntity.image,
+            quotesList = quotesEntity.quotesList.toQuoteItemList()
+        )
+    }
+}
+
+fun String.toQuoteItemList(): List<QuoteItem> {
+    return this.let {
+        val type = object : TypeToken<List<QuoteItem>>() {}.type
+        try {
+            Gson().fromJson<List<QuoteItem>>(it, type)
+        } catch (e: JsonSyntaxException) {
+            null
+        }
+    } ?: emptyList()
 }

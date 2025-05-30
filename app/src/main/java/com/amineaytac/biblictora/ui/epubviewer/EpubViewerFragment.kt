@@ -15,7 +15,6 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.core.data.model.ReadFormats
@@ -37,15 +36,16 @@ import nl.siegmann.epublib.epub.EpubReader
 import java.io.File
 import java.io.FileInputStream
 
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class EpubViewerFragment : BaseReadingFragment() {
 
     private lateinit var binding: FragmentEpubViewerBinding
     private val viewModel: EpubViewerViewModel by viewModels()
     private lateinit var book: Book
-    private lateinit var uri: Uri
     private var lastPage = 0
     private var myBooksId = -1
+    private var userIsTouching = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -79,6 +79,9 @@ class EpubViewerFragment : BaseReadingFragment() {
                 setReadingStyle()
             }
         }
+        toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -98,14 +101,7 @@ class EpubViewerFragment : BaseReadingFragment() {
         val epubUriString = arguments?.getString("epubPath")
         try {
             if (epubUriString != null) {
-                val epubUri = Uri.parse(epubUriString)
-                getLastReadPage(epubUriString.toString()) { lastReadPage ->
-                    lastPage = lastReadPage
-                }
-                getId(epubUriString.toString())
-                bindWebView(epubUriString)
-                openEpubFromUri(epubUri)
-                uri = epubUri
+                getLastReadPage(epubUriString.toString())
             }
         } catch (e: Exception) {
             findNavController().popBackStack()
@@ -120,14 +116,14 @@ class EpubViewerFragment : BaseReadingFragment() {
         setupListeners()
     }
 
-    private fun getLastReadPage(filePath: String, callback: (Int) -> Unit) {
-        lifecycleScope.launch {
-            try {
-                val lastReadPage = viewModel.getLastPage(filePath)
-                callback(lastReadPage)
-            } catch (e: Exception) {
-                callback(0)
-            }
+    private fun getLastReadPage(epubUriString: String) {
+        viewModel.getLastPage(epubUriString)
+        viewModel.lastPage.observe(viewLifecycleOwner) {
+            lastPage = it
+            val epubUri = Uri.parse(epubUriString)
+            getId(epubUriString)
+            bindWebView(epubUriString)
+            openEpubFromUri(epubUri)
         }
     }
 
@@ -225,12 +221,7 @@ class EpubViewerFragment : BaseReadingFragment() {
     private fun bindWebView(epubUri: String) = with(binding) {
         with(webView) {
 
-            setOnScrollChangeListener { _, _, scrollY, _, _ ->
-                viewModel.updateLastPage(epubUri, scrollY)
-            }
-
-            val gestureDetector = GestureDetector(
-                requireContext(),
+            val gestureDetector = GestureDetector(requireContext(),
                 object : GestureDetector.SimpleOnGestureListener() {
                     override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                         if (btnAddQuote.visibility == View.VISIBLE) {
@@ -256,15 +247,38 @@ class EpubViewerFragment : BaseReadingFragment() {
                     return true
                 }
 
+                var scrollRestored = false
                 override fun onPageFinished(view: WebView?, url: String?) {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        delay(1000)
-                        view?.scrollTo(0, lastPage)
-                        delay(300)
-                        progressBar.gone()
-                        webView.visible()
+                    if (!scrollRestored) {
+                        scrollRestored = true
+                        CoroutineScope(Dispatchers.Main).launch {
+                            delay(1000)
+                            view?.scrollTo(0, lastPage)
+                            progressBar.gone()
+                            webView.visible()
+                            setupUserScrollListener(epubUri)
+                        }
                     }
                 }
+            }
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupUserScrollListener(epubUri: String) = with(binding.webView) {
+        setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> userIsTouching = true
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> userIsTouching = false
+            }
+            false
+        }
+
+        setOnScrollChangeListener { _, _, scrollY, _, _ ->
+            if (userIsTouching) {
+                val maxScroll = (contentHeight * scale - height).toInt()
+                if (maxScroll <= 0) return@setOnScrollChangeListener
+                viewModel.updateLastPage(epubUri, scrollY)
             }
         }
     }

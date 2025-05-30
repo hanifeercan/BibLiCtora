@@ -1,7 +1,6 @@
 package com.amineaytac.biblictora.core.database.source
 
 import androidx.lifecycle.LiveData
-import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.core.data.model.ReadingBook
 import com.amineaytac.biblictora.core.database.dao.FavoriteDao
 import com.amineaytac.biblictora.core.database.dao.MyBooksDao
@@ -29,12 +28,12 @@ class LocalDataSourceImpl @Inject constructor(
         favoriteDao.deleteFavoriteItem(favoriteEntity)
     }
 
-    override suspend fun getFavoriteItems(): Flow<List<FavoriteEntity>> {
+    override fun getFavoriteItems(): Flow<List<FavoriteEntity>> {
         return favoriteDao.getFavoriteItems()
     }
 
-    override fun isItemFavorited(itemId: String): LiveData<Boolean> {
-        return favoriteDao.isItemFavorited(itemId)
+    override fun isItemFavorite(itemId: String): LiveData<Boolean> {
+        return favoriteDao.isItemFavorite(itemId)
     }
 
     override fun getBookItemReading(itemId: String): LiveData<ReadingStatusEntity> {
@@ -45,11 +44,7 @@ class LocalDataSourceImpl @Inject constructor(
         return readingStatusDao.isBookItemReading(itemId)
     }
 
-    override fun getReadingPercentage(itemId: Int): LiveData<Int> {
-        return readingStatusDao.getReadingPercentage(itemId)
-    }
-
-    override suspend fun getReadingBookItems(): Flow<List<ReadingStatusEntity>> {
+    override fun getReadingBookItems(): Flow<List<ReadingStatusEntity>> {
         return readingStatusDao.getReadingBookItems()
     }
 
@@ -68,9 +63,7 @@ class LocalDataSourceImpl @Inject constructor(
     }
 
     override suspend fun updatePercentage(
-        bookId: Int,
-        readingPercentage: Int,
-        readingProgress: Int
+        bookId: Int, readingPercentage: Int, readingProgress: Int
     ) {
         readingStatusDao.updatePercentage(bookId, readingPercentage, readingProgress)
     }
@@ -91,15 +84,11 @@ class LocalDataSourceImpl @Inject constructor(
         quotesDao.deleteQuoteFromBook(bookId, quoteToRemove)
     }
 
-    override suspend fun updateQuotesList(bookId: Int, updatedList: List<QuoteItem>) {
-        quotesDao.updateQuotesList(bookId, updatedList)
-    }
-
     override suspend fun addFileItem(myBooksEntity: MyBooksEntity) {
         myBooksDao.addFileItem(myBooksEntity)
     }
 
-    override suspend fun getAllFiles(): Flow<List<MyBooksEntity>> {
+    override fun getAllFiles(): Flow<List<MyBooksEntity>> {
         return myBooksDao.getAllFiles()
     }
 

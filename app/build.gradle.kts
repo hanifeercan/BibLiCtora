@@ -84,9 +84,6 @@ dependencies {
     //Paging
     implementation("androidx.paging:paging-runtime-ktx:3.3.2")
 
-    //TimePicker
-    implementation("com.akexorcist:snap-time-picker:1.0.3")
-
     //Palette
     implementation("androidx.palette:palette-ktx:1.0.0")
 
@@ -114,4 +111,7 @@ dependencies {
 
     //page indicator
     implementation("com.tbuonomo:dotsindicator:4.3")
+
+    //Lifecycle
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
 }

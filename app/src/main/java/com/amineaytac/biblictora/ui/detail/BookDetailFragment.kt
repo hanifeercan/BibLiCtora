@@ -13,7 +13,6 @@ import androidx.palette.graphics.Palette
 import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.ReadingBook
-import com.amineaytac.biblictora.core.data.repo.toReadingBook
 import com.amineaytac.biblictora.databinding.FragmentBookDetailBinding
 import com.amineaytac.biblictora.util.gone
 import com.amineaytac.biblictora.util.lightenColor
@@ -126,7 +125,7 @@ class BookDetailFragment : Fragment(R.layout.fragment_book_detail) {
     }
 
     private fun observeIsItemFavorite(book: Book) {
-        viewModel.isItemFavorited(book.id.toString()).observe(viewLifecycleOwner) {
+        viewModel.isItemFavorite(book.id.toString()).observe(viewLifecycleOwner) {
             isFavorite = it
             bindHeartView(book)
         }
@@ -136,8 +135,8 @@ class BookDetailFragment : Fragment(R.layout.fragment_book_detail) {
         viewModel.getBookItemReading(book.id.toString()).distinctUntilChanged()
             .observe(viewLifecycleOwner) {
                 if (isAddBookInReadingList) {
-                    readingBook = it.toReadingBook()
-                    bindReadingBook(it.toReadingBook())
+                    readingBook = it
+                    bindReadingBook(it)
                 }
             }
     }

@@ -22,5 +22,5 @@ interface FavoriteDao {
     fun getFavoriteItems(): Flow<List<FavoriteEntity>>
 
     @Query("SELECT EXISTS(SELECT 1 FROM favorite_table WHERE id = :itemId LIMIT 1)")
-    fun isItemFavorited(itemId: String): LiveData<Boolean>
+    fun isItemFavorite(itemId: String): LiveData<Boolean>
 }

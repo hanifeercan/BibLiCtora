@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amineaytac.biblictora.core.data.model.ReadingBook
+import com.amineaytac.biblictora.core.domain.readingstatus.DeleteReadingBookItemUseCase
 import com.amineaytac.biblictora.core.domain.readingstatus.GetReadingBookItemsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReadingListViewModel @Inject constructor(
-    private val getReadingBookItemsUseCase: GetReadingBookItemsUseCase
+    private val getReadingBookItemsUseCase: GetReadingBookItemsUseCase,
+    private val deleteReadingBookItemUseCase: DeleteReadingBookItemUseCase
 ) : ViewModel() {
 
     private val _readingBookScreenUiState = MutableLiveData<ReadingBookListScreenUiState>()
@@ -27,8 +29,12 @@ class ReadingListViewModel @Inject constructor(
     }
 
     private fun getReadingBooksFlowData() {
+        books = getReadingBookItemsUseCase()
+    }
+
+    fun deleteReadingBookItems(readingBook: ReadingBook) {
         viewModelScope.launch {
-            books = getReadingBookItemsUseCase()
+            deleteReadingBookItemUseCase(readingBook)
         }
     }
 

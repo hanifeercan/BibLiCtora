@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetBooksWithLanguagesUseCase @Inject constructor(private val bookRepository: BookRepository) {
-    suspend operator fun invoke(languages: List<String>): Flow<PagingData<Book>> {
+    operator fun invoke(languages: List<String>): Flow<PagingData<Book>> {
         return bookRepository.getBooksWithLanguages(languages, "getBooksWithLanguages")
     }
 }

@@ -8,10 +8,7 @@ import com.amineaytac.biblictora.core.common.ResponseState
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.core.data.model.MyBooksItem
 import com.amineaytac.biblictora.core.data.model.QuoteBook
-import com.amineaytac.biblictora.core.data.model.QuoteItem
 import com.amineaytac.biblictora.core.data.model.ReadingBook
-import com.amineaytac.biblictora.core.database.entity.QuotesEntity
-import com.amineaytac.biblictora.core.database.entity.ReadingStatusEntity
 import com.amineaytac.biblictora.core.database.source.LocalDataSource
 import com.amineaytac.biblictora.core.network.dto.quotes.QuoteResponse
 import com.amineaytac.biblictora.core.network.source.paging.PagingSource
@@ -36,32 +33,29 @@ class BookRepositoryImpl @Inject constructor(
 
     private val repositoryScope = CoroutineScope(Dispatchers.IO)
 
-    override suspend fun getAllBooks(funcKey: String): Flow<PagingData<Book>> {
+    override fun getAllBooks(funcKey: String): Flow<PagingData<Book>> {
         val pagingSource = PagingSource(restDataSource, funcKey)
-        return Pager(
-            config = PagingConfig(pageSize = 20),
+        return Pager(config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { pagingSource }).flow
     }
 
-    override suspend fun getBooksWithSearch(
+    override fun getBooksWithSearch(
         search: String, languages: List<String>, funcKey: String
     ): Flow<PagingData<Book>> {
         val pagingSource = PagingSource(restDataSource, funcKey, search, languages)
-        return Pager(
-            config = PagingConfig(pageSize = 20),
+        return Pager(config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { pagingSource }).flow
     }
 
-    override suspend fun getBooksWithLanguages(
+    override fun getBooksWithLanguages(
         languages: List<String>, funcKey: String
     ): Flow<PagingData<Book>> {
         val pagingSource = PagingSource(restDataSource, funcKey, languages = languages)
-        return Pager(
-            config = PagingConfig(pageSize = 20),
+        return Pager(config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { pagingSource }).flow
     }
 
-    override suspend fun getFavoriteItems(): Flow<List<Book>> {
+    override fun getFavoriteItems(): Flow<List<Book>> {
         return localDataSource.getFavoriteItems()
             .map { it.map { favoriteEntity -> favoriteEntity.toBook() } }
     }
@@ -74,20 +68,16 @@ class BookRepositoryImpl @Inject constructor(
         localDataSource.deleteFavoriteItem(book.toFavoriteItemEntity())
     }
 
-    override fun isItemFavorited(itemId: String): LiveData<Boolean> {
-        return localDataSource.isItemFavorited(itemId)
+    override fun isItemFavorite(itemId: String): LiveData<Boolean> {
+        return localDataSource.isItemFavorite(itemId)
     }
 
-    override fun getBookItemReading(itemId: String): LiveData<ReadingStatusEntity> {
-        return localDataSource.getBookItemReading(itemId)
+    override fun getBookItemReading(itemId: String): LiveData<ReadingBook> {
+        return localDataSource.getBookItemReading(itemId).toLiveDataReadingBook()
     }
 
     override fun isBookItemReading(itemId: String): LiveData<Boolean> {
         return localDataSource.isBookItemReading(itemId)
-    }
-
-    override fun getReadingPercentage(itemId: Int): LiveData<Int> {
-        return localDataSource.getReadingPercentage(itemId)
     }
 
     override suspend fun updateBookStatusAndPercentage(
@@ -102,8 +92,8 @@ class BookRepositoryImpl @Inject constructor(
         localDataSource.updatePercentage(bookId, readingPercentage, readingProgress)
     }
 
-    override fun getQuoteBook(bookId: Int): LiveData<QuotesEntity> {
-        return localDataSource.getQuoteBook(bookId)
+    override fun getQuoteBook(bookId: Int): LiveData<QuoteBook> {
+        return localDataSource.getQuoteBook(bookId).toLiveDataQuoteBook()
     }
 
     override fun getQuoteBooks(): Flow<List<QuoteBook>> {
@@ -119,11 +109,7 @@ class BookRepositoryImpl @Inject constructor(
         localDataSource.deleteQuoteFromBook(bookId, quoteToRemove)
     }
 
-    override suspend fun updateQuotesList(bookId: Int, updatedList: List<QuoteItem>) {
-        localDataSource.updateQuotesList(bookId, updatedList)
-    }
-
-    override suspend fun getReadingBookItems(): Flow<List<ReadingBook>> {
+    override fun getReadingBookItems(): Flow<List<ReadingBook>> {
         return localDataSource.getReadingBookItems()
             .map { it.map { readingStatusEntity -> readingStatusEntity.toReadingBook() } }
     }
@@ -149,7 +135,7 @@ class BookRepositoryImpl @Inject constructor(
         localDataSource.addFileItem(myBooksItem.toMyBooksEntity())
     }
 
-    override suspend fun getAllFiles(): Flow<List<MyBooksItem>> {
+    override fun getAllFiles(): Flow<List<MyBooksItem>> {
         return localDataSource.getAllFiles()
             .map { it.map { myBooksEntity -> myBooksEntity.toMyBooksItem() } }
     }

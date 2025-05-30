@@ -23,8 +23,8 @@ import com.amineaytac.biblictora.ui.discover.adapter.DiscoverBookAdapter
 import com.amineaytac.biblictora.ui.discover.adapter.LoaderAdapter
 import com.amineaytac.biblictora.ui.home.HomeFragmentDirections
 import com.amineaytac.biblictora.util.gone
-import com.amineaytac.biblictora.util.visible
 import com.amineaytac.biblictora.util.viewBinding
+import com.amineaytac.biblictora.util.visible
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -74,10 +74,9 @@ class DiscoverFragment : Fragment(R.layout.fragment_discover), NetworkListener {
 
         chipClickStates = viewModel.getChipClickStates()
         recyclerView.setHasFixedSize(true)
-        chipAdapter =
-            ChipAdapter(recyclerView, requireContext(), chips, chipClickStates) { position ->
-                viewModel.setChipClickListener(position)
-            }
+        chipAdapter = ChipAdapter(recyclerView, chips, chipClickStates) { position ->
+            viewModel.setChipClickListener(position)
+        }
 
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
         recyclerView.adapter = chipAdapter
@@ -296,10 +295,16 @@ class DiscoverFragment : Fragment(R.layout.fragment_discover), NetworkListener {
         })
     }
 
-    private fun toggleFilters(sheetBehavior: BottomSheetBehavior<LinearLayout>) {
+    private fun toggleFilters(sheetBehavior: BottomSheetBehavior<LinearLayout>) = with(binding) {
         if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+            searchView.visible()
+            icLanguage.visible()
             sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         } else {
+            searchView.gone()
+            icLanguage.gone()
+            recyclerView.gone()
+            btnShowResults.gone()
             sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
