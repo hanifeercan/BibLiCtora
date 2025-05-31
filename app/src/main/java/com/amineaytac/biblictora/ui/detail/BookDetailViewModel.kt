@@ -58,7 +58,7 @@ class BookDetailViewModel @Inject constructor(
         }
     }
 
-    fun getBookItemReading(itemId: String): LiveData<ReadingBook> {
+    fun getBookItemReading(itemId: String): LiveData<ReadingBook?> {
         return getBookItemReadingUseCase(itemId)
     }
 

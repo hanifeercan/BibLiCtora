@@ -32,7 +32,7 @@ interface BookRepository {
 
     suspend fun deleteReadingBookItem(readingBook: ReadingBook)
 
-    fun getBookItemReading(itemId: String): LiveData<ReadingBook>
+    fun getBookItemReading(itemId: String): LiveData<ReadingBook?>
 
     fun isBookItemReading(itemId: String): LiveData<Boolean>
 

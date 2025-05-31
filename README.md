@@ -11,7 +11,7 @@
 <strong>Libro</strong> (book)<br>
 <strong>Lectora</strong> (female reader)<br><br>
 
-This name reflects our app’s focus on providing a rich, reader-friendly library experience.
+This name reflects our app's focus on providing a rich, reader-friendly library experience.
 
 </div>
 
@@ -75,7 +75,7 @@ app/
 - [**Navigation**](https://developer.android.com/guide/navigation) : Navigation to manage fragments
 - [**LiveData**](https://developer.android.com/topic/libraries/architecture/livedata) : Lifecycle-aware data holder that updates UI components only when they're active.
 - [**ViewBinding**](https://developer.android.com/topic/libraries/architecture/livedata) : View Binding a generated binding class is created for each XML layout file in your app.
-- [**Picasso**](https://square.github.io/picasso/) : Image loading and caching library for displaying book covers and images.
+- [**Coil**](https://coil-kt.github.io/coil/) : Image loading and caching library for displaying book covers and images.
 - [**Paging**](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) : Supports loading paginated data efficiently in RecyclerViews.
 - [**Palette**](https://developer.android.com/develop/ui/views/graphics/palette-colors) : Extracts prominent colors from images to dynamically style the UI.
 - [**Toastic**](https://github.com/yagmurerdogan/Toastic) : Customizable toast messages to improve user feedback and interaction.
@@ -135,8 +135,9 @@ app/
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
 
-    // Picasso
-    implementation("com.squareup.picasso:picasso:2.71828")
+    // Coil (replacing Picasso)
+    implementation("io.coil-kt:coil:2.7.0")
+    implementation("io.coil-kt:coil-base:2.7.0")
 
     // Paging
     implementation("androidx.paging:paging-runtime-ktx:3.3.2")
@@ -207,7 +208,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👩 Authors & Contact
 
-💌 **We’d love to hear your thoughts, suggestions, or questions about the app — feel free to reach out to us via email.**
+💌 **We'd love to hear your thoughts, suggestions, or questions about the app — feel free to reach out to us via email.**
 
 - **Hanife ERCAN**  
   🔗 [GitHub](https://github.com/hanifeercan) <br>

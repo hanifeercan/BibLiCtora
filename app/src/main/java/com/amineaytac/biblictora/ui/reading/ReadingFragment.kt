@@ -34,6 +34,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import androidx.core.view.isVisible
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
@@ -124,7 +125,7 @@ class ReadingFragment : BaseReadingFragment(), NetworkListener {
                     requireContext(),
                     object : GestureDetector.SimpleOnGestureListener() {
                         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                            if (btnAddQuote.visibility == View.VISIBLE) {
+                            if (btnAddQuote.isVisible) {
                                 btnAddQuote.gone()
                             }
                             return true
@@ -193,8 +194,8 @@ class ReadingFragment : BaseReadingFragment(), NetworkListener {
     }
 
     private fun observeGetItemReading(id: String) {
-        viewModel.getBookItemReading(id).distinctUntilChanged().observe(viewLifecycleOwner) {
-            readingBook = it
+        viewModel.getBookItemReading(id).distinctUntilChanged().observe(viewLifecycleOwner) { readingBookResult ->
+            readingBookResult?.let { readingBook = it }
         }
     }
 

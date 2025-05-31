@@ -6,10 +6,10 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.databinding.ItemFavoriteBookBinding
-import com.squareup.picasso.Picasso
 
 class FavoriteBooksAdapter(
     private val onBookClickListener: (item: Book, ImageView) -> Unit,
@@ -23,7 +23,9 @@ class FavoriteBooksAdapter(
         fun bind(item: Book, position: Int) = with(binding) {
 
             tvName.text = item.title
-            Picasso.get().load(item.image).error(R.drawable.ic_detail_book).into(ivBook)
+            ivBook.load(item.image) {
+                error(R.drawable.ic_detail_book)
+            }
 
             heartView.setOnClickListener {
                 getItem(position)?.let {

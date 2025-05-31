@@ -1,7 +1,6 @@
 package com.amineaytac.biblictora.ui.discover.adapter
 
 import android.content.res.Resources
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -9,12 +8,13 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
+import coil.request.ImageRequest
+import coil.target.Target
 import com.amineaytac.biblictora.R
 import com.amineaytac.biblictora.core.data.model.Book
 import com.amineaytac.biblictora.databinding.ItemDiscoverBookBinding
 import com.amineaytac.biblictora.util.gone
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 
 class DiscoverBookAdapter(
     private val resources: Resources, private val onBookClickListener: (item: Book) -> Unit
@@ -31,12 +31,16 @@ class DiscoverBookAdapter(
             tvWriter.text = item.authors
 
             val imageTarget = object : Target {
-                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                    pictureView.setBitmap(bitmap)
+                override fun onStart(placeholder: Drawable?) {}
+
+                override fun onSuccess(result: Drawable) {
+                    if (result is android.graphics.drawable.BitmapDrawable) {
+                        pictureView.setBitmap(result.bitmap)
+                    }
                     progressBarPicture.gone()
                 }
 
-                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
+                override fun onError(error: Drawable?) {
                     pictureView.setBitmap(
                         BitmapFactory.decodeResource(
                             resources, R.drawable.ic_failure_book_picture
@@ -44,11 +48,14 @@ class DiscoverBookAdapter(
                     )
                     progressBarPicture.gone()
                 }
-
-                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
             }
 
-            Picasso.get().load(item.image).into(imageTarget)
+            val imageLoader = ImageLoader(binding.root.context)
+            val request = ImageRequest.Builder(binding.root.context)
+                .data(item.image)
+                .target(imageTarget)
+                .build()
+            imageLoader.enqueue(request)
 
             bookItemLayout.setOnClickListener {
                 getItem(position)?.let {
